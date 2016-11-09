@@ -7,6 +7,8 @@ namespace Core8 {
 
 namespace Chip8 {
 
+using WORD = uint16_t;
+
 enum class OPCODE {
     CLEAR_SCREEN,
     RETURN,
@@ -41,7 +43,8 @@ enum class OPCODE {
     LOAD_SPRITE_TO_I,
     LOAD_VX_BCD_TO_I,
     LOAD_V0_TO_VX_IN_ADDRESS_I,
-    LOAD_ADDRESS_I_TO_V0_TO_VX
+    LOAD_ADDRESS_I_TO_V0_TO_VX,
+    INVALID
 };
 
 } // namespace Chip8
