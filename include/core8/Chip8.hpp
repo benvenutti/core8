@@ -4,7 +4,6 @@
 #include <cstdint>
 
 namespace Core8 {
-
 namespace Chip8 {
 
 using WORD = uint16_t;
@@ -48,7 +47,6 @@ enum class OPCODE {
 };
 
 } // namespace Chip8
-
 } // namespace Core8
 
 #endif
