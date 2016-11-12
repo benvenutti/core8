@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sudo -E apt-get update -qq
+if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+  sudo -E apt-get update -qq
+fi
