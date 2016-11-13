@@ -6,7 +6,10 @@
 namespace Core8 {
 namespace Chip8 {
 
+using BYTE = uint8_t;
 using WORD = uint16_t;
+
+const std::size_t RAM_SIZE{4096};
 
 enum class OPCODE {
     CLEAR_SCREEN,
