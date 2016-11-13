@@ -8,6 +8,7 @@
 
 namespace Core8 {
 
+/// @brief Big-endian memory management unit.
 class MMU {
   public:
     MMU(std::array<Chip8::BYTE, Chip8::RAM_SIZE>& memory);
