@@ -1,6 +1,7 @@
 #ifndef CORE8_CHIP8_H
 #define CORE8_CHIP8_H
 
+#include <cstddef>
 #include <cstdint>
 
 namespace Core8 {
