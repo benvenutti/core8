@@ -1,12 +1,16 @@
 #ifndef CORE8_CHIP8_H
 #define CORE8_CHIP8_H
 
+#include <cstddef>
 #include <cstdint>
 
 namespace Core8 {
 namespace Chip8 {
 
-using WORD = uint16_t;
+using BYTE = std::uint8_t;
+using WORD = std::uint16_t;
+
+const std::size_t RAM_SIZE{4096};
 
 enum class OPCODE {
     CLEAR_SCREEN,
