@@ -3,6 +3,7 @@
 #include <array>
 #include <stdexcept>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "MMU.hpp"
 
@@ -82,6 +83,39 @@ SCENARIO("MMUs can read words from memory", "[read-word]") {
     WHEN("the MMU reads words from invalid addresses") {
       THEN("the MMU will throw an exception") {
         REQUIRE_THROWS_AS(mmu.readWord(0xFFF), std::out_of_range);
+      }
+    }
+  }
+}
+
+SCENARIO("MMUs can load roms into memory", "[load]") {
+  GIVEN("A rom") {
+    std::vector<std::uint8_t> data{{ 0xFF, 0x11, 0xCC, 0x33 }};
+    Aux::ByteStream rom{data};
+
+    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory{};
+    memory.fill(0x0);
+
+    Core8::MMU mmu{memory};
+
+    WHEN("the MMU loads the rom at a certain address") {
+      mmu.load(rom, 0x100);
+
+      THEN("the whole rom is copied into memory starting at the given address") {
+        REQUIRE(0xFF == memory.at(0x100));
+        REQUIRE(0x11 == memory.at(0x101));
+        REQUIRE(0xCC == memory.at(0x102));
+        REQUIRE(0x33 == memory.at(0x103));
+      }
+      AND_THEN("the rest of memory remains unchanged") {
+        for (auto address = 0x0; address < 0x100; ++address) {
+          REQUIRE(0x0 == memory.at(address));
+        }
+
+        const auto memorySize = memory.size();
+        for (auto address = 0x104; address < memorySize; ++address) {
+          REQUIRE(0x0 == memory.at(address));
+        }
       }
     }
   }
