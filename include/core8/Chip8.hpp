@@ -7,8 +7,8 @@
 namespace Core8 {
 namespace Chip8 {
 
-using BYTE = uint8_t;
-using WORD = uint16_t;
+using BYTE = std::uint8_t;
+using WORD = std::uint16_t;
 
 const std::size_t RAM_SIZE{4096};
 
