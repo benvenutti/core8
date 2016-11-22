@@ -11,6 +11,12 @@ using BYTE = std::uint8_t;
 using WORD = std::uint16_t;
 
 const std::size_t RAM_SIZE{4096};
+const std::size_t NUMBER_OF_REGISTERS{16};
+
+enum class REGISTER {
+    V0, V1, V2, V3, V4, V5, V6, V7,
+    V8, V9, VA, VB, VC, VD, VE, VF
+};
 
 enum class OPCODE {
     CLEAR_SCREEN,
