@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+
+# Externals
+**/externals
+
+# Build
+**/build
+
+# CLion IDE files
+**/.idea
