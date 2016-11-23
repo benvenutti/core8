@@ -28,4 +28,28 @@ SCENARIO("CPUs can load constants to registers", "[constant]") {
   }
 }
 
+SCENARIO("CPUs can add constants to registers", "[constant]") {
+  GIVEN("A CPU with initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::V3, 0x03);
+    cpu.writeRegister(Chip8::REGISTER::V7, 0x34);
+    cpu.writeRegister(Chip8::REGISTER::VF, 0xFE);
+
+    WHEN("the CPU executes an add constant operation to a register") {
+      cpu.setInstruction(0x7301);
+      cpu.execute();
+      cpu.setInstruction(0x7793);
+      cpu.execute();
+      cpu.setInstruction(0x7F01);
+      cpu.execute();
+
+      THEN("that register holds the value of the sum") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::V3) == 0x4);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::V7) == 0xC7);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0xFF);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

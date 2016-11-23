@@ -48,6 +48,9 @@ void CPU::loadNnToVx() {
 }
 
 void CPU::addNnToVx() {
+  const auto x = readX(instruction);
+  const auto nn = readNN(instruction);
+  registers.at(x) += nn;
 }
 
 } //namespace Core8
