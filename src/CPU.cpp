@@ -5,7 +5,8 @@ namespace Core8 {
 CPU::CPU()
 : dispatchTable{
     {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
-    {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }}
+    {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
+    {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }}
   }
 {
 }
@@ -24,6 +25,11 @@ namespace {
 /// Reads byte value of X on pattern vXvv.
 inline Chip8::BYTE readX(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>((instr & 0x0F00) >> 8);
+};
+
+/// Reads byte value of Y on pattern vvYv.
+inline Chip8::BYTE readY(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
 };
 
 /// Reads byte value of NN on pattern vvNN.
@@ -51,6 +57,12 @@ void CPU::addNnToVx() {
   const auto x = readX(instruction);
   const auto nn = readNN(instruction);
   registers.at(x) += nn;
+}
+
+void CPU::loadVyToVx() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) = registers.at(y);
 }
 
 } //namespace Core8
