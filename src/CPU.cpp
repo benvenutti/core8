@@ -23,15 +23,14 @@ void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
 /// Auxiliary functions for the CPU's operations
 namespace {
 
-template<typename MaskType, const int maskValue>
-MaskType mask{static_cast<MaskType>(maskValue)};
-
+/// Reads byte value of X on pattern vXvv.
 inline Chip8::BYTE readX(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>((instr & mask<Chip8::WORD, 0x0F00>) >> 8);
+  return static_cast<Chip8::BYTE>((instr & 0x0F00) >> 8);
 };
 
+/// Reads byte value of NN on pattern vvNN.
 inline Chip8::BYTE readNN(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>(instr & mask<Chip8::WORD, 0x00FF>);
+  return static_cast<Chip8::BYTE>(instr & 0x00FF);
 };
 
 } // unnamed namespace
