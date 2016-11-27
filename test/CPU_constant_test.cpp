@@ -13,10 +13,13 @@ SCENARIO("CPUs can load constants to registers", "[constant]") {
 
     WHEN("the CPU executes a load constant operation to a register") {
       cpu.setInstruction(0x6001);
+      cpu.decode();
       cpu.execute();
       cpu.setInstruction(0x693A);
+      cpu.decode();
       cpu.execute();
       cpu.setInstruction(0x6FFF);
+      cpu.decode();
       cpu.execute();
 
       THEN("that register holds the loaded constant") {
@@ -37,10 +40,13 @@ SCENARIO("CPUs can add constants to registers", "[constant]") {
 
     WHEN("the CPU executes an add constant operation to a register") {
       cpu.setInstruction(0x7301);
+      cpu.decode();
       cpu.execute();
       cpu.setInstruction(0x7793);
+      cpu.decode();
       cpu.execute();
       cpu.setInstruction(0x7F01);
+      cpu.decode();
       cpu.execute();
 
       THEN("that register holds the value of the sum") {

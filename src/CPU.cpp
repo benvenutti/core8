@@ -1,7 +1,5 @@
 #include "CPU.hpp"
 
-#include "OpDecoder.hpp"
-
 namespace Core8 {
 
 CPU::CPU()
@@ -35,8 +33,11 @@ inline Chip8::BYTE readNN(const Chip8::WORD instr) {
 
 } // unnamed namespace
 
+void CPU::decode() {
+  opcode = OpDecoder::decode(instruction);
+}
+
 void CPU::execute() {
-  const auto opcode = OpDecoder::decode(instruction);
   dispatchTable.at(opcode)();
 }
 
