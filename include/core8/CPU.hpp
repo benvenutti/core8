@@ -25,6 +25,7 @@ class CPU {
   private:
     void loadNnToVx();
     void addNnToVx();
+    void loadVyToVx();
 
     Chip8::WORD instruction{0u};
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
