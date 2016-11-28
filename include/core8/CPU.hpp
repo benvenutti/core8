@@ -28,6 +28,7 @@ class CPU {
     void loadVyToVx();
     void bitwiseVxOrVy();
     void bitwiseVxAndVy();
+    void bitwiseVxXorVy();
 
     Chip8::WORD instruction{0u};
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};

@@ -3,13 +3,14 @@
 namespace Core8 {
 
 CPU::CPU()
-: dispatchTable{
-    {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
-    {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
-    {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
-    {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
-    {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }}
-  }
+    : dispatchTable{
+      {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
+      {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
+      {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
+      {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
+      {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
+      {Chip8::OPCODE::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }}
+    }
 {
 }
 
@@ -77,6 +78,12 @@ void CPU::bitwiseVxAndVy() {
   const auto x = readX(instruction);
   const auto y = readY(instruction);
   registers.at(x) &= registers.at(y);
+}
+
+void CPU::bitwiseVxXorVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) ^= registers.at(y);
 }
 
 } //namespace Core8

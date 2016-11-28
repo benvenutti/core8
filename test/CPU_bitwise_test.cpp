@@ -63,4 +63,32 @@ SCENARIO("CPUs can execute AND operations on registers", "[bitwise]") {
   }
 }
 
+SCENARIO("CPUs can execute XOR operations on registers", "[bitwise]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::V2, 0b01011000);
+    cpu.writeRegister(Chip8::REGISTER::V8, 0b01010101);
+    cpu.writeRegister(Chip8::REGISTER::VC, 0b00001111);
+    cpu.writeRegister(Chip8::REGISTER::VD, 0b11001100);
+
+    WHEN("the CPU executes a XOR operation") {
+      cpu.setInstruction(0x8283);
+      cpu.decode();
+      cpu.execute();
+      cpu.setInstruction(0x8CD3);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the target register holds the result of the XOR operation") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::V2) == 0b00001101);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VC) == 0b11000011);
+      }
+      AND_THEN("the source register remains unchanged") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::V8) == 0b01010101);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VD) == 0b11001100);
+      }
+    }
+  }
+}
+
 } // unnamed namespace
