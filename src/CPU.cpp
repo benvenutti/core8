@@ -6,7 +6,8 @@ CPU::CPU()
 : dispatchTable{
     {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
     {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
-    {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }}
+    {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
+    {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }}
   }
 {
 }
@@ -63,6 +64,12 @@ void CPU::loadVyToVx() {
   const auto x = readX(instruction);
   const auto y = readY(instruction);
   registers.at(x) = registers.at(y);
+}
+
+void CPU::bitwiseVxOrVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) |= registers.at(y);
 }
 
 } //namespace Core8
