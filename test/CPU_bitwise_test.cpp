@@ -91,4 +91,62 @@ SCENARIO("CPUs can execute XOR operations on registers", "[bitwise]") {
   }
 }
 
+SCENARIO("CPUs can shift registers right by one", "[bitwise]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::V4, 0b01011000);
+    cpu.writeRegister(Chip8::REGISTER::VD, 0b01010101);
+
+    WHEN("the CPU shifts a register right by one") {
+      cpu.setInstruction(0x8406);
+      cpu.decode();
+      cpu.execute();
+      const auto registerVf1 = cpu.readRegister(Chip8::REGISTER::VF);
+
+      cpu.setInstruction(0x8D06);
+      cpu.decode();
+      cpu.execute();
+      const auto registerVf2 = cpu.readRegister(Chip8::REGISTER::VF);
+
+      THEN("the target register is shifted right by one") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::V4) == 0b00101100);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VD) == 0b00101010);
+      }
+      AND_THEN("VF is set to the value of the LSB of the target register before the shift") {
+        REQUIRE(registerVf1 == 0b0);
+        REQUIRE(registerVf2 == 0b1);
+      }
+    }
+  }
+}
+
+SCENARIO("CPUs can shift registers left by one", "[bitwise]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::VC, 0b11111111);
+    cpu.writeRegister(Chip8::REGISTER::VD, 0b01010101);
+
+    WHEN("the CPU shifts a register left by one") {
+      cpu.setInstruction(0x8C0E);
+      cpu.decode();
+      cpu.execute();
+      const auto registerVf1 = cpu.readRegister(Chip8::REGISTER::VF);
+
+      cpu.setInstruction(0x8D0E);
+      cpu.decode();
+      cpu.execute();
+      const auto registerVf2 = cpu.readRegister(Chip8::REGISTER::VF);
+
+      THEN("the target register is shifted left by one") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VC) == 0b11111110);
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VD) == 0b10101010);
+      }
+      AND_THEN("VF is set to the value of the MSB of the target register before the shift") {
+        REQUIRE(registerVf1 == 0b1);
+        REQUIRE(registerVf2 == 0b0);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

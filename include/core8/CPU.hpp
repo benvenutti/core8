@@ -29,6 +29,8 @@ class CPU {
     void bitwiseVxOrVy();
     void bitwiseVxAndVy();
     void bitwiseVxXorVy();
+    void shiftVxRight();
+    void shiftVxLeft();
 
     Chip8::WORD instruction{0u};
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
