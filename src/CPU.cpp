@@ -3,11 +3,16 @@
 namespace Core8 {
 
 CPU::CPU()
-: dispatchTable{
-    {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
-    {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
-    {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }}
-  }
+    : dispatchTable{
+      {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
+      {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
+      {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
+      {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
+      {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
+      {Chip8::OPCODE::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }},
+      {Chip8::OPCODE::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
+      {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }}
+    }
 {
 }
 
@@ -21,6 +26,11 @@ void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
 
 /// Auxiliary functions for the CPU's operations
 namespace {
+
+template <typename T>
+T mask(const int value) {
+  return static_cast<T>(value);
+}
 
 /// Reads byte value of X on pattern vXvv.
 inline Chip8::BYTE readX(const Chip8::WORD instr) {
@@ -63,6 +73,38 @@ void CPU::loadVyToVx() {
   const auto x = readX(instruction);
   const auto y = readY(instruction);
   registers.at(x) = registers.at(y);
+}
+
+void CPU::bitwiseVxOrVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) |= registers.at(y);
+}
+
+void CPU::bitwiseVxAndVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) &= registers.at(y);
+}
+
+void CPU::bitwiseVxXorVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+  registers.at(x) ^= registers.at(y);
+}
+
+void CPU::shiftVxRight() {
+  const auto x = readX(instruction);
+  auto& vx = registers.at(x);
+  writeRegister(Chip8::REGISTER::VF, vx & mask<Chip8::BYTE>(0x1));
+  vx >>= 1;
+}
+
+void CPU::shiftVxLeft() {
+  const auto x = readX(instruction);
+  auto& vx = registers.at(x);
+  writeRegister(Chip8::REGISTER::VF, vx >> 7);
+  vx <<= 1;
 }
 
 } //namespace Core8
