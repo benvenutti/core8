@@ -137,4 +137,50 @@ SCENARIO("CPUs can skip instructions if a register equals another", "[conditiona
   }
 }
 
+SCENARIO("CPUs can skip instructions if a register differs from another", "[conditional]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::VA, 0xA1);
+    cpu.writeRegister(Chip8::REGISTER::VB, 0xB2);
+    cpu.writeRegister(Chip8::REGISTER::VC, 0xC3);
+    cpu.writeRegister(Chip8::REGISTER::VD, 0xC3);
+    cpu.writeRegister(Chip8::REGISTER::VE, 0xB2);
+    cpu.writeRegister(Chip8::REGISTER::VF, 0xA1);
+    const auto pc0 = cpu.getPc();
+
+    WHEN("the CPU executes a 9XY0 opcode on non-matching registers") {
+      cpu.setInstruction(0x9AD0);
+      cpu.decode();
+      cpu.execute();
+      const auto pc1 = cpu.getPc();
+
+      cpu.setInstruction(0x9BF0);
+      cpu.decode();
+      cpu.execute();
+      const auto pc2 = cpu.getPc();
+
+      THEN("the CPUs program counter is updated") {
+        REQUIRE(pc1 == pc0 + Chip8::INSTRUCTION_BYTE_SIZE);
+        REQUIRE(pc2 == pc0 + 2 * Chip8::INSTRUCTION_BYTE_SIZE);
+      }
+    }
+    AND_WHEN("the CPU executes a 9XY0 opcode on matching registers") {
+      cpu.setInstruction(0x9CD0);
+      cpu.decode();
+      cpu.execute();
+      const auto pc1 = cpu.getPc();
+
+      cpu.setInstruction(0x9EB0);
+      cpu.decode();
+      cpu.execute();
+      const auto pc2 = cpu.getPc();
+
+      THEN("the CPUs program counter is remains unchanged") {
+        REQUIRE(pc1 == pc0);
+        REQUIRE(pc2 == pc0);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

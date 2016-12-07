@@ -28,6 +28,7 @@ class CPU {
     void skipIfVxEqualsNn();
     void skipIfVxNotEqualsNn();
     void skipIfVxEqualsVy();
+    void skipIfVxNotEqualsVy();
     void loadNnToVx();
     void addNnToVx();
     void loadVyToVx();
