@@ -2,6 +2,31 @@
 
 namespace Core8 {
 
+/// Auxiliary functions for the CPU's operations
+namespace {
+
+template <typename T>
+T mask(const int value) {
+  return static_cast<T>(value);
+}
+
+/// Reads byte value of X on pattern vXvv.
+inline Chip8::BYTE readX(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>((instr & 0x0F00) >> 8);
+};
+
+/// Reads byte value of Y on pattern vvYv.
+inline Chip8::BYTE readY(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
+};
+
+/// Reads byte value of NN on pattern vvNN.
+inline Chip8::BYTE readNN(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>(instr & 0x00FF);
+};
+
+} // unnamed namespace
+
 CPU::CPU()
     : dispatchTable{
       {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
@@ -28,31 +53,6 @@ Chip8::BYTE CPU::readRegister(const Chip8::REGISTER id) const {
 void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
   registers[static_cast<std::size_t>(id)] = value;
 }
-
-/// Auxiliary functions for the CPU's operations
-namespace {
-
-template <typename T>
-T mask(const int value) {
-  return static_cast<T>(value);
-}
-
-/// Reads byte value of X on pattern vXvv.
-inline Chip8::BYTE readX(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>((instr & 0x0F00) >> 8);
-};
-
-/// Reads byte value of Y on pattern vvYv.
-inline Chip8::BYTE readY(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
-};
-
-/// Reads byte value of NN on pattern vvNN.
-inline Chip8::BYTE readNN(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>(instr & 0x00FF);
-};
-
-} // unnamed namespace
 
 void CPU::decode() {
   opcode = OpDecoder::decode(instruction);
