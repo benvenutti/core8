@@ -15,7 +15,8 @@ CPU::CPU()
       {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
       {Chip8::OPCODE::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }},
       {Chip8::OPCODE::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
-      {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }}
+      {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
+      {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }}
     }
 {
 }
@@ -145,6 +146,19 @@ void CPU::shiftVxLeft() {
   auto& vx = registers.at(x);
   writeRegister(Chip8::REGISTER::VF, vx >> 7);
   vx <<= 1;
+}
+
+void CPU::addVyToVx() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+
+  auto& vx = registers.at(x);
+  const auto& vy = registers.at(y);
+
+  const auto vf = (vy > (0xFF - vx)) ? 0x1 : 0x0;
+  writeRegister(Chip8::REGISTER::VF, vf);
+
+  vx += vy;
 }
 
 } //namespace Core8
