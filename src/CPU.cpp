@@ -4,6 +4,7 @@ namespace Core8 {
 
 CPU::CPU()
     : dispatchTable{
+      {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
       {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
       {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
       {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
@@ -55,6 +56,15 @@ void CPU::decode() {
 
 void CPU::execute() {
   dispatchTable.at(opcode)();
+}
+
+void CPU::skipIfVxEqualsNn() {
+  const auto x = readX(instruction);
+  const auto nn = readNN(instruction);
+
+  if (registers.at(x) == nn) {
+    pc += 2;
+  }
 }
 
 void CPU::loadNnToVx() {
