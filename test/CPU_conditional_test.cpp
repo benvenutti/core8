@@ -49,4 +49,46 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
   }
 }
 
+SCENARIO("CPUs can skip instructions if a register differs from a constant", "[conditional]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::VA, 0x1A);
+    cpu.writeRegister(Chip8::REGISTER::VB, 0x2B);
+    const auto pc0 = cpu.getPc();
+
+    WHEN("the CPU executes a skip op comparing a non-matching register and constant") {
+      cpu.setInstruction(0x4AA1);
+      cpu.decode();
+      cpu.execute();
+      const auto pc1 = cpu.getPc();
+
+      cpu.setInstruction(0x4BB2);
+      cpu.decode();
+      cpu.execute();
+      const auto pc2 = cpu.getPc();
+
+      THEN("the CPUs program counter is updated") {
+        REQUIRE(pc1 == pc0 + Chip8::INSTRUCTION_BYTE_SIZE);
+        REQUIRE(pc2 == pc0 + 2 * Chip8::INSTRUCTION_BYTE_SIZE);
+      }
+    }
+    AND_WHEN("the CPU executes a skip op comparing a matching register and constant") {
+      cpu.setInstruction(0x4A1A);
+      cpu.decode();
+      cpu.execute();
+      const auto pc1 = cpu.getPc();
+
+      cpu.setInstruction(0x4B2B);
+      cpu.decode();
+      cpu.execute();
+      const auto pc2 = cpu.getPc();
+
+      THEN("the CPUs program counter is updated") {
+        REQUIRE(pc1 == pc0);
+        REQUIRE(pc2 == pc0);
+      }
+    }
+  }
+}
+
 } // unnamed namespace
