@@ -4,6 +4,10 @@ namespace Core8 {
 
 CPU::CPU()
     : dispatchTable{
+      {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
+      {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
+      {Chip8::OPCODE::SKIP_IF_VX_EQUALS_VY, [this] () { skipIfVxEqualsVy(); }},
+      {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_VY, [this] () { skipIfVxNotEqualsVy(); }},
       {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
       {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
       {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
@@ -55,6 +59,42 @@ void CPU::decode() {
 
 void CPU::execute() {
   dispatchTable.at(opcode)();
+}
+
+void CPU::skipIfVxEqualsNn() {
+  const auto x = readX(instruction);
+  const auto nn = readNN(instruction);
+
+  if (registers.at(x) == nn) {
+    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  }
+}
+
+void CPU::skipIfVxNotEqualsNn() {
+  const auto x = readX(instruction);
+  const auto nn = readNN(instruction);
+
+  if (registers.at(x) != nn) {
+    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  }
+}
+
+void CPU::skipIfVxEqualsVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+
+  if (registers.at(x) == registers.at(y)) {
+    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  }
+}
+
+void CPU::skipIfVxNotEqualsVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+
+  if (registers.at(x) != registers.at(y)) {
+    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  }
 }
 
 void CPU::loadNnToVx() {

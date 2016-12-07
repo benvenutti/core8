@@ -12,6 +12,8 @@ using WORD = std::uint16_t;
 
 const std::size_t RAM_SIZE{4096};
 const std::size_t NUMBER_OF_REGISTERS{16};
+const std::size_t INIT_ROM_LOAD_ADDRESS{512};
+const std::size_t INSTRUCTION_BYTE_SIZE{2};
 
 enum class REGISTER {
     V0, V1, V2, V3, V4, V5, V6, V7,

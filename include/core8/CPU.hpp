@@ -17,12 +17,18 @@ class CPU {
     Chip8::BYTE readRegister(const Chip8::REGISTER id) const;
     void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
 
+    Chip8::WORD getPc() const { return pc; }
+
     void setInstruction(const Chip8::WORD instr) { instruction = instr; }
 
     void decode();
     void execute();
 
   private:
+    void skipIfVxEqualsNn();
+    void skipIfVxNotEqualsNn();
+    void skipIfVxEqualsVy();
+    void skipIfVxNotEqualsVy();
     void loadNnToVx();
     void addNnToVx();
     void loadVyToVx();
@@ -32,6 +38,7 @@ class CPU {
     void shiftVxRight();
     void shiftVxLeft();
 
+    Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
 
