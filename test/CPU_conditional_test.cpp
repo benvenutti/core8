@@ -14,7 +14,7 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
     cpu.writeRegister(Chip8::REGISTER::V4, 0x35);
     const auto pc0 = cpu.getPc();
 
-    WHEN("the CPU executes a skip op comparing a matching register and constant") {
+    WHEN("the CPU executes a 3XNN opcode on matching register x constant") {
       cpu.setInstruction(0x3111);
       cpu.decode();
       cpu.execute();
@@ -30,7 +30,7 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
         REQUIRE(pc2 == pc0 + 2 * Chip8::INSTRUCTION_BYTE_SIZE);
       }
     }
-    AND_WHEN("the CPU executes a skip op comparing a non-matching register and constant") {
+    AND_WHEN("the CPU executes a 3XNN opcode on non-matching register x constant") {
       cpu.setInstruction(0x31FF);
       cpu.decode();
       cpu.execute();
@@ -56,7 +56,7 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
     cpu.writeRegister(Chip8::REGISTER::VB, 0x2B);
     const auto pc0 = cpu.getPc();
 
-    WHEN("the CPU executes a skip op comparing a non-matching register and constant") {
+    WHEN("the CPU executes a 4XNN opcode on non-matching register x constant") {
       cpu.setInstruction(0x4AA1);
       cpu.decode();
       cpu.execute();
@@ -72,7 +72,7 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
         REQUIRE(pc2 == pc0 + 2 * Chip8::INSTRUCTION_BYTE_SIZE);
       }
     }
-    AND_WHEN("the CPU executes a skip op comparing a matching register and constant") {
+    WHEN("the CPU executes a 4XNN opcode on matching register x constant") {
       cpu.setInstruction(0x4A1A);
       cpu.decode();
       cpu.execute();
@@ -83,7 +83,7 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
       cpu.execute();
       const auto pc2 = cpu.getPc();
 
-      THEN("the CPUs program counter is updated") {
+      THEN("the CPUs program counter is remains unchanged") {
         REQUIRE(pc1 == pc0);
         REQUIRE(pc2 == pc0);
       }
