@@ -72,7 +72,7 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
         REQUIRE(pc2 == pc0 + 2 * Chip8::INSTRUCTION_BYTE_SIZE);
       }
     }
-    WHEN("the CPU executes a 4XNN opcode on matching register x constant") {
+    AND_WHEN("the CPU executes a 4XNN opcode on matching register x constant") {
       cpu.setInstruction(0x4A1A);
       cpu.decode();
       cpu.execute();
