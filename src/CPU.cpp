@@ -42,7 +42,8 @@ CPU::CPU()
       {Chip8::OPCODE::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
       {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
       {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }},
-      {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }}
+      {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }},
+      {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }}
     }
 {
 }
@@ -173,6 +174,19 @@ void CPU::subVyFromVx() {
   writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
 
   vx -= vy;
+}
+
+void CPU::subVxFromVy() {
+  const auto x = readX(instruction);
+  const auto y = readY(instruction);
+
+  auto& vx = registers.at(x);
+  const auto& vy = registers.at(y);
+
+  const auto hasBorrow = vx > vy;
+  writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
+
+  vx = vy - vx;
 }
 
 } //namespace Core8
