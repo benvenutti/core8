@@ -41,4 +41,38 @@ SCENARIO("CPUs can add VY to VX", "[math]") {
   }
 }
 
+SCENARIO("CPUs can subtract VY to VX", "[math]") {
+  GIVEN("A CPU with some initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::VA, 0xA3);
+    cpu.writeRegister(Chip8::REGISTER::VB, 0x15);
+    cpu.writeRegister(Chip8::REGISTER::VC, 0xFF);
+
+    WHEN("the CPU executes a 8XY5 operation on two registers without a borrow") {
+      cpu.setInstruction(0x8AB5);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the value of VY is subtracted from VX") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VA) == 0x8E);
+      }
+      AND_THEN("VF is set to 1") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x1);
+      }
+    }
+    AND_WHEN("the CPU executes a 8XY5 operation on two registers with a borrow") {
+      cpu.setInstruction(0x8AC5);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the value of VY is subtracted from VX") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VA) == 0xa4);
+      }
+      AND_THEN("VF is set to 0") {
+        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x0);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

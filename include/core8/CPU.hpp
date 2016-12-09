@@ -38,6 +38,7 @@ class CPU {
     void shiftVxRight();
     void shiftVxLeft();
     void addVyToVx();
+    void subVyFromVx();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
