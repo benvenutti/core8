@@ -25,10 +25,16 @@ inline Chip8::BYTE readNN(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>(instr & 0x00FF);
 };
 
+/// Reads word value of NNN on pattern vNNN.
+inline Chip8::WORD readNNN(const Chip8::WORD instr) {
+  return static_cast<Chip8::WORD>(instr & 0x0FFF);
+};
+
 } // unnamed namespace
 
 CPU::CPU()
     : dispatchTable{
+      {Chip8::OPCODE::JUMP, [this] () { jumpToNNN(); }},
       {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
       {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
       {Chip8::OPCODE::SKIP_IF_VX_EQUALS_VY, [this] () { skipIfVxEqualsVy(); }},
@@ -62,6 +68,10 @@ void CPU::decode() {
 
 void CPU::execute() {
   dispatchTable.at(opcode)();
+}
+
+void CPU::jumpToNNN() {
+  pc = readNNN(instruction);
 }
 
 void CPU::skipIfVxEqualsNn() {

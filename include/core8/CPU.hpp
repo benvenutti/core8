@@ -25,6 +25,7 @@ class CPU {
     void execute();
 
   private:
+    void jumpToNNN();
     void skipIfVxEqualsNn();
     void skipIfVxNotEqualsNn();
     void skipIfVxEqualsVy();
