@@ -34,7 +34,7 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 
 CPU::CPU()
     : dispatchTable{
-      {Chip8::OPCODE::JUMP, [this] () { jumpToNNN(); }},
+      {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
       {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
       {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
       {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
@@ -51,7 +51,8 @@ CPU::CPU()
       {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
       {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }},
       {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }},
-      {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }}
+      {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }},
+      {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }}
     }
 {
 }
@@ -72,7 +73,7 @@ void CPU::execute() {
   dispatchTable.at(opcode)();
 }
 
-void CPU::jumpToNNN() {
+void CPU::jumpToNnn() {
   pc = readNNN(instruction);
 }
 
@@ -208,6 +209,10 @@ void CPU::subVxFromVy() {
   writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
 
   vx = vy - vx;
+}
+
+void CPU::jumpToNnnPlusV0() {
+  pc = readNNN(instruction) + registers.at(0x0);
 }
 
 } //namespace Core8

@@ -80,4 +80,21 @@ SCENARIO("CPUs can return from subroutines", "[flow]") {
   }
 }
 
+SCENARIO("CPUs can execute unconditional jumps using register V0", "[flow]") {
+  GIVEN("A CPU with initialized registers") {
+    CPU cpu{};
+    cpu.writeRegister(Chip8::REGISTER::V0, 0x2D);
+
+    WHEN("the CPU executes an BNNN operation") {
+      cpu.setInstruction(0xB131);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the program counter is updated to the value of NNN plus V0") {
+        REQUIRE(cpu.getPc() == 0x15E);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

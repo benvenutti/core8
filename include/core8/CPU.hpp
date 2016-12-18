@@ -27,7 +27,7 @@ class CPU {
     void execute();
 
   private:
-    void jumpToNNN();
+    void jumpToNnn();
     void returnFromSubroutine();
     void callNNN();
     void skipIfVxEqualsNn();
@@ -45,6 +45,7 @@ class CPU {
     void addVyToVx();
     void subVyFromVx();
     void subVxFromVy();
+    void jumpToNnnPlusV0();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
