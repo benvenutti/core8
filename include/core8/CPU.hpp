@@ -18,6 +18,8 @@ class CPU {
     void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
 
     Chip8::WORD getPc() const { return pc; }
+    Chip8::BYTE getSp() const { return sp; };
+    const std::array<Chip8::WORD, Chip8::STACK_SIZE>& getStack() const { return stack; }
 
     void setInstruction(const Chip8::WORD instr) { instruction = instr; }
 
@@ -26,6 +28,7 @@ class CPU {
 
   private:
     void jumpToNNN();
+    void callNNN();
     void skipIfVxEqualsNn();
     void skipIfVxNotEqualsNn();
     void skipIfVxEqualsVy();
@@ -45,8 +48,11 @@ class CPU {
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
+    Chip8::BYTE sp{0u};
 
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> registers;
+    std::array<Chip8::WORD, Chip8::STACK_SIZE> stack;
+
     const std::map<Chip8::OPCODE, std::function<void(void)>> dispatchTable;
 };
 
