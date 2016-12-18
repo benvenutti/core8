@@ -28,6 +28,7 @@ class CPU {
 
   private:
     void jumpToNNN();
+    void returnFromSubroutine();
     void callNNN();
     void skipIfVxEqualsNn();
     void skipIfVxNotEqualsNn();

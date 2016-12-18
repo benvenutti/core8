@@ -55,4 +55,29 @@ SCENARIO("CPUs can call subroutines", "[flow]") {
   }
 }
 
+SCENARIO("CPUs can return from subroutines", "[flow]") {
+  GIVEN("A CPU executing a subroutine") {
+    CPU cpu{};
+    cpu.setInstruction(0x2ABC);
+    cpu.decode();
+    cpu.execute();
+
+    const auto sp = cpu.getSp();
+    const auto stackTop = cpu.getStack().at(sp - 1u);
+
+    WHEN("the CPU executes a 00EE operation to return from a subroutine") {
+      cpu.setInstruction(0x00EE);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the call stack topmost value is assigned to the program counter") {
+        REQUIRE(cpu.getPc() == stackTop);
+      }
+      AND_THEN("the stack pointer is decremented") {
+        REQUIRE(cpu.getSp() == sp - 1);
+      }
+    }
+  }
+}
+
 } // unnamed namespace

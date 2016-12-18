@@ -35,6 +35,7 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 CPU::CPU()
     : dispatchTable{
       {Chip8::OPCODE::JUMP, [this] () { jumpToNNN(); }},
+      {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
       {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
       {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
       {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
@@ -73,6 +74,10 @@ void CPU::execute() {
 
 void CPU::jumpToNNN() {
   pc = readNNN(instruction);
+}
+
+void CPU::returnFromSubroutine() {
+  pc = stack.at(--sp);
 }
 
 void CPU::callNNN() {
