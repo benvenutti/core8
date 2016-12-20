@@ -55,7 +55,8 @@ CPU::CPU()
       {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }},
       {Chip8::OPCODE::LOAD_DELAY_TIMER_TO_VX, [this] () { loadDelayToVx(); }},
       {Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
-      {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }}
+      {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
+      {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }}
     }
 {
 }
@@ -231,6 +232,10 @@ void CPU::loadVxToDelay() {
 void CPU::loadVxToSound() {
   const auto x = readX(instruction);
   soundTimer = registers.at(x);
+}
+
+void CPU::loadNnnToI() {
+  I = readNNN(instruction);
 }
 
 } //namespace Core8

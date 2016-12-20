@@ -20,6 +20,7 @@ class CPU {
     Chip8::BYTE readRegister(const Chip8::REGISTER id) const;
     void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
 
+    Chip8::WORD getI() const { return I; }
     Chip8::WORD getPc() const { return pc; }
     Chip8::BYTE getSp() const { return sp; };
 
@@ -55,9 +56,11 @@ class CPU {
     void loadDelayToVx();
     void loadVxToDelay();
     void loadVxToSound();
+    void loadNnnToI();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
+    Chip8::WORD I{0u};
 
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
 
