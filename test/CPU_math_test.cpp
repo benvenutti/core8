@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can add VY from VX", "[math]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V1, 0x11);
     cpu.writeRegister(Chip8::REGISTER::V4, 0x35);
     cpu.writeRegister(Chip8::REGISTER::V5, 0xFE);
@@ -43,7 +45,8 @@ SCENARIO("CPUs can add VY from VX", "[math]") {
 
 SCENARIO("CPUs can subtract VY from VX", "[math]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::VA, 0xA3);
     cpu.writeRegister(Chip8::REGISTER::VB, 0x15);
     cpu.writeRegister(Chip8::REGISTER::VC, 0xFF);
@@ -77,7 +80,8 @@ SCENARIO("CPUs can subtract VY from VX", "[math]") {
 
 SCENARIO("CPUs can subtract VX to VY", "[math]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V3, 0x3F);
     cpu.writeRegister(Chip8::REGISTER::V4, 0xBB);
     cpu.writeRegister(Chip8::REGISTER::V5, 0xFF);

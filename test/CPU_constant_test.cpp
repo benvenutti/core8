@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can load constants to registers", "[constant]") {
   GIVEN("A CPU") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
 
     WHEN("the CPU executes a load constant operation to a register") {
       cpu.setInstruction(0x6001);
@@ -33,7 +35,8 @@ SCENARIO("CPUs can load constants to registers", "[constant]") {
 
 SCENARIO("CPUs can add constants to registers", "[constant]") {
   GIVEN("A CPU with initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V3, 0x03);
     cpu.writeRegister(Chip8::REGISTER::V7, 0x34);
     cpu.writeRegister(Chip8::REGISTER::VF, 0xFE);

@@ -32,32 +32,33 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 
 } // unnamed namespace
 
-CPU::CPU()
-    : dispatchTable{
-      {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
-      {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
-      {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
-      {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
-      {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
-      {Chip8::OPCODE::SKIP_IF_VX_EQUALS_VY, [this] () { skipIfVxEqualsVy(); }},
-      {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_VY, [this] () { skipIfVxNotEqualsVy(); }},
-      {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
-      {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
-      {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
-      {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
-      {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
-      {Chip8::OPCODE::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }},
-      {Chip8::OPCODE::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
-      {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
-      {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }},
-      {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }},
-      {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }},
-      {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }},
-      {Chip8::OPCODE::LOAD_DELAY_TIMER_TO_VX, [this] () { loadDelayToVx(); }},
-      {Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
-      {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
-      {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }}
-    }
+CPU::CPU(MMU& mmu)
+    : mmu(mmu),
+      dispatchTable{
+        {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
+        {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
+        {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_EQUALS_VY, [this] () { skipIfVxEqualsVy(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_NOT_EQUALS_VY, [this] () { skipIfVxNotEqualsVy(); }},
+        {Chip8::OPCODE::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
+        {Chip8::OPCODE::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
+        {Chip8::OPCODE::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
+        {Chip8::OPCODE::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
+        {Chip8::OPCODE::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
+        {Chip8::OPCODE::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }},
+        {Chip8::OPCODE::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
+        {Chip8::OPCODE::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
+        {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }},
+        {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }},
+        {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }},
+        {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }},
+        {Chip8::OPCODE::LOAD_DELAY_TIMER_TO_VX, [this] () { loadDelayToVx(); }},
+        {Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
+        {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
+        {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }}
+      }
 {
 }
 

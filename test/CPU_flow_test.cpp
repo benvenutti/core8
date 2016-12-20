@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can execute unconditional jumps", "[flow]") {
   GIVEN("A CPU") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
 
     WHEN("the CPU executes an 1NNN operation") {
       cpu.setInstruction(0x1ABC);
@@ -32,7 +34,8 @@ SCENARIO("CPUs can execute unconditional jumps", "[flow]") {
 
 SCENARIO("CPUs can call subroutines", "[flow]") {
   GIVEN("A CPU") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
 
     WHEN("the CPU calls a subroutine executing an 2NNN operation") {
       const auto pc = cpu.getPc();
@@ -57,7 +60,8 @@ SCENARIO("CPUs can call subroutines", "[flow]") {
 
 SCENARIO("CPUs can return from subroutines", "[flow]") {
   GIVEN("A CPU executing a subroutine") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.setInstruction(0x2ABC);
     cpu.decode();
     cpu.execute();
@@ -82,7 +86,8 @@ SCENARIO("CPUs can return from subroutines", "[flow]") {
 
 SCENARIO("CPUs can execute unconditional jumps using register V0", "[flow]") {
   GIVEN("A CPU with initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V0, 0x2D);
 
     WHEN("the CPU executes an BNNN operation") {

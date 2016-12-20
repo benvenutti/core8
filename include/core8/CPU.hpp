@@ -6,13 +6,14 @@
 #include <map>
 
 #include "Chip8.hpp"
+#include "MMU.hpp"
 #include "OpDecoder.hpp"
 
 namespace Core8 {
 
 class CPU {
   public:
-    CPU();
+    CPU(MMU& mmu);
 
     void decode();
     void execute();
@@ -70,6 +71,8 @@ class CPU {
 
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> registers;
     std::array<Chip8::WORD, Chip8::STACK_SIZE> stack;
+
+    MMU& mmu;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> dispatchTable;
 };

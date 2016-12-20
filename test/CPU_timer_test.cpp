@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -7,7 +8,8 @@ namespace {
 
 SCENARIO("CPUs can assign the value of the delay timer to a register", "[timer]") {
   GIVEN("A CPU with an initialized delay timer") {
-    Core8::CPU cpu{};
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
     cpu.setDelayTimer(0x3C);
 
     WHEN("the CPU executes a FX07 operation") {
@@ -29,7 +31,8 @@ SCENARIO("CPUs can assign the value of the delay timer to a register", "[timer]"
 
 SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]") {
   GIVEN("A CPU with initialized registers") {
-    Core8::CPU cpu{};
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
     cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0x2A);
     cpu.writeRegister(Core8::Chip8::REGISTER::VF, 0xCD);
 
@@ -53,7 +56,8 @@ SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]")
 
 SCENARIO("CPUs can assign the value of registers to the sound timer", "[timer]") {
   GIVEN("A CPU with initialized registers") {
-    Core8::CPU cpu{};
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
     cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0xBE);
     cpu.writeRegister(Core8::Chip8::REGISTER::VF, 0xFE);
 

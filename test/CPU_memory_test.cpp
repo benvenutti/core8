@@ -1,13 +1,14 @@
 #include <catch.hpp>
 
-#include "Chip8.hpp"
+#include "aux/Aux.hpp"
 #include "CPU.hpp"
 
 namespace {
 
 SCENARIO("CPUs can load addresses to the address register I", "[memory]") {
   GIVEN("A CPU") {
-    Core8::CPU cpu{};
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
 
     WHEN("the CPU executes a ANNN operation") {
       cpu.setInstruction(0xA123);
