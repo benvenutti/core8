@@ -52,7 +52,10 @@ CPU::CPU()
       {Chip8::OPCODE::VX_PLUS_VY, [this] () { addVyToVx(); }},
       {Chip8::OPCODE::VX_MINUS_VY, [this] () { subVyFromVx(); }},
       {Chip8::OPCODE::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }},
-      {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }}
+      {Chip8::OPCODE::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }},
+      {Chip8::OPCODE::LOAD_DELAY_TIMER_TO_VX, [this] () { loadDelayToVx(); }},
+      {Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
+      {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }}
     }
 {
 }
@@ -213,6 +216,21 @@ void CPU::subVxFromVy() {
 
 void CPU::jumpToNnnPlusV0() {
   pc = readNNN(instruction) + registers.at(0x0);
+}
+
+void CPU::loadDelayToVx() {
+  const auto x = readX(instruction);
+  registers.at(x) = delayTimer;
+}
+
+void CPU::loadVxToDelay() {
+  const auto x = readX(instruction);
+  delayTimer = registers.at(x);
+}
+
+void CPU::loadVxToSound() {
+  const auto x = readX(instruction);
+  soundTimer = registers.at(x);
 }
 
 } //namespace Core8
