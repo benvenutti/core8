@@ -50,6 +50,7 @@ class CPU {
     void subVxFromVy();
     void jumpToNnnPlusV0();
     void loadDelayToVx();
+    void loadVxToDelay();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
