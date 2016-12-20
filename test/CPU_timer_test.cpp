@@ -51,4 +51,28 @@ SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]")
   }
 }
 
+SCENARIO("CPUs can assign the value of registers to the sound timer", "[timer]") {
+  GIVEN("A CPU with initialized registers") {
+    Core8::CPU cpu{};
+    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0xBE);
+    cpu.writeRegister(Core8::Chip8::REGISTER::VF, 0xFE);
+
+    WHEN("the CPU executes a FX18 operation") {
+      cpu.setInstruction(0xF018);
+      cpu.decode();
+      cpu.execute();
+      const auto sound1 = cpu.getSoundTimer();
+      cpu.setInstruction(0xFF18);
+      cpu.decode();
+      cpu.execute();
+      const auto sound2 = cpu.getSoundTimer();
+
+      THEN("the sound timer is updated to the value of the register VX") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == sound1);
+        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::VF) == sound2);
+      }
+    }
+  }
+}
+
 } // unnamed namespace
