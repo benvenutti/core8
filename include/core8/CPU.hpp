@@ -21,6 +21,9 @@ class CPU {
     Chip8::BYTE getSp() const { return sp; };
     const std::array<Chip8::WORD, Chip8::STACK_SIZE>& getStack() const { return stack; }
 
+    void setDelayTimer(const Chip8::BYTE delay) { delayTimer = delay; };
+    Chip8::BYTE getDelayTimer() const { return delayTimer; };
+
     void setInstruction(const Chip8::WORD instr) { instruction = instr; }
 
     void decode();
@@ -46,11 +49,15 @@ class CPU {
     void subVyFromVx();
     void subVxFromVy();
     void jumpToNnnPlusV0();
+    void loadDelayToVx();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
+
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
+
     Chip8::BYTE sp{0u};
+    Chip8::BYTE delayTimer{0u};
 
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> registers;
     std::array<Chip8::WORD, Chip8::STACK_SIZE> stack;
