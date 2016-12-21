@@ -21,7 +21,6 @@ class CPU {
     Chip8::BYTE readRegister(const Chip8::REGISTER id) const;
     void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
 
-    Chip8::WORD getI() const { return I; }
     Chip8::WORD getPc() const { return pc; }
     Chip8::BYTE getSp() const { return sp; };
 
@@ -33,6 +32,9 @@ class CPU {
     Chip8::BYTE getSoundTimer() const { return soundTimer; };
 
     void setInstruction(const Chip8::WORD instr) { instruction = instr; }
+
+    void setI(const Chip8::WORD address) { I = address; }
+    Chip8::WORD getI() const { return I; }
 
   private:
     void jumpToNnn();
@@ -58,6 +60,7 @@ class CPU {
     void loadVxToDelay();
     void loadVxToSound();
     void loadNnnToI();
+    void loadRegistersToI();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
