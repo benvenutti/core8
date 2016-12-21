@@ -58,7 +58,8 @@ CPU::CPU(MMU& mmu)
         {Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
         {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
         {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }},
-        {Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }}
+        {Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }},
+        {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }}
       }
 {
 }
@@ -245,6 +246,16 @@ void CPU::loadRegistersToI() {
 
   for (std::size_t i = 0; i <= x; ++i) {
     mmu.writeByte(registers.at(i), I + i);
+  }
+
+  I += x + 1;
+}
+
+void CPU::loadItoRegisters() {
+  const auto x = readX(instruction);
+
+  for (std::size_t i = 0; i <= x; ++i) {
+    registers.at(i) = mmu.readByte(I + i);
   }
 
   I += x + 1;

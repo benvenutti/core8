@@ -53,7 +53,7 @@ SCENARIO("CPUs can load the registers into memory", "[memory]") {
 
       THEN("the registers from V0 to VX are stored in memory starting at address I") {
         const Core8::MMU& mmu = testKit.mmu;
-        for (std::size_t i = 0; i < 16; ++i) {
+        for (std::size_t i = 0; i < 0xF; ++i) {
           REQUIRE(mmu.readByte(1024 + i) == bytes[i]);
         }
       }
@@ -63,5 +63,35 @@ SCENARIO("CPUs can load the registers into memory", "[memory]") {
     }
   }
 }
+
+SCENARIO("CPUs can load values from memory into registers", "[memory]") {
+  GIVEN("A CPU with initialized memory and register I") {
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
+    Core8::MMU& mmu = testKit.mmu;
+
+    cpu.setI(1024);
+
+    std::vector<Core8::Chip8::BYTE> bytes = { 0x10, 0x11, 0x12, 0x13, 0x24, 0x25 };
+    Aux::ByteStream rom{bytes};
+    mmu.load(rom, 1024);
+
+    WHEN("the CPU executes a FX65 operation") {
+      cpu.setInstruction(0xF565);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("registers V0 to VX are filled with values from memory starting at address I") {
+        for (std::size_t i = 0; i < 0x5; ++i) {
+          REQUIRE(cpu.readRegister(static_cast<Core8::Chip8::REGISTER>(i)) == bytes[i]);
+        }
+      }
+      AND_THEN("the value of I is incremented by X plus one") {
+        REQUIRE(cpu.getI() == 1024 + 0x5 + 1);
+      }
+    }
+  }
+}
+
 
 } // unnamed namespace
