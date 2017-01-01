@@ -93,5 +93,31 @@ SCENARIO("CPUs can load values from memory into registers", "[memory]") {
   }
 }
 
+SCENARIO("CPUs can add registers to the address register I", "[memory]") {
+  GIVEN("A CPU with registers V and I initialized") {
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
+    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 10);
+    cpu.writeRegister(Core8::Chip8::REGISTER::VE, 66);
+    cpu.setI(512);
+
+    WHEN("the CPU executes a FX1E operation") {
+      cpu.setInstruction(0xF01E);
+      cpu.decode();
+      cpu.execute();
+      const auto address1 = cpu.getI();
+
+      cpu.setInstruction(0xFE1E);
+      cpu.decode();
+      cpu.execute();
+      const auto address2 = cpu.getI();
+
+      THEN("the value of register Vx is added to the address register I") {
+        REQUIRE(522 == address1);
+        REQUIRE(588 == address2);
+      }
+    }
+  }
+}
 
 } // unnamed namespace

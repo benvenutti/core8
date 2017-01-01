@@ -59,7 +59,8 @@ CPU::CPU(MMU& mmu)
         {Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
         {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }},
         {Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }},
-        {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }}
+        {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }},
+        {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }}
       }
 {
 }
@@ -259,6 +260,11 @@ void CPU::loadItoRegisters() {
   }
 
   I += x + 1;
+}
+
+void CPU::addVxToI() {
+  const auto x = readX(instruction);
+  I += registers.at(x);
 }
 
 } //namespace Core8
