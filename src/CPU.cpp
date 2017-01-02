@@ -60,7 +60,8 @@ CPU::CPU(MMU& mmu)
         {Chip8::OPCODE::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }},
         {Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }},
         {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }},
-        {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }}
+        {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }},
+        {Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }}
       }
 {
 }
@@ -265,6 +266,11 @@ void CPU::loadItoRegisters() {
 void CPU::addVxToI() {
   const auto x = readX(instruction);
   I += registers.at(x);
+}
+
+void CPU::loadFontSpriteAddressToI() {
+  const auto x = readX(instruction);
+  I = registers.at(x) * Chip8::CHAR_SPRITE_SIZE;
 }
 
 } //namespace Core8

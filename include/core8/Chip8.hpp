@@ -52,12 +52,14 @@ enum class OPCODE {
     LOAD_VX_TO_DELAY_TIMER,
     LOAD_VX_TO_SOUND_TIMER,
     ADD_VX_TO_I,
-    LOAD_SPRITE_TO_I,
+    LOAD_FONT_SPRITE_ADDRESS_TO_I,
     LOAD_VX_BCD_TO_I,
     LOAD_V0_TO_VX_IN_ADDRESS_I,
     LOAD_ADDRESS_I_TO_V0_TO_VX,
     INVALID
 };
+
+const WORD CHAR_SPRITE_SIZE{5};
 
 } // namespace Chip8
 } // namespace Core8

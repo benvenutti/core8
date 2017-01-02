@@ -89,8 +89,8 @@ TEST_CASE("Memory access opcodes are decoded", "[memory]") {
   REQUIRE(OpDecoder::decode(0xF01E) == Chip8::OPCODE::ADD_VX_TO_I);
   REQUIRE(OpDecoder::decode(0xFF1E) == Chip8::OPCODE::ADD_VX_TO_I);
 
-  REQUIRE(OpDecoder::decode(0xF029) == Chip8::OPCODE::LOAD_SPRITE_TO_I);
-  REQUIRE(OpDecoder::decode(0xFF29) == Chip8::OPCODE::LOAD_SPRITE_TO_I);
+  REQUIRE(OpDecoder::decode(0xF029) == Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I);
+  REQUIRE(OpDecoder::decode(0xFF29) == Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I);
 
   REQUIRE(OpDecoder::decode(0xF055) == Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I);
   REQUIRE(OpDecoder::decode(0xFF55) == Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I);

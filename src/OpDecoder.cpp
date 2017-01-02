@@ -48,7 +48,7 @@ Chip8::OPCODE OpDecoder::decode(const Chip8::WORD opcode) {
         case 0x0015: return Chip8::OPCODE::LOAD_VX_TO_DELAY_TIMER;
         case 0x0018: return Chip8::OPCODE::LOAD_VX_TO_SOUND_TIMER;
         case 0x001E: return Chip8::OPCODE::ADD_VX_TO_I;
-        case 0x0029: return Chip8::OPCODE::LOAD_SPRITE_TO_I;
+        case 0x0029: return Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I;
         case 0x0033: return Chip8::OPCODE::LOAD_VX_BCD_TO_I;
         case 0x0055: return Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I;
         case 0x0065: return Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX;

@@ -33,7 +33,7 @@ SCENARIO("CPUs can load addresses to the address register I", "[memory]") {
 
 SCENARIO("CPUs can load the registers into memory", "[memory]") {
   GIVEN("A CPU with initialized V and I registers") {
-    const std::vector<Core8::Chip8::BYTE> bytes = {
+    const std::vector<Core8::Chip8::BYTE> bytes{
         0x10, 0x11, 0x12, 0x13, 0x24, 0x25, 0x26, 0x27,
         0x38, 0x39, 0x3A, 0x3B, 0x4C, 0x4D, 0x4E, 0x4F
     };
@@ -115,6 +115,32 @@ SCENARIO("CPUs can add registers to the address register I", "[memory]") {
       THEN("the value of register Vx is added to the address register I") {
         REQUIRE(522 == address1);
         REQUIRE(588 == address2);
+      }
+    }
+  }
+}
+
+SCENARIO("CPUs can load to I the address of the sprite for the character in Vx", "[memory]") {
+  GIVEN("A CPU with registers Vx initialized") {
+    Aux::TestKit testKit;
+    Core8::CPU& cpu = testKit.cpu;
+    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0x0);
+    cpu.writeRegister(Core8::Chip8::REGISTER::VE, 0xF);
+
+    WHEN("the CPU executes a FX29 operation") {
+      cpu.setInstruction(0xF029);
+      cpu.decode();
+      cpu.execute();
+      const auto address1 = cpu.getI();
+
+      cpu.setInstruction(0xFE29);
+      cpu.decode();
+      cpu.execute();
+      const auto address2 = cpu.getI();
+
+      THEN("register I is updated with the address of the character sprite of Vx value") {
+        REQUIRE(address1 == 0);
+        REQUIRE(address2 == 75);
       }
     }
   }
