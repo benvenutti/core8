@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can assign the value of one register to another", "[assign]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V0, 0x01);
     cpu.writeRegister(Chip8::REGISTER::VC, 0xCB);
     cpu.writeRegister(Chip8::REGISTER::VF, 0xFF);

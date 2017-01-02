@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can skip instructions if a register equals a constant value", "[conditional]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V1, 0x11);
     cpu.writeRegister(Chip8::REGISTER::V4, 0x35);
     const auto pc0 = cpu.getPc();
@@ -51,7 +53,8 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
 
 SCENARIO("CPUs can skip instructions if a register differs from a constant", "[conditional]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::VA, 0x1A);
     cpu.writeRegister(Chip8::REGISTER::VB, 0x2B);
     const auto pc0 = cpu.getPc();
@@ -93,7 +96,8 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
 
 SCENARIO("CPUs can skip instructions if a register equals another", "[conditional]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V0, 0x47);
     cpu.writeRegister(Chip8::REGISTER::VF, 0xE3);
     cpu.writeRegister(Chip8::REGISTER::V2, 0x47);
@@ -139,7 +143,8 @@ SCENARIO("CPUs can skip instructions if a register equals another", "[conditiona
 
 SCENARIO("CPUs can skip instructions if a register differs from another", "[conditional]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::VA, 0xA1);
     cpu.writeRegister(Chip8::REGISTER::VB, 0xB2);
     cpu.writeRegister(Chip8::REGISTER::VC, 0xC3);

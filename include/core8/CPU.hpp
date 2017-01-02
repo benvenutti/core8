@@ -6,13 +6,14 @@
 #include <map>
 
 #include "Chip8.hpp"
+#include "MMU.hpp"
 #include "OpDecoder.hpp"
 
 namespace Core8 {
 
 class CPU {
   public:
-    CPU();
+    CPU(MMU& mmu);
 
     void decode();
     void execute();
@@ -31,6 +32,9 @@ class CPU {
     Chip8::BYTE getSoundTimer() const { return soundTimer; };
 
     void setInstruction(const Chip8::WORD instr) { instruction = instr; }
+
+    void setI(const Chip8::WORD address) { I = address; }
+    Chip8::WORD getI() const { return I; }
 
   private:
     void jumpToNnn();
@@ -55,9 +59,15 @@ class CPU {
     void loadDelayToVx();
     void loadVxToDelay();
     void loadVxToSound();
+    void loadNnnToI();
+    void loadRegistersToI();
+    void loadItoRegisters();
+    void addVxToI();
+    void loadFontSpriteAddressToI();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
+    Chip8::WORD I{0u};
 
     Chip8::OPCODE opcode{Chip8::OPCODE::INVALID};
 
@@ -67,6 +77,8 @@ class CPU {
 
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> registers;
     std::array<Chip8::WORD, Chip8::STACK_SIZE> stack;
+
+    MMU& mmu;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> dispatchTable;
 };

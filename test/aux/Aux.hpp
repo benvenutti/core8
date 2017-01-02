@@ -1,9 +1,21 @@
+#include <array>
 #include <cstdint>
 #include <istream>
 #include <vector>
 
+#include "Chip8.hpp"
+#include "CPU.hpp"
+#include "MMU.hpp"
+
 /// @brief Auxiliary tools for unit testing Core8.
 namespace Aux {
+
+/// @brief Bundle of objects necessary to test the CPU.
+struct TestKit {
+  std::array<Core8::Chip8::BYTE, Core8::Chip8::RAM_SIZE> memory;
+  Core8::MMU mmu{memory};
+  Core8::CPU cpu{mmu};
+};
 
 /// @brief Simulates a byte stream from a std::vector<std::uint8_t>.
 class ByteStream : public std::istream {

@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "aux/Aux.hpp"
 #include "Chip8.hpp"
 #include "CPU.hpp"
 
@@ -9,7 +10,8 @@ using namespace Core8;
 
 SCENARIO("CPUs can execute OR operations on registers", "[bitwise]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V0, 0b00001000);
     cpu.writeRegister(Chip8::REGISTER::V6, 0b01010101);
     cpu.writeRegister(Chip8::REGISTER::VA, 0b00001111);
@@ -37,7 +39,8 @@ SCENARIO("CPUs can execute OR operations on registers", "[bitwise]") {
 
 SCENARIO("CPUs can execute AND operations on registers", "[bitwise]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V1, 0b01011000);
     cpu.writeRegister(Chip8::REGISTER::V7, 0b01010101);
     cpu.writeRegister(Chip8::REGISTER::VB, 0b00001111);
@@ -65,7 +68,8 @@ SCENARIO("CPUs can execute AND operations on registers", "[bitwise]") {
 
 SCENARIO("CPUs can execute XOR operations on registers", "[bitwise]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V2, 0b01011000);
     cpu.writeRegister(Chip8::REGISTER::V8, 0b01010101);
     cpu.writeRegister(Chip8::REGISTER::VC, 0b00001111);
@@ -93,7 +97,8 @@ SCENARIO("CPUs can execute XOR operations on registers", "[bitwise]") {
 
 SCENARIO("CPUs can shift registers right by one", "[bitwise]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::V4, 0b01011000);
     cpu.writeRegister(Chip8::REGISTER::VD, 0b01010101);
 
@@ -122,7 +127,8 @@ SCENARIO("CPUs can shift registers right by one", "[bitwise]") {
 
 SCENARIO("CPUs can shift registers left by one", "[bitwise]") {
   GIVEN("A CPU with some initialized registers") {
-    CPU cpu{};
+    Aux::TestKit testKit;
+    CPU& cpu = testKit.cpu;
     cpu.writeRegister(Chip8::REGISTER::VC, 0b11111111);
     cpu.writeRegister(Chip8::REGISTER::VD, 0b01010101);
 
