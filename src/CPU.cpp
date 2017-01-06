@@ -35,6 +35,7 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 CPU::CPU(MMU& mmu)
     : mmu(mmu),
       dispatchTable{
+        {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
         {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
         {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
@@ -80,6 +81,10 @@ void CPU::decode() {
 
 void CPU::execute() {
   dispatchTable.at(opcode)();
+}
+
+void CPU::clearDisplay() {
+  frameBuffer.fill(0x0);
 }
 
 void CPU::jumpToNnn() {
