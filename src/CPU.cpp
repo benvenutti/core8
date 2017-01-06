@@ -296,7 +296,7 @@ void CPU::draw() {
   for (auto line = 0u; line < height; ++line) {
     const auto rowPixels = mmu.readByte(I + line);
 
-    for (auto row = 0; row < 8; ++row) {
+    for (auto row = 0; row < Chip8::SPRITE_WIDTH; ++row) {
       if ((rowPixels & (0x80 >> row)) != 0) {
         const auto offset = (x + row + ((y + line) * 64)) % 2048;
         Chip8::BYTE& pixel = frameBuffer.at(offset);

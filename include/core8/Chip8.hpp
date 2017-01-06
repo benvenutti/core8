@@ -62,7 +62,8 @@ enum class OPCODE {
     INVALID
 };
 
-const WORD CHAR_SPRITE_SIZE{5};
+const BYTE CHAR_SPRITE_SIZE{5};
+const BYTE SPRITE_WIDTH{8};
 
 } // namespace Chip8
 } // namespace Core8
