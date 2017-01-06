@@ -37,6 +37,7 @@ class CPU {
     Chip8::WORD getI() const { return I; }
 
   private:
+    void clearDisplay();
     void jumpToNnn();
     void returnFromSubroutine();
     void callNNN();
@@ -64,6 +65,7 @@ class CPU {
     void loadItoRegisters();
     void addVxToI();
     void loadFontSpriteAddressToI();
+    void draw();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
@@ -77,6 +79,7 @@ class CPU {
 
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> registers;
     std::array<Chip8::WORD, Chip8::STACK_SIZE> stack;
+    std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE> frameBuffer;
 
     MMU& mmu;
 

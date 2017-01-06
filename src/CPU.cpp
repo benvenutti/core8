@@ -20,6 +20,11 @@ inline Chip8::BYTE readY(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
 };
 
+/// Reads byte value of NN on pattern vvvN.
+inline Chip8::BYTE readN(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>(instr & 0x000F);
+};
+
 /// Reads byte value of NN on pattern vvNN.
 inline Chip8::BYTE readNN(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>(instr & 0x00FF);
@@ -35,6 +40,7 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 CPU::CPU(MMU& mmu)
     : mmu(mmu),
       dispatchTable{
+        {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
         {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
         {Chip8::OPCODE::CALL, [this] () { callNNN(); }},
@@ -61,7 +67,8 @@ CPU::CPU(MMU& mmu)
         {Chip8::OPCODE::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }},
         {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }},
         {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }},
-        {Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }}
+        {Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }},
+        {Chip8::OPCODE::DRAW, [this]() { draw(); }}
       }
 {
 }
@@ -80,6 +87,10 @@ void CPU::decode() {
 
 void CPU::execute() {
   dispatchTable.at(opcode)();
+}
+
+void CPU::clearDisplay() {
+  frameBuffer.fill(0x0);
 }
 
 void CPU::jumpToNnn() {
@@ -271,6 +282,31 @@ void CPU::addVxToI() {
 void CPU::loadFontSpriteAddressToI() {
   const auto x = readX(instruction);
   I = registers.at(x) * Chip8::CHAR_SPRITE_SIZE;
+}
+
+void CPU::draw() {
+  const auto vx = readX(instruction);
+  const auto vy = readY(instruction);
+  const auto x = registers.at(vx);
+  const auto y = registers.at(vy);
+  const auto height = readN(instruction);
+
+  Chip8::BYTE flipped{0x0u};
+
+  for (auto line = 0u; line < height; ++line) {
+    const auto rowPixels = mmu.readByte(I + line);
+
+    for (auto row = 0; row < Chip8::SPRITE_WIDTH; ++row) {
+      if ((rowPixels & (0x80 >> row)) != 0) {
+        const auto offset = (x + row + ((y + line) * 64)) % 2048;
+        Chip8::BYTE& pixel = frameBuffer.at(offset);
+        flipped = pixel;
+        pixel ^= 1u;
+      }
+    }
+  }
+
+  writeRegister(Chip8::REGISTER::VF, flipped);
 }
 
 } //namespace Core8
