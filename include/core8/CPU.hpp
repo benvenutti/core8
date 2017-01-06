@@ -65,6 +65,7 @@ class CPU {
     void loadItoRegisters();
     void addVxToI();
     void loadFontSpriteAddressToI();
+    void draw();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
