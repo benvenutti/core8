@@ -113,7 +113,7 @@ SCENARIO("MMUs can load roms into memory", "[load]") {
         }
 
         const auto memorySize = memory.size();
-        for (auto address = 0x104; address < memorySize; ++address) {
+        for (auto address = 0x104u; address < memorySize; ++address) {
           REQUIRE(0x0 == memory.at(address));
         }
       }
