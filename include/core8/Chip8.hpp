@@ -15,6 +15,9 @@ const std::size_t NUMBER_OF_REGISTERS{16};
 const std::size_t INIT_ROM_LOAD_ADDRESS{512};
 const std::size_t INSTRUCTION_BYTE_SIZE{2};
 const std::size_t STACK_SIZE{16};
+const std::size_t DISPLAY_WIDTH{64};
+const std::size_t DISPLAY_HEIGHT{32};
+const std::size_t DISPLAY_SIZE{DISPLAY_WIDTH * DISPLAY_HEIGHT};
 
 enum class REGISTER {
     V0, V1, V2, V3, V4, V5, V6, V7,
