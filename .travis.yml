@@ -54,6 +54,7 @@ sudo: required
 dist: trusty
 
 before_install:
+  - source ci/travis-environment.sh
   - ci/travis-system-info.sh
   - ci/travis-before-install.sh
 
