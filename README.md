@@ -1,4 +1,4 @@
-# core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8)
+# core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8) [![Coverage Status](https://coveralls.io/repos/github/benvenutti/core8/badge.svg)](https://coveralls.io/github/benvenutti/core8)
 
 **core8** is a small interpreter that emulates the chip8 platform. This project is a C++ lib that offers a virtual machine able to run chip8 binaries. The **core8**'s VM uses a simple I/O interface which can be easily connected to a graphical user interface so it can act as an engine for a chip8 emulator.
 

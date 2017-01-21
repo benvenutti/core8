@@ -54,11 +54,15 @@ sudo: required
 dist: trusty
 
 before_install:
+  - source ci/travis-environment.sh
   - ci/travis-system-info.sh
   - ci/travis-before-install.sh
 
 script:
   - ci/travis-script.sh
+
+after_success:
+  - ci/travis-after-success.sh
 
 notifications:
   email: false
