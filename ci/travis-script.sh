@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-mkdir build
-cd build
+if [ "$IS_COVERAGE_BUILD" == 0 ]; then
+  mkdir build
+  cd build
+fi
 
 if [ "$IS_COVERAGE_BUILD" == 1 ]; then
   flags="-g -O0 --coverage"
