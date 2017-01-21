@@ -61,5 +61,8 @@ before_install:
 script:
   - ci/travis-script.sh
 
+after_success:
+  - ci/travis-after-success.sh
+
 notifications:
   email: false
