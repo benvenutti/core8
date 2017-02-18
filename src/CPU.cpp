@@ -69,7 +69,8 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector)
         {Chip8::OPCODE::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }},
         {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }},
         {Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }},
-        {Chip8::OPCODE::DRAW, [this]() { draw(); }}
+        {Chip8::OPCODE::DRAW, [this]() { draw(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }}
       }
 {
 }
@@ -308,6 +309,15 @@ void CPU::draw() {
   }
 
   writeRegister(Chip8::REGISTER::VF, flipped);
+}
+
+void CPU::executeSkipIfVxIsPressed() {
+  const auto x = readX(instruction);
+  const auto vx = registers.at(x);
+
+  if (ioConnector.isKeyPressed(vx)) {
+    pc += 2;
+  }
 }
 
 } //namespace Core8
