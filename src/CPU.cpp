@@ -12,11 +12,6 @@ T mask(const int value) {
   return static_cast<T>(value);
 }
 
-/// Reads byte value of Y on pattern vvYv.
-inline Chip8::BYTE readY(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
-};
-
 /// Reads byte value of NN on pattern vvvN.
 inline Chip8::BYTE readN(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>(instr & 0x000F);
@@ -127,7 +122,7 @@ void CPU::skipIfVxNotEqualsNn() {
 
 void CPU::skipIfVxEqualsVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
 
   if (registers.at(x) == registers.at(y)) {
     pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -136,7 +131,7 @@ void CPU::skipIfVxEqualsVy() {
 
 void CPU::skipIfVxNotEqualsVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
 
   if (registers.at(x) != registers.at(y)) {
     pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -157,25 +152,25 @@ void CPU::addNnToVx() {
 
 void CPU::loadVyToVx() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
   registers.at(x) = registers.at(y);
 }
 
 void CPU::bitwiseVxOrVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
   registers.at(x) |= registers.at(y);
 }
 
 void CPU::bitwiseVxAndVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
   registers.at(x) &= registers.at(y);
 }
 
 void CPU::bitwiseVxXorVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
   registers.at(x) ^= registers.at(y);
 }
 
@@ -195,7 +190,7 @@ void CPU::shiftVxLeft() {
 
 void CPU::addVyToVx() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
 
   auto& vx = registers.at(x);
   const auto& vy = registers.at(y);
@@ -208,7 +203,7 @@ void CPU::addVyToVx() {
 
 void CPU::subVyFromVx() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
 
   auto& vx = registers.at(x);
   const auto& vy = registers.at(y);
@@ -221,7 +216,7 @@ void CPU::subVyFromVx() {
 
 void CPU::subVxFromVy() {
   const auto x = WordDecoder::readX(instruction);
-  const auto y = readY(instruction);
+  const auto y = WordDecoder::readY(instruction);
 
   auto& vx = registers.at(x);
   const auto& vy = registers.at(y);
@@ -287,7 +282,7 @@ void CPU::loadFontSpriteAddressToI() {
 
 void CPU::draw() {
   const auto vx = WordDecoder::readX(instruction);
-  const auto vy = readY(instruction);
+  const auto vy = WordDecoder::readY(instruction);
   const auto x = registers.at(vx);
   const auto y = registers.at(vy);
   const auto height = readN(instruction);
