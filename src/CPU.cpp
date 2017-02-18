@@ -4,16 +4,6 @@
 
 namespace Core8 {
 
-/// Auxiliary functions for the CPU's operations
-namespace {
-
-template <typename T>
-T mask(const int value) {
-  return static_cast<T>(value);
-}
-
-} // unnamed namespace
-
 CPU::CPU(MMU& mmu, IoConnector& ioConnector)
     : mmu(mmu),
       ioConnector(ioConnector),
@@ -161,8 +151,10 @@ void CPU::bitwiseVxXorVy() {
 
 void CPU::shiftVxRight() {
   const auto x = WordDecoder::readX(instruction);
+  const auto mask = static_cast<Chip8::BYTE>(0x1);
   auto& vx = registers.at(x);
-  writeRegister(Chip8::REGISTER::VF, vx & mask<Chip8::BYTE>(0x1));
+
+  writeRegister(Chip8::REGISTER::VF, vx & mask);
   vx >>= 1;
 }
 
