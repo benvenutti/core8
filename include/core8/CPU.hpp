@@ -6,6 +6,7 @@
 #include <map>
 
 #include "Chip8.hpp"
+#include "IoConnector.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
 
@@ -13,7 +14,7 @@ namespace Core8 {
 
 class CPU {
   public:
-    CPU(MMU& mmu);
+    CPU(MMU& mmu, IoConnector& ioConnector);
 
     void decode();
     void execute();
@@ -66,6 +67,9 @@ class CPU {
     void addVxToI();
     void loadFontSpriteAddressToI();
     void draw();
+    void executeSkipIfVxIsPressed();
+    void executeSkipIfVxIsNotPressed();
+    void executeWaitPressedKeyToVx();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};
@@ -82,6 +86,7 @@ class CPU {
     std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE> frameBuffer;
 
     MMU& mmu;
+    IoConnector& ioConnector;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> dispatchTable;
 };
