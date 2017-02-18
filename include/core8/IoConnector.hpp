@@ -7,9 +7,9 @@
 
 namespace Core8 {
 
-class IOConnector {
+class IoConnector {
   public:
-    virtual void drawScreen(const std::array<Chip8::BYTE, Chip8::SCREEN_SIZE>& frame) = 0;
+    virtual void drawScreen(const std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>& frame) = 0;
 
     virtual bool isKeyPressed(const Chip8::BYTE key) const = 0;
 };
