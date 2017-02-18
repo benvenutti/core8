@@ -21,6 +21,11 @@ inline Chip8::BYTE readN(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>(instr & 0x000F);
 };
 
+/// Reads byte value of NN on pattern vvNN.
+inline Chip8::BYTE readNN(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>(instr & 0x00FF);
+};
+
 } // namespace WorDecoder
 } // namespace Core8
 

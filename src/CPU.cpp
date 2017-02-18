@@ -12,11 +12,6 @@ T mask(const int value) {
   return static_cast<T>(value);
 }
 
-/// Reads byte value of NN on pattern vvNN.
-inline Chip8::BYTE readNN(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>(instr & 0x00FF);
-};
-
 /// Reads word value of NNN on pattern vNNN.
 inline Chip8::WORD readNNN(const Chip8::WORD instr) {
   return static_cast<Chip8::WORD>(instr & 0x0FFF);
@@ -99,7 +94,7 @@ void CPU::callNNN() {
 
 void CPU::skipIfVxEqualsNn() {
   const auto x = WordDecoder::readX(instruction);
-  const auto nn = readNN(instruction);
+  const auto nn = WordDecoder::readNN(instruction);
 
   if (registers.at(x) == nn) {
     pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -108,7 +103,7 @@ void CPU::skipIfVxEqualsNn() {
 
 void CPU::skipIfVxNotEqualsNn() {
   const auto x = WordDecoder::readX(instruction);
-  const auto nn = readNN(instruction);
+  const auto nn = WordDecoder::readNN(instruction);
 
   if (registers.at(x) != nn) {
     pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -135,13 +130,13 @@ void CPU::skipIfVxNotEqualsVy() {
 
 void CPU::loadNnToVx() {
   const auto x = WordDecoder::readX(instruction);
-  const auto nn = readNN(instruction);
+  const auto nn = WordDecoder::readNN(instruction);
   registers.at(x) = nn;
 }
 
 void CPU::addNnToVx() {
   const auto x = WordDecoder::readX(instruction);
-  const auto nn = readNN(instruction);
+  const auto nn = WordDecoder::readNN(instruction);
   registers.at(x) += nn;
 }
 
