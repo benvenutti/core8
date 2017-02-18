@@ -27,8 +27,8 @@ TEST_CASE("Decode NN from pattern vvNN", "[decoder]") {
 }
 
 TEST_CASE("Decode NNN from pattern vNNN", "[decoder]") {
-  REQUIRE(WordDecoder::readNN(0x0FFF) == 0XFFF);
-  REQUIRE(WordDecoder::readNN(0xF111) == 0X111);
+  REQUIRE(WordDecoder::readNNN(0x0FFF) == 0XFFF);
+  REQUIRE(WordDecoder::readNNN(0xF111) == 0X111);
 }
 
 } // unnamed namespace
