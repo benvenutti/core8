@@ -68,6 +68,7 @@ class CPU {
     void loadFontSpriteAddressToI();
     void draw();
     void executeSkipIfVxIsPressed();
+    void executeSkipIfVxIsNotPressed();
 
     Chip8::WORD pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD instruction{0u};

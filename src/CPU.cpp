@@ -70,7 +70,8 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector)
         {Chip8::OPCODE::ADD_VX_TO_I, [this] () { addVxToI(); }},
         {Chip8::OPCODE::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }},
         {Chip8::OPCODE::DRAW, [this]() { draw(); }},
-        {Chip8::OPCODE::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }}
+        {Chip8::OPCODE::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }},
+        {Chip8::OPCODE::SKIP_IF_VX_IS_NOT_PRESSED, [this] () { executeSkipIfVxIsNotPressed(); }}
       }
 {
 }
@@ -316,6 +317,15 @@ void CPU::executeSkipIfVxIsPressed() {
   const auto key = static_cast<Chip8::KEY>(registers.at(x));
 
   if (ioConnector.isKeyPressed(key)) {
+    pc += 2;
+  }
+}
+
+void CPU::executeSkipIfVxIsNotPressed() {
+  const auto x = readX(instruction);
+  const auto key = static_cast<Chip8::KEY>(registers.at(x));
+
+  if (!ioConnector.isKeyPressed(key)) {
     pc += 2;
   }
 }
