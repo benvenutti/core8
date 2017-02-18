@@ -337,9 +337,7 @@ void CPU::executeWaitPressedKeyToVx() {
   if (pressedKey != Chip8::KEY::NONE) {
     const auto x = readX(instruction);
     registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
-  }
-  else {
-    pc -= 2;
+    pc += 2;
   }
 }
 

@@ -95,4 +95,51 @@ SCENARIO_METHOD(
   }
 }
 
+SCENARIO_METHOD(
+    CpuFixture,
+    "Operation FX0A halts the CPU when no key is pressed", "[keyboard]"
+) {
+  GIVEN("A CPU and an i/o connector with no key pressed") {
+    ioConnector.setPressedKey(Core8::Chip8::KEY::NONE);
+    const auto originalV0 = cpu.readRegister(Core8::Chip8::REGISTER::V0);
+    const auto originalPc = cpu.getPc();
+
+    WHEN("the CPU executes an FX0A operation with X equal to 0") {
+      cpu.setInstruction(0xF00A);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the program counter remains unchanged (the CPU is halted)") {
+        REQUIRE(cpu.getPc() == originalPc);
+      }
+      AND_THEN("register V0 remains unchanged") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == originalV0);
+      }
+    }
+  }
+}
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "Operation FX0A sets register to the value of the pressed key", "[keyboard]"
+) {
+  GIVEN("a CPU and an i/o connector with the key F pressed") {
+    ioConnector.setPressedKey(Core8::Chip8::KEY::KF);
+    const auto originalPc = cpu.getPc();
+
+    WHEN("the CPU executes an FX0A operation with X equal to 0") {
+      cpu.setInstruction(0xF00A);
+      cpu.decode();
+      cpu.execute();
+
+      THEN("the program counter remains unchanged (the CPU is halted)") {
+        REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
+      }
+      AND_THEN("the pressed key value F is stored in V0") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == 0xF);
+      }
+    }
+  }
+}
+
 } // unnamed namespace
