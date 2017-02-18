@@ -6,6 +6,7 @@
 #include <map>
 
 #include "Chip8.hpp"
+#include "IoConnector.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
 
@@ -13,7 +14,7 @@ namespace Core8 {
 
 class CPU {
   public:
-    CPU(MMU& mmu);
+    CPU(MMU& mmu, IoConnector& ioConnector);
 
     void decode();
     void execute();
@@ -82,6 +83,7 @@ class CPU {
     std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE> frameBuffer;
 
     MMU& mmu;
+    IoConnector& ioConnector;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> dispatchTable;
 };

@@ -5,6 +5,7 @@
 
 #include "Chip8.hpp"
 #include "CPU.hpp"
+#include "IoConnectorMock.hpp"
 #include "MMU.hpp"
 
 /// @brief Auxiliary tools for unit testing Core8.
@@ -14,7 +15,8 @@ namespace Aux {
 struct TestKit {
   std::array<Core8::Chip8::BYTE, Core8::Chip8::RAM_SIZE> memory;
   Core8::MMU mmu{memory};
-  Core8::CPU cpu{mmu};
+  Aux::IoConnectorMock ioConnector;
+  Core8::CPU cpu{mmu, ioConnector};
 };
 
 /// @brief Simulates a byte stream from a std::vector<std::uint8_t>.

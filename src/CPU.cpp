@@ -37,8 +37,9 @@ inline Chip8::WORD readNNN(const Chip8::WORD instr) {
 
 } // unnamed namespace
 
-CPU::CPU(MMU& mmu)
+CPU::CPU(MMU& mmu, IoConnector& ioConnector)
     : mmu(mmu),
+      ioConnector(ioConnector),
       dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
