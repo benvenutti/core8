@@ -12,11 +12,6 @@ T mask(const int value) {
   return static_cast<T>(value);
 }
 
-/// Reads word value of NNN on pattern vNNN.
-inline Chip8::WORD readNNN(const Chip8::WORD instr) {
-  return static_cast<Chip8::WORD>(instr & 0x0FFF);
-};
-
 } // unnamed namespace
 
 CPU::CPU(MMU& mmu, IoConnector& ioConnector)
@@ -80,7 +75,7 @@ void CPU::clearDisplay() {
 }
 
 void CPU::jumpToNnn() {
-  pc = readNNN(instruction);
+  pc = WordDecoder::readNNN(instruction);
 }
 
 void CPU::returnFromSubroutine() {
@@ -89,7 +84,7 @@ void CPU::returnFromSubroutine() {
 
 void CPU::callNNN() {
   stack.at(sp++) = pc;
-  pc = readNNN(instruction);
+  pc = WordDecoder::readNNN(instruction);
 }
 
 void CPU::skipIfVxEqualsNn() {
@@ -218,7 +213,7 @@ void CPU::subVxFromVy() {
 }
 
 void CPU::jumpToNnnPlusV0() {
-  pc = readNNN(instruction) + registers.at(0x0);
+  pc = WordDecoder::readNNN(instruction) + registers.at(0x0);
 }
 
 void CPU::loadDelayToVx() {
@@ -237,7 +232,7 @@ void CPU::loadVxToSound() {
 }
 
 void CPU::loadNnnToI() {
-  I = readNNN(instruction);
+  I = WordDecoder::readNNN(instruction);
 }
 
 void CPU::loadRegistersToI() {
