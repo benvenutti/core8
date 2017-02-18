@@ -313,9 +313,9 @@ void CPU::draw() {
 
 void CPU::executeSkipIfVxIsPressed() {
   const auto x = readX(instruction);
-  const auto vx = registers.at(x);
+  const auto key = static_cast<Chip8::KEY>(registers.at(x));
 
-  if (ioConnector.isKeyPressed(vx)) {
+  if (ioConnector.isKeyPressed(key)) {
     pc += 2;
   }
 }

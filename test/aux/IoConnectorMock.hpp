@@ -16,8 +16,8 @@ class IoConnectorMock : public Core8::IoConnector {
 
     }
 
-    virtual bool isKeyPressed(const Core8::Chip8::BYTE /*key*/) const override {
-      return key == pressedKey;
+    virtual bool isKeyPressed(const Core8::Chip8::KEY /*key*/) const override {
+
     }
 };
 
