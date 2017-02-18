@@ -16,6 +16,11 @@ inline Chip8::BYTE readY(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>((instr & 0x00F0) >> 4);
 };
 
+/// Reads byte value of N on pattern vvvN.
+inline Chip8::BYTE readN(const Chip8::WORD instr) {
+  return static_cast<Chip8::BYTE>(instr & 0x000F);
+};
+
 } // namespace WorDecoder
 } // namespace Core8
 

@@ -12,11 +12,6 @@ T mask(const int value) {
   return static_cast<T>(value);
 }
 
-/// Reads byte value of NN on pattern vvvN.
-inline Chip8::BYTE readN(const Chip8::WORD instr) {
-  return static_cast<Chip8::BYTE>(instr & 0x000F);
-};
-
 /// Reads byte value of NN on pattern vvNN.
 inline Chip8::BYTE readNN(const Chip8::WORD instr) {
   return static_cast<Chip8::BYTE>(instr & 0x00FF);
@@ -285,7 +280,7 @@ void CPU::draw() {
   const auto vy = WordDecoder::readY(instruction);
   const auto x = registers.at(vx);
   const auto y = registers.at(vy);
-  const auto height = readN(instruction);
+  const auto height = WordDecoder::readN(instruction);
 
   Chip8::BYTE flipped{0x0u};
 

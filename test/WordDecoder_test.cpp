@@ -16,4 +16,9 @@ TEST_CASE("Decode Y from pattern vvYv", "[decoder]") {
   REQUIRE(WordDecoder::readY(0xFF0F) == 0X0);
 }
 
+TEST_CASE("Decode N from pattern vvvN", "[decoder]") {
+  REQUIRE(WordDecoder::readN(0x000F) == 0XF);
+  REQUIRE(WordDecoder::readN(0xFFF0) == 0X0);
+}
+
 } // unnamed namespace
