@@ -12,6 +12,8 @@ class IoConnector {
     virtual void drawScreen(const std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>& frame) = 0;
 
     virtual bool isKeyPressed(const Chip8::KEY key) const = 0;
+
+    virtual Chip8::KEY getPressedKey() const = 0;
 };
 
 } // namespace Core8

@@ -18,6 +18,10 @@ class IoConnectorMock : public Core8::IoConnector {
       return key == pressedKey;
     }
 
+    virtual Core8::Chip8::KEY getPressedKey() const override {
+      return pressedKey;
+    }
+
     void setPressedKey(const Core8::Chip8::KEY key) {
       pressedKey = key;
     }
