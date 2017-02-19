@@ -13,8 +13,7 @@ using namespace Core8;
 
 SCENARIO("MMUs can write bytes to memory", "[write-byte]") {
   GIVEN("An uninitialized memory") {
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory{};
-    Core8::MMU mmu{memory};
+    Core8::MMU mmu;
 
     WHEN("the MMU writes bytes to certain addresses") {
       mmu.writeByte(0x11, 0x0);
@@ -22,9 +21,9 @@ SCENARIO("MMUs can write bytes to memory", "[write-byte]") {
       mmu.writeByte(0xFF, 0xFFF);
 
       THEN("those bytes are copied into memory at the given addresses") {
-        REQUIRE(0x11 == memory.at(0x0));
-        REQUIRE(0xAA == memory.at(0x500));
-        REQUIRE(0xFF == memory.at(0xFFF));
+        REQUIRE(0x11 == mmu.readByte(0x0));
+        REQUIRE(0xAA == mmu.readByte(0x500));
+        REQUIRE(0xFF == mmu.readByte(0xFFF));
       }
     }
     WHEN("the MMU writes bytes at invalid addresses") {
@@ -37,11 +36,10 @@ SCENARIO("MMUs can write bytes to memory", "[write-byte]") {
 
 SCENARIO("MMUs can read bytes from memory", "[read-byte]") {
   GIVEN("A memory with some values") {
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory{};
-    memory.at(0x80) = 0x11;
-    memory.at(0x800) = 0x22;
-    memory.at(0xFFF) = 0xFF;
-    Core8::MMU mmu{memory};
+    Core8::MMU mmu;
+    mmu.writeByte(0x11, 0x80);
+    mmu.writeByte(0x22, 0x800);
+    mmu.writeByte(0xFF, 0xFFF);
 
     WHEN("the MMU reads bytes from certain addresses") {
       const auto byte1 = mmu.readByte(0x80);
@@ -64,12 +62,11 @@ SCENARIO("MMUs can read bytes from memory", "[read-byte]") {
 
 SCENARIO("MMUs can read words from memory", "[read-word]") {
   GIVEN("A memory with some values") {
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory{};
-    memory.at(0x80) = 0x1A;
-    memory.at(0x81) = 0xF1;
-    memory.at(0xFFE) = 0xCC;
-    memory.at(0xFFF) = 0xDD;
-    Core8::MMU mmu{memory};
+    Core8::MMU mmu;
+    mmu.writeByte(0x1A, 0x80);
+    mmu.writeByte(0xF1, 0x81);
+    mmu.writeByte(0xCC, 0xFFE);
+    mmu.writeByte(0xDD, 0xFFF);
 
     WHEN("the MMU reads words from certain addresses") {
       const auto word1 = mmu.readWord(0x80);
@@ -93,28 +90,26 @@ SCENARIO("MMUs can load roms into memory", "[load]") {
     std::vector<std::uint8_t> data{{ 0xFF, 0x11, 0xCC, 0x33 }};
     Aux::ByteStream rom{data};
 
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory{};
-    memory.fill(0x0);
-
-    Core8::MMU mmu{memory};
+    Core8::MMU mmu;
+    mmu.clear();
 
     WHEN("the MMU loads the rom at a certain address") {
       mmu.load(rom, 0x100);
 
       THEN("the whole rom is copied into memory starting at the given address") {
-        REQUIRE(0xFF == memory.at(0x100));
-        REQUIRE(0x11 == memory.at(0x101));
-        REQUIRE(0xCC == memory.at(0x102));
-        REQUIRE(0x33 == memory.at(0x103));
+        REQUIRE(0xFF == mmu.readByte(0x100));
+        REQUIRE(0x11 == mmu.readByte(0x101));
+        REQUIRE(0xCC == mmu.readByte(0x102));
+        REQUIRE(0x33 == mmu.readByte(0x103));
       }
       AND_THEN("the rest of memory remains unchanged") {
         for (auto address = 0x0; address < 0x100; ++address) {
-          REQUIRE(0x0 == memory.at(address));
+          REQUIRE(0x0 == mmu.readByte(address));
         }
 
-        const auto memorySize = memory.size();
+        const auto memorySize = mmu.getSize();
         for (auto address = 0x104u; address < memorySize; ++address) {
-          REQUIRE(0x0 == memory.at(address));
+          REQUIRE(0x0 == mmu.readByte(address));
         }
       }
     }
@@ -123,16 +118,16 @@ SCENARIO("MMUs can load roms into memory", "[load]") {
 
 SCENARIO("MMUs can clear the memory they handle", "[clear]") {
   GIVEN("A memory with some values") {
-    std::array<Core8::Chip8::BYTE, Core8::Chip8::RAM_SIZE> memory{};
-    memory.fill(0xFF);
-    Core8::MMU mmu{memory};
+    Core8::MMU mmu;
+    mmu.writeByte(0x1A, 0x80);
 
     WHEN("the MMU clears the memory") {
       mmu.clear();
 
       THEN("all bytes in memory are set to zero") {
-        for (const auto& byte: memory) {
-          REQUIRE(byte == 0x0);
+        const auto memorySize = mmu.getSize();
+        for (auto i = 0u; i < memorySize; ++i) {
+          REQUIRE(mmu.readByte(i) == 0x0);
         }
       }
     }

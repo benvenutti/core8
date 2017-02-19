@@ -13,8 +13,7 @@ namespace Aux {
 
 /// @brief Bundle of objects necessary to test the CPU.
 struct TestKit {
-  std::array<Core8::Chip8::BYTE, Core8::Chip8::RAM_SIZE> memory;
-  Core8::MMU mmu{memory};
+  Core8::MMU mmu;
   Aux::IoConnectorMock ioConnector;
   Core8::CPU cpu{mmu, ioConnector};
 };

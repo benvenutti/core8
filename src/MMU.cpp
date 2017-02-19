@@ -5,9 +5,6 @@
 
 namespace Core8 {
 
-MMU::MMU(std::array<Chip8::BYTE, Chip8::RAM_SIZE>& memory)
-    : memory{memory} {}
-
 Chip8::BYTE MMU::readByte(const std::size_t address) const {
   const auto byte = memory.at(address);
 
