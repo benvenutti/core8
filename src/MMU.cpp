@@ -1,7 +1,9 @@
 #include "MMU.hpp"
 
+#include <algorithm>
 #include <iterator>
 #include <limits>
+#include <vector>
 
 namespace Core8 {
 
@@ -25,9 +27,15 @@ void MMU::writeByte(const Chip8::BYTE byte, const std::size_t address) {
 void MMU::load(std::istream& rom, const std::size_t address) {
   std::noskipws(rom);
 
-  std::copy(std::istream_iterator<Chip8::BYTE>(rom),
-            std::istream_iterator<Chip8::BYTE>(),
-            &memory.at(address));
+  const std::vector<Chip8::BYTE> data{std::istream_iterator<Chip8::BYTE>(rom),
+                                      std::istream_iterator<Chip8::BYTE>()};
+
+  const auto availableMemory = memory.size() - address;
+  const auto dataSize = data.size();
+  const auto length = dataSize > availableMemory ? availableMemory : dataSize;
+
+  std::copy_n(std::begin(data), length,
+              std::next(std::begin(memory), address));
 }
 
 void MMU::clear() {
