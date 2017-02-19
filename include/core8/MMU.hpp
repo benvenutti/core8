@@ -11,7 +11,7 @@ namespace Core8 {
 /// @brief Big-endian memory management unit.
 class MMU {
   public:
-    MMU(std::array<Chip8::BYTE, Chip8::RAM_SIZE>& memory);
+    MMU() = default;
 
     Chip8::BYTE readByte(const std::size_t address) const;
     Chip8::WORD readWord(const std::size_t address) const;
@@ -21,10 +21,12 @@ class MMU {
     void load(std::istream& rom, const std::size_t address);
     void clear();
 
-  private:
-    void validate(const std::size_t address) const;
+    constexpr std::size_t getSize() const noexcept {
+      return memory.size();
+    }
 
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE>& memory;
+  private:
+    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory;
 };
 
 } // namespace Core8
