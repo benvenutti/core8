@@ -6,10 +6,12 @@ set(EXTERNALS_PROJECTS_DIR externals)
 
 # compiler variables
 set(CPP_DIALECT "-std=c++14")
-set(FLAGS "-Wall -Wextra -Wshadow -Wnon-virtual-dtor")
-set(FLAGS "${FLAGS} -pedantic -Wunused -Wold-style-cast -Wsign-conversion")
+set(FLAGS "-Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -pedantic-errors")
+set(FLAGS "${FLAGS} -Wunused -Wold-style-cast -Wsign-conversion")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS} ${EXTRA_FLAGS} ${CPP_DIALECT}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS} ${CPP_DIALECT}")
+
+message(STATUS "Compiler flags: " ${CMAKE_CXX_FLAGS})
 
 include(AddCatch)
 include_directories(${CATCH_INCLUDE_DIR})
