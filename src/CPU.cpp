@@ -5,9 +5,9 @@
 namespace Core8 {
 
 CPU::CPU(MMU& mmu, IoConnector& ioConnector)
-    : mmu(mmu),
-      ioConnector(ioConnector),
-      dispatchTable{
+    : m_mmu(mmu),
+      m_ioConnector(ioConnector),
+      m_dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
         {Chip8::OPCODE::RETURN, [this] () { returnFromSubroutine(); }},
@@ -45,132 +45,132 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector)
 }
 
 Chip8::BYTE CPU::readRegister(const Chip8::REGISTER id) const {
-  return registers[static_cast<std::size_t>(id)];
+  return m_registers[static_cast<std::size_t>(id)];
 }
 
 void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
-  registers[static_cast<std::size_t>(id)] = value;
+  m_registers[static_cast<std::size_t>(id)] = value;
 }
 
 void CPU::decode() {
-  opcode = OpDecoder::decode(instruction);
+  m_opcode = OpDecoder::decode(m_instruction);
 }
 
 void CPU::execute() {
-  dispatchTable.at(opcode)();
+  m_dispatchTable.at(m_opcode)();
 }
 
 void CPU::clearDisplay() {
-  frameBuffer.fill(0x0);
+  m_frameBuffer.fill(0x0);
 }
 
 void CPU::jumpToNnn() {
-  pc = WordDecoder::readNNN(instruction);
+  m_pc = WordDecoder::readNNN(m_instruction);
 }
 
 void CPU::returnFromSubroutine() {
-  pc = stack.at(--sp);
+  m_pc = m_stack.at(--m_sp);
 }
 
 void CPU::callNNN() {
-  stack.at(sp++) = pc;
-  pc = WordDecoder::readNNN(instruction);
+  m_stack.at(m_sp++) = m_pc;
+  m_pc = WordDecoder::readNNN(m_instruction);
 }
 
 void CPU::skipIfVxEqualsNn() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto nn = WordDecoder::readNN(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
 
-  if (registers.at(x) == nn) {
-    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  if (m_registers.at(x) == nn) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::skipIfVxNotEqualsNn() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto nn = WordDecoder::readNN(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
 
-  if (registers.at(x) != nn) {
-    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  if (m_registers.at(x) != nn) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::skipIfVxEqualsVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
 
-  if (registers.at(x) == registers.at(y)) {
-    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  if (m_registers.at(x) == m_registers.at(y)) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::skipIfVxNotEqualsVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
 
-  if (registers.at(x) != registers.at(y)) {
-    pc += Chip8::INSTRUCTION_BYTE_SIZE;
+  if (m_registers.at(x) != m_registers.at(y)) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::loadNnToVx() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto nn = WordDecoder::readNN(instruction);
-  registers.at(x) = nn;
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
+  m_registers.at(x) = nn;
 }
 
 void CPU::addNnToVx() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto nn = WordDecoder::readNN(instruction);
-  registers.at(x) += nn;
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
+  m_registers.at(x) += nn;
 }
 
 void CPU::loadVyToVx() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
-  registers.at(x) = registers.at(y);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
+  m_registers.at(x) = m_registers.at(y);
 }
 
 void CPU::bitwiseVxOrVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
-  registers.at(x) |= registers.at(y);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
+  m_registers.at(x) |= m_registers.at(y);
 }
 
 void CPU::bitwiseVxAndVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
-  registers.at(x) &= registers.at(y);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
+  m_registers.at(x) &= m_registers.at(y);
 }
 
 void CPU::bitwiseVxXorVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
-  registers.at(x) ^= registers.at(y);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
+  m_registers.at(x) ^= m_registers.at(y);
 }
 
 void CPU::shiftVxRight() {
-  const auto x = WordDecoder::readX(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
   const auto mask = static_cast<Chip8::BYTE>(0x1);
-  auto& vx = registers.at(x);
+  auto& vx = m_registers.at(x);
 
   writeRegister(Chip8::REGISTER::VF, vx & mask);
   vx >>= 1;
 }
 
 void CPU::shiftVxLeft() {
-  const auto x = WordDecoder::readX(instruction);
-  auto& vx = registers.at(x);
+  const auto x = WordDecoder::readX(m_instruction);
+  auto& vx = m_registers.at(x);
   writeRegister(Chip8::REGISTER::VF, vx >> 7);
   vx <<= 1;
 }
 
 void CPU::addVyToVx() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
 
-  auto& vx = registers.at(x);
-  const auto& vy = registers.at(y);
+  auto& vx = m_registers.at(x);
+  const auto& vy = m_registers.at(y);
 
   const auto hasCarry = vy > (0xFF - vx);
   writeRegister(Chip8::REGISTER::VF, hasCarry ? 0x1 : 0x0);
@@ -179,11 +179,11 @@ void CPU::addVyToVx() {
 }
 
 void CPU::subVyFromVx() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
 
-  auto& vx = registers.at(x);
-  const auto& vy = registers.at(y);
+  auto& vx = m_registers.at(x);
+  const auto& vy = m_registers.at(y);
 
   const auto hasBorrow = vy > vx;
   writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
@@ -192,11 +192,11 @@ void CPU::subVyFromVx() {
 }
 
 void CPU::subVxFromVy() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto y = WordDecoder::readY(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto y = WordDecoder::readY(m_instruction);
 
-  auto& vx = registers.at(x);
-  const auto& vy = registers.at(y);
+  auto& vx = m_registers.at(x);
+  const auto& vy = m_registers.at(y);
 
   const auto hasBorrow = vx > vy;
   writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
@@ -205,74 +205,74 @@ void CPU::subVxFromVy() {
 }
 
 void CPU::jumpToNnnPlusV0() {
-  pc = WordDecoder::readNNN(instruction) + registers.at(0x0);
+  m_pc = WordDecoder::readNNN(m_instruction) + m_registers.at(0x0);
 }
 
 void CPU::loadDelayToVx() {
-  const auto x = WordDecoder::readX(instruction);
-  registers.at(x) = delayTimer;
+  const auto x = WordDecoder::readX(m_instruction);
+  m_registers.at(x) = m_delayTimer;
 }
 
 void CPU::loadVxToDelay() {
-  const auto x = WordDecoder::readX(instruction);
-  delayTimer = registers.at(x);
+  const auto x = WordDecoder::readX(m_instruction);
+  m_delayTimer = m_registers.at(x);
 }
 
 void CPU::loadVxToSound() {
-  const auto x = WordDecoder::readX(instruction);
-  soundTimer = registers.at(x);
+  const auto x = WordDecoder::readX(m_instruction);
+  m_soundTimer = m_registers.at(x);
 }
 
 void CPU::loadNnnToI() {
-  I = WordDecoder::readNNN(instruction);
+  m_I = WordDecoder::readNNN(m_instruction);
 }
 
 void CPU::loadRegistersToI() {
-  const auto x = WordDecoder::readX(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
 
   for (std::size_t i = 0; i <= x; ++i) {
-    mmu.writeByte(registers.at(i), I + i);
+    m_mmu.writeByte(m_registers.at(i), m_I + i);
   }
 
-  I += x + 1;
+  m_I += x + 1;
 }
 
 void CPU::loadItoRegisters() {
-  const auto x = WordDecoder::readX(instruction);
+  const auto x = WordDecoder::readX(m_instruction);
 
   for (std::size_t i = 0; i <= x; ++i) {
-    registers.at(i) = mmu.readByte(I + i);
+    m_registers.at(i) = m_mmu.readByte(m_I + i);
   }
 
-  I += x + 1;
+  m_I += x + 1;
 }
 
 void CPU::addVxToI() {
-  const auto x = WordDecoder::readX(instruction);
-  I += registers.at(x);
+  const auto x = WordDecoder::readX(m_instruction);
+  m_I += m_registers.at(x);
 }
 
 void CPU::loadFontSpriteAddressToI() {
-  const auto x = WordDecoder::readX(instruction);
-  I = registers.at(x) * Chip8::CHAR_SPRITE_SIZE;
+  const auto x = WordDecoder::readX(m_instruction);
+  m_I = m_registers.at(x) * Chip8::CHAR_SPRITE_SIZE;
 }
 
 void CPU::draw() {
-  const auto vx = WordDecoder::readX(instruction);
-  const auto vy = WordDecoder::readY(instruction);
-  const auto x = registers.at(vx);
-  const auto y = registers.at(vy);
-  const auto height = WordDecoder::readN(instruction);
+  const auto vx = WordDecoder::readX(m_instruction);
+  const auto vy = WordDecoder::readY(m_instruction);
+  const auto x = m_registers.at(vx);
+  const auto y = m_registers.at(vy);
+  const auto height = WordDecoder::readN(m_instruction);
 
   Chip8::BYTE flipped{0x0u};
 
   for (auto line = 0u; line < height; ++line) {
-    const auto rowPixels = mmu.readByte(I + line);
+    const auto rowPixels = m_mmu.readByte(m_I + line);
 
     for (auto row = 0; row < Chip8::SPRITE_WIDTH; ++row) {
       if ((rowPixels & (0x80 >> row)) != 0) {
         const auto offset = (x + row + ((y + line) * 64)) % 2048;
-        Chip8::BYTE& pixel = frameBuffer.at(offset);
+        Chip8::BYTE& pixel = m_frameBuffer.at(offset);
         flipped = pixel;
         pixel ^= 1u;
       }
@@ -283,30 +283,30 @@ void CPU::draw() {
 }
 
 void CPU::executeSkipIfVxIsPressed() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto key = static_cast<Chip8::KEY>(registers.at(x));
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (ioConnector.isKeyPressed(key)) {
-    pc += 2;
+  if (m_ioConnector.isKeyPressed(key)) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::executeSkipIfVxIsNotPressed() {
-  const auto x = WordDecoder::readX(instruction);
-  const auto key = static_cast<Chip8::KEY>(registers.at(x));
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (!ioConnector.isKeyPressed(key)) {
-    pc += 2;
+  if (!m_ioConnector.isKeyPressed(key)) {
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::executeWaitPressedKeyToVx() {
-  const auto pressedKey = ioConnector.getPressedKey();
+  const auto pressedKey = m_ioConnector.getPressedKey();
 
   if (pressedKey != Chip8::KEY::NONE) {
-    const auto x = WordDecoder::readX(instruction);
-    registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
-    pc += 2;
+    const auto x = WordDecoder::readX(m_instruction);
+    m_registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
+    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
