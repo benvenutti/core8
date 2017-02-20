@@ -4,11 +4,11 @@
 #include "Chip8.hpp"
 
 namespace Core8 {
-
 namespace OpDecoder {
-  Chip8::OPCODE decode(const Chip8::WORD opcode);
-};
 
+Chip8::OPCODE decode(const Chip8::WORD opcode);
+
+} // namespace OpDecoder
 } // namespace Core8
 
 #endif

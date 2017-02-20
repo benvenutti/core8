@@ -12,6 +12,9 @@ namespace Core8 {
 class MMU {
   public:
     MMU() = default;
+    MMU(const MMU& mmu) = default;
+
+    bool operator==(const MMU& mmu) const;
 
     Chip8::BYTE readByte(const std::size_t address) const;
     Chip8::WORD readWord(const std::size_t address) const;

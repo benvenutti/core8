@@ -8,13 +8,76 @@
 
 namespace {
 
-SCENARIO("Creating a MMU", "[mmu]") {
+SCENARIO("Creating a MMU with the default constructor", "[mmu]") {
   GIVEN("A null context") {
     WHEN("a MMU object is created") {
-      Core8::MMU mmu;
+      const Core8::MMU mmu{};
 
       THEN("its size is equal the Chip-8 ram size") {
         REQUIRE(mmu.getSize() == Core8::Chip8::RAM_SIZE);
+      }
+    }
+  }
+}
+
+SCENARIO("Creating a MMU with the copy constructor", "[mmu]") {
+  GIVEN("A MMU with initialized values") {
+    Core8::MMU mmu;
+    mmu.writeByte(0x11, 0x0);
+    mmu.writeByte(0xFF, 0xFFF);
+
+    WHEN("a new MMU object is created with the copy constructor") {
+      const Core8::MMU copy{mmu};
+
+      THEN("both MMUs have the same size") {
+        REQUIRE(mmu.getSize() == copy.getSize());
+      }
+      THEN("both MMUs hold the same values in memory") {
+        for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
+          REQUIRE(mmu.readByte(i) == copy.readByte(i));
+        }
+      }
+    }
+  }
+}
+
+SCENARIO("Comparing two identical MMUs using the equal operator", "[mmu]") {
+  GIVEN("Two MMUs with the same values in memory") {
+    Core8::MMU mmu1;
+    Core8::MMU mmu2;
+
+    for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
+      mmu1.writeByte(0xFF, i);
+      mmu2.writeByte(0xFF, i);
+    }
+
+    WHEN("the MMUs are compared using the equal operator") {
+      const auto areEqual = mmu1 == mmu2;
+
+      THEN("the operation returns true") {
+        REQUIRE(areEqual);
+      }
+    }
+  }
+}
+
+SCENARIO("Comparing two different MMUs using the equal operator", "[mmu]") {
+  GIVEN("Two MMUs with different values in memory") {
+    Core8::MMU mmu1;
+    Core8::MMU mmu2;
+
+    for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
+      mmu1.writeByte(0xFF, i);
+      mmu2.writeByte(0xFF, i);
+    }
+
+    mmu2.writeByte(0xFE, 0);
+
+    WHEN("the MMUs are compared using the equal operator") {
+      const auto areEqual = mmu1 == mmu2;
+
+      THEN("the operation returns false") {
+        REQUIRE_FALSE(areEqual);
       }
     }
   }
@@ -110,15 +173,13 @@ SCENARIO("MMU reads a word from an invalid address", "[mmu]") {
   }
 }
 
-SCENARIO("MMU loads a rom into memory", "[mmu]") {
-  GIVEN("A rom and a cleared MMU") {
+SCENARIO("MMU loads a rom that fits at the given valid address", "[mmu]") {
+  GIVEN("A rom and a MMU") {
     std::vector<std::uint8_t> data{0xFF, 0x11, 0xCC, 0x33};
     Aux::ByteStream rom{data};
-
     Core8::MMU mmu;
-    mmu.clear();
 
-    WHEN("the MMU loads the rom at a certain address") {
+    WHEN("the MMU loads the rom at a valid address with enough memory space") {
       mmu.load(rom, 0x100);
 
       THEN("the whole rom is copied into memory starting at the given address") {
@@ -127,16 +188,40 @@ SCENARIO("MMU loads a rom into memory", "[mmu]") {
         REQUIRE(0xCC == mmu.readByte(0x102));
         REQUIRE(0x33 == mmu.readByte(0x103));
       }
-      AND_THEN("the rest of memory remains unchanged") {
-        for (auto address = 0x0u; address < 0x100u; ++address) {
-          REQUIRE(0x0 == mmu.readByte(address));
-        }
+    }
+  }
+}
 
-        const auto memorySize = mmu.getSize();
-        for (auto address = 0x104u; address < memorySize; ++address) {
-          REQUIRE(0x0 == mmu.readByte(address));
-        }
+SCENARIO("MMU loads a rom that does not fit at the given valid address", "[mmu]") {
+  GIVEN("A rom and a MMU") {
+    std::vector<std::uint8_t> data{0xFF, 0x11, 0xCC, 0x33};
+    Aux::ByteStream rom{data};
+    Core8::MMU mmu;
+
+    WHEN("the MMU loads the rom at a valid address without enough space") {
+      mmu.load(rom, 0xFFD);
+
+      THEN("only the rom part that fits is copied into memory at the given address") {
+        REQUIRE(0xFF == mmu.readByte(0xFFD));
+        REQUIRE(0x11 == mmu.readByte(0xFFE));
+        REQUIRE(0xCC == mmu.readByte(0xFFF));
       }
+    }
+  }
+}
+
+SCENARIO("MMU loads a rom to an invalid memory address", "[mmu]") {
+  GIVEN("A rom and a MMU") {
+    std::vector<std::uint8_t> data{0xFF, 0x11, 0xCC, 0x33};
+    Aux::ByteStream rom{data};
+    Core8::MMU mmu;
+    Core8::MMU originalMmu{mmu};
+
+    WHEN("the MMU loads the rom at an invalid address") {
+      mmu.load(rom, 0x1000);
+    }
+    THEN("nothing is copied and the MMU remains unchanged") {
+      REQUIRE(mmu == originalMmu);
     }
   }
 }
