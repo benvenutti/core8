@@ -7,6 +7,10 @@
 
 namespace Core8 {
 
+bool MMU::operator==(const MMU& mmu) const {
+  return memory == mmu.memory;
+}
+
 Chip8::BYTE MMU::readByte(const std::size_t address) const {
   const auto byte = memory.at(address);
 
