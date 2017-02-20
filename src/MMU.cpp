@@ -39,7 +39,7 @@ void MMU::load(std::istream& rom, const std::size_t address) {
   const auto length = std::min(availableMemory, dataSize);
 
   std::copy_n(std::begin(data), length,
-              std::next(std::begin(m_memory), address));
+              std::begin(m_memory) + address);
 }
 
 void MMU::clear() {
