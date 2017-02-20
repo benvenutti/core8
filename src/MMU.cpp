@@ -36,7 +36,7 @@ void MMU::load(std::istream& rom, const std::size_t address) {
 
   const auto availableMemory = memory.size() - address;
   const auto dataSize = data.size();
-  const auto length = dataSize > availableMemory ? availableMemory : dataSize;
+  const auto length = std::min(availableMemory, dataSize);
 
   std::copy_n(std::begin(data), length,
               std::next(std::begin(memory), address));
