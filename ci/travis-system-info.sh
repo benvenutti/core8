@@ -3,3 +3,4 @@
 uname -a
 $COMPILER --version
 cmake --version
+gcov --version

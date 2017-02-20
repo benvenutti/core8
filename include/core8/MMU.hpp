@@ -25,11 +25,11 @@ class MMU {
     void clear();
 
     constexpr std::size_t getSize() const noexcept {
-      return memory.size();
+      return m_memory.size();
     }
 
   private:
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> memory;
+    std::array<Chip8::BYTE, Chip8::RAM_SIZE> m_memory;
 };
 
 } // namespace Core8
