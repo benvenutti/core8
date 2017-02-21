@@ -70,6 +70,7 @@ class CPU {
     void executeSkipIfVxIsPressed();
     void executeSkipIfVxIsNotPressed();
     void executeWaitPressedKeyToVx();
+    void executeLoadVxBcdToI();
 
     Chip8::WORD m_pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD m_instruction{0u};
