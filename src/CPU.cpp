@@ -40,7 +40,8 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector)
         {Chip8::OPCODE::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }},
         {Chip8::OPCODE::SKIP_IF_VX_IS_NOT_PRESSED, [this] () { executeSkipIfVxIsNotPressed(); }},
         {Chip8::OPCODE::LOAD_PRESSED_KEY_TO_VX, [this] () { executeWaitPressedKeyToVx(); }},
-        {Chip8::OPCODE::LOAD_VX_BCD_TO_I, [this] () { executeLoadVxBcdToI(); }}
+        {Chip8::OPCODE::LOAD_VX_BCD_TO_I, [this] () { executeLoadVxBcdToI(); }},
+        {Chip8::OPCODE::LOAD_RANDOM_TO_VX, [this] () { executeLoadRandomToVx(); }}
       }
 {
 }
@@ -322,6 +323,13 @@ void CPU::executeLoadVxBcdToI() {
   m_mmu.writeByte(hundreds, m_I);
   m_mmu.writeByte(tens, m_I + 1u);
   m_mmu.writeByte(ones, m_I + 2u);
+}
+
+void CPU::executeLoadRandomToVx() {
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
+
+  m_registers.at(x) = nn & m_distribution(m_rndGenerator);
 }
 
 } //namespace Core8

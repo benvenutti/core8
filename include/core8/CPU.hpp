@@ -3,6 +3,7 @@
 
 #include <array>
 #include <functional>
+#include <random>
 #include <map>
 
 #include "Chip8.hpp"
@@ -71,6 +72,7 @@ class CPU {
     void executeSkipIfVxIsNotPressed();
     void executeWaitPressedKeyToVx();
     void executeLoadVxBcdToI();
+    void executeLoadRandomToVx();
 
     Chip8::WORD m_pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD m_instruction{0u};
@@ -88,6 +90,9 @@ class CPU {
 
     MMU& m_mmu;
     IoConnector& m_ioConnector;
+
+    std::mt19937 m_rndGenerator{std::random_device{}()};
+    std::uniform_int_distribution<Chip8::BYTE> m_distribution{0x00, 0xFF};
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> m_dispatchTable;
 };
