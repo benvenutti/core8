@@ -3,19 +3,19 @@
 
 #include <array>
 #include <functional>
-#include <random>
 #include <map>
 
 #include "Chip8.hpp"
 #include "IoConnector.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
+#include "RandomNumberGenerator.hpp"
 
 namespace Core8 {
 
 class CPU {
   public:
-    CPU(MMU& mmu, IoConnector& ioConnector);
+    CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator);
 
     void decode();
     void execute();
@@ -90,9 +90,7 @@ class CPU {
 
     MMU& m_mmu;
     IoConnector& m_ioConnector;
-
-    std::mt19937 m_rndGenerator{std::random_device{}()};
-    std::uniform_int_distribution<Chip8::BYTE> m_distribution{0x00, 0xFF};
+    RandomNumberGenerator& m_rndGenerator;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> m_dispatchTable;
 };

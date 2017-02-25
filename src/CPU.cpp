@@ -4,9 +4,10 @@
 
 namespace Core8 {
 
-CPU::CPU(MMU& mmu, IoConnector& ioConnector)
-    : m_mmu(mmu),
-      m_ioConnector(ioConnector),
+CPU::CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator)
+    : m_mmu{mmu},
+      m_ioConnector{ioConnector},
+      m_rndGenerator{rndGenerator},
       m_dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
@@ -328,8 +329,9 @@ void CPU::executeLoadVxBcdToI() {
 void CPU::executeLoadRandomToVx() {
   const auto x = WordDecoder::readX(m_instruction);
   const auto nn = WordDecoder::readNN(m_instruction);
+  const auto randomNumber = m_rndGenerator.get();
 
-  m_registers.at(x) = nn & m_distribution(m_rndGenerator);
+  m_registers.at(x) = nn & randomNumber;
 }
 
 } //namespace Core8
