@@ -7,6 +7,7 @@
 #include "CPU.hpp"
 #include "IoConnectorMock.hpp"
 #include "MMU.hpp"
+#include "RandomNumberGeneratorMock.hpp"
 
 /// @brief Auxiliary tools for unit testing Core8.
 namespace Aux {
@@ -15,7 +16,8 @@ namespace Aux {
 struct TestKit {
   Core8::MMU mmu;
   Aux::IoConnectorMock ioConnector;
-  Core8::CPU cpu{mmu, ioConnector};
+  Aux::RandomNumberGeneratorMock rndGenerator;
+  Core8::CPU cpu{mmu, ioConnector, rndGenerator};
 };
 
 /// @brief Simulates a byte stream from a std::vector<std::uint8_t>.

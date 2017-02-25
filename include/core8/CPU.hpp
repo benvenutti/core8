@@ -9,12 +9,13 @@
 #include "IoConnector.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
+#include "RandomNumberGenerator.hpp"
 
 namespace Core8 {
 
 class CPU {
   public:
-    CPU(MMU& mmu, IoConnector& ioConnector);
+    CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator);
 
     void decode();
     void execute();
@@ -70,6 +71,8 @@ class CPU {
     void executeSkipIfVxIsPressed();
     void executeSkipIfVxIsNotPressed();
     void executeWaitPressedKeyToVx();
+    void executeLoadVxBcdToI();
+    void executeLoadRandomToVx();
 
     Chip8::WORD m_pc{Chip8::INIT_ROM_LOAD_ADDRESS};
     Chip8::WORD m_instruction{0u};
@@ -87,6 +90,7 @@ class CPU {
 
     MMU& m_mmu;
     IoConnector& m_ioConnector;
+    RandomNumberGenerator& m_rndGenerator;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> m_dispatchTable;
 };

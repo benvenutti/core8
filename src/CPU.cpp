@@ -4,9 +4,10 @@
 
 namespace Core8 {
 
-CPU::CPU(MMU& mmu, IoConnector& ioConnector)
-    : m_mmu(mmu),
-      m_ioConnector(ioConnector),
+CPU::CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator)
+    : m_mmu{mmu},
+      m_ioConnector{ioConnector},
+      m_rndGenerator{rndGenerator},
       m_dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
         {Chip8::OPCODE::JUMP, [this] () { jumpToNnn(); }},
@@ -39,7 +40,9 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector)
         {Chip8::OPCODE::DRAW, [this]() { draw(); }},
         {Chip8::OPCODE::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }},
         {Chip8::OPCODE::SKIP_IF_VX_IS_NOT_PRESSED, [this] () { executeSkipIfVxIsNotPressed(); }},
-        {Chip8::OPCODE::LOAD_PRESSED_KEY_TO_VX, [this] () { executeWaitPressedKeyToVx(); }}
+        {Chip8::OPCODE::LOAD_PRESSED_KEY_TO_VX, [this] () { executeWaitPressedKeyToVx(); }},
+        {Chip8::OPCODE::LOAD_VX_BCD_TO_I, [this] () { executeLoadVxBcdToI(); }},
+        {Chip8::OPCODE::LOAD_RANDOM_TO_VX, [this] () { executeLoadRandomToVx(); }}
       }
 {
 }
@@ -308,6 +311,27 @@ void CPU::executeWaitPressedKeyToVx() {
     m_registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
+}
+
+void CPU::executeLoadVxBcdToI() {
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto vx = m_registers.at(x);
+
+  const auto hundreds = vx / 100;
+  const auto tens = (vx / 10) % 10;
+  const auto ones = (vx % 100) % 10;
+
+  m_mmu.writeByte(hundreds, m_I);
+  m_mmu.writeByte(tens, m_I + 1u);
+  m_mmu.writeByte(ones, m_I + 2u);
+}
+
+void CPU::executeLoadRandomToVx() {
+  const auto x = WordDecoder::readX(m_instruction);
+  const auto nn = WordDecoder::readNN(m_instruction);
+  const auto randomNumber = m_rndGenerator.get();
+
+  m_registers.at(x) = nn & randomNumber;
 }
 
 } //namespace Core8
