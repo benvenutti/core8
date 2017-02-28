@@ -7,9 +7,9 @@
 
 namespace Core8 {
 
-class IoConnector {
+class IoDevice {
   public:
-    virtual ~IoConnector() = default;
+    virtual ~IoDevice() = default;
 
     virtual void drawScreen(const std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>& frame) = 0;
 

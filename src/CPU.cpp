@@ -4,9 +4,9 @@
 
 namespace Core8 {
 
-CPU::CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator)
+CPU::CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator)
     : m_mmu{mmu},
-      m_ioConnector{ioConnector},
+      m_ioDevice{ioDevice},
       m_rndGenerator{rndGenerator},
       m_dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
@@ -308,7 +308,7 @@ void CPU::executeSkipIfVxIsPressed() {
   const auto x = WordDecoder::readX(m_instruction);
   const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (m_ioConnector.isKeyPressed(key)) {
+  if (m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
@@ -317,13 +317,13 @@ void CPU::executeSkipIfVxIsNotPressed() {
   const auto x = WordDecoder::readX(m_instruction);
   const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (!m_ioConnector.isKeyPressed(key)) {
+  if (!m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::executeWaitPressedKeyToVx() {
-  const auto pressedKey = m_ioConnector.getPressedKey();
+  const auto pressedKey = m_ioDevice.getPressedKey();
 
   if (pressedKey != Chip8::KEY::NONE) {
     const auto x = WordDecoder::readX(m_instruction);

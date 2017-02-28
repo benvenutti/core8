@@ -15,7 +15,7 @@ namespace Core8 {
 
 class VM {
   public:
-    explicit VM(IoConnector& ioConnector);
+    explicit VM(IoDevice& ioDevice);
 
     bool loadRom(const std::string& fileName);
 
@@ -30,7 +30,7 @@ class VM {
     }
 
   private:
-    IoConnector& m_ioConnector;
+    IoDevice& m_ioDevice;
     MMU m_mmu;
     MersenneByteTwister m_rng;
     CPU m_cpu;
