@@ -5,7 +5,7 @@
 
 #include "Chip8.hpp"
 #include "CPU.hpp"
-#include "IoConnectorMock.hpp"
+#include "IoDeviceMock.hpp"
 #include "MMU.hpp"
 #include "RandomNumberGeneratorMock.hpp"
 
