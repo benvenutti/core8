@@ -17,6 +17,7 @@ class CPU {
   public:
     CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator);
 
+    void fetch();
     void decode();
     void execute();
 
@@ -34,9 +35,13 @@ class CPU {
     Chip8::BYTE getSoundTimer() const { return m_soundTimer; };
 
     void setInstruction(const Chip8::WORD instr) { m_instruction = instr; }
+    Chip8::WORD getInstruction() const { return m_instruction; }
 
     void setI(const Chip8::WORD address) { m_I = address; }
     Chip8::WORD getI() const { return m_I; }
+
+    void updateDelayTimer();
+    void updateSoundTimer();
 
   private:
     void clearDisplay();

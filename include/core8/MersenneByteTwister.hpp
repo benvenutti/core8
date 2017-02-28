@@ -7,18 +7,17 @@
 
 namespace Core8 {
 
-class MersenneTwister : public RandomNumberGenerator {
+class MersenneByteTwister : public RandomNumberGenerator {
   public:
-    MersenneTwister() = default;
-    virtual ~MersenneTwister() = default;
+    MersenneByteTwister() = default;
+    virtual ~MersenneByteTwister() = default;
 
     virtual Chip8::BYTE get() override {
       return m_distribution(m_generator);
     }
 
   private:
-    std::random_device m_device;
-    std::mt19937 m_generator{m_device};
+    std::mt19937 m_generator{std::random_device{}()};
     std::uniform_int_distribution<Chip8::BYTE> m_distribution{0x01, 0xFF};
 };
 
