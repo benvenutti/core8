@@ -84,6 +84,7 @@ void CPU::updateSoundTimer() {
 
 void CPU::clearDisplay() {
   m_frameBuffer.fill(0x0);
+  m_ioDevice.drawScreen(m_frameBuffer);
 }
 
 void CPU::jumpToNnn() {
@@ -295,13 +296,18 @@ void CPU::draw() {
       if ((rowPixels & (0x80 >> row)) != 0) {
         const auto offset = (x + row + ((y + line) * 64)) % 2048;
         Chip8::BYTE& pixel = m_frameBuffer.at(offset);
-        flipped = pixel;
+
+        if (pixel != 0) {
+          flipped = 1u;
+        }
+
         pixel ^= 1u;
       }
     }
   }
 
   writeRegister(Chip8::REGISTER::VF, flipped);
+  m_ioDevice.drawScreen(m_frameBuffer);
 }
 
 void CPU::executeSkipIfVxIsPressed() {
