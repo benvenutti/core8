@@ -1,0 +1,41 @@
+#ifndef CORE8_VM_HPP
+#define CORE8_VM_HPP
+
+#include <string>
+
+#include "CPU.hpp"
+#include "MersenneByteTwister.hpp"
+#include "MMU.hpp"
+
+namespace Core8 {
+class IoConnector;
+} // namespace Core8
+
+namespace Core8 {
+
+class VM {
+  public:
+    explicit VM(IoConnector& ioConnector);
+
+    bool loadRom(const std::string& fileName);
+
+    void cycle();
+
+    const MMU& getMMU() const {
+      return m_mmu;
+    }
+
+    const CPU& getCPU() const {
+      return m_cpu;
+    }
+
+  private:
+    IoConnector& m_ioConnector;
+    MMU m_mmu;
+    MersenneByteTwister m_rng;
+    CPU m_cpu;
+};
+
+} // namespace Core8
+
+#endif

@@ -55,12 +55,29 @@ void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
   m_registers[static_cast<std::size_t>(id)] = value;
 }
 
+void CPU::fetch() {
+  m_instruction = m_mmu.readWord(m_pc);
+  m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+}
+
 void CPU::decode() {
   m_opcode = OpDecoder::decode(m_instruction);
 }
 
 void CPU::execute() {
   m_dispatchTable.at(m_opcode)();
+}
+
+void CPU::updateDelayTimer() {
+  if (m_delayTimer > 0) {
+    --m_delayTimer;
+  }
+}
+
+void CPU::updateSoundTimer() {
+  if (m_soundTimer > 0) {
+    --m_soundTimer;
+  }
 }
 
 void CPU::clearDisplay() {
