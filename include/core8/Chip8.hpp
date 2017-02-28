@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <vector>
 
 namespace Core8 {
 namespace Chip8 {
@@ -70,7 +71,7 @@ enum class KEY {
     K8, K9, KA, KB, KC, KD, KE, KF, NONE
 };
 
-const std::array<Chip8::BYTE, 80> FONT_SET{
+const std::vector<BYTE> FONT_SET{
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
     0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
