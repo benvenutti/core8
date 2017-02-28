@@ -15,9 +15,9 @@ namespace Aux {
 /// @brief Bundle of objects necessary to test the CPU.
 struct TestKit {
   Core8::MMU mmu;
-  Aux::IoConnectorMock ioConnector;
+  Aux::IoDeviceMock ioDevice;
   Aux::RandomNumberGeneratorMock rndGenerator;
-  Core8::CPU cpu{mmu, ioConnector, rndGenerator};
+  Core8::CPU cpu{mmu, ioDevice, rndGenerator};
 };
 
 /// @brief Simulates a byte stream from a std::vector<std::uint8_t>.
