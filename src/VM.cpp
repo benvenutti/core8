@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 
 namespace Core8 {
 

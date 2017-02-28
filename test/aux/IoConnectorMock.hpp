@@ -4,7 +4,7 @@
 #include <array>
 
 #include "Chip8.hpp"
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 
 namespace Aux {
 

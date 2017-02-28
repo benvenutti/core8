@@ -6,7 +6,7 @@
 #include <map>
 
 #include "Chip8.hpp"
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
 #include "RandomNumberGenerator.hpp"
