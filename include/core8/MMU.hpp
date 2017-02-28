@@ -3,6 +3,7 @@
 
 #include <array>
 #include <istream>
+#include <vector>
 
 #include "Chip8.hpp"
 
@@ -21,7 +22,9 @@ class MMU {
 
     void writeByte(const Chip8::BYTE byte, const std::size_t address);
 
+    void load(const std::vector<Chip8::BYTE>& rom, const std::size_t address);
     void load(std::istream& rom, const std::size_t address);
+
     void clear();
 
     constexpr std::size_t getSize() const noexcept {
