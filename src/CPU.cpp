@@ -45,6 +45,8 @@ CPU::CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator
         {Chip8::OPCODE::LOAD_RANDOM_TO_VX, [this] () { executeLoadRandomToVx(); }}
       }
 {
+  m_registers.fill(0x0);
+  m_mmu.load(Chip8::FONT_SET, 0x0);
 }
 
 Chip8::BYTE CPU::readRegister(const Chip8::REGISTER id) const {
