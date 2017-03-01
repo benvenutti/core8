@@ -2,13 +2,13 @@
 
 #include <fstream>
 
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 
 namespace Core8 {
 
-VM::VM(IoConnector& ioConnector)
-    : m_ioConnector{ioConnector},
-      m_cpu{m_mmu, m_ioConnector, m_rng} { }
+VM::VM(IoDevice& ioDevice)
+    : m_ioDevice{ioDevice},
+      m_cpu{m_mmu, m_ioDevice, m_rng} { }
 
 bool VM::loadRom(const std::string& fileName) {
   std::ifstream in{fileName, std::ios::binary};

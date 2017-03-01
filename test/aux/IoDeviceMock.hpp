@@ -4,11 +4,11 @@
 #include <array>
 
 #include "Chip8.hpp"
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 
 namespace Aux {
 
-class IoConnectorMock : public Core8::IoConnector {
+class IoDeviceMock : public Core8::IoDevice {
   public:
     virtual void drawScreen(
         const std::array<Core8::Chip8::BYTE, Core8::Chip8::DISPLAY_SIZE>& /*frame*/

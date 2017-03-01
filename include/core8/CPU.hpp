@@ -6,7 +6,7 @@
 #include <map>
 
 #include "Chip8.hpp"
-#include "IoConnector.hpp"
+#include "IoDevice.hpp"
 #include "MMU.hpp"
 #include "OpDecoder.hpp"
 #include "RandomNumberGenerator.hpp"
@@ -15,7 +15,7 @@ namespace Core8 {
 
 class CPU {
   public:
-    CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator);
+    CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator);
 
     void fetch();
     void decode();
@@ -94,7 +94,7 @@ class CPU {
     std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE> m_frameBuffer;
 
     MMU& m_mmu;
-    IoConnector& m_ioConnector;
+    IoDevice& m_ioDevice;
     RandomNumberGenerator& m_rndGenerator;
 
     const std::map<Chip8::OPCODE, std::function<void(void)>> m_dispatchTable;

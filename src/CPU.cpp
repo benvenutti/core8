@@ -4,9 +4,9 @@
 
 namespace Core8 {
 
-CPU::CPU(MMU& mmu, IoConnector& ioConnector, RandomNumberGenerator& rndGenerator)
+CPU::CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator)
     : m_mmu{mmu},
-      m_ioConnector{ioConnector},
+      m_ioDevice{ioDevice},
       m_rndGenerator{rndGenerator},
       m_dispatchTable{
         {Chip8::OPCODE::CLEAR_SCREEN, [this] () { clearDisplay(); }},
@@ -84,6 +84,7 @@ void CPU::updateSoundTimer() {
 
 void CPU::clearDisplay() {
   m_frameBuffer.fill(0x0);
+  m_ioDevice.drawScreen(m_frameBuffer);
 }
 
 void CPU::jumpToNnn() {
@@ -295,20 +296,25 @@ void CPU::draw() {
       if ((rowPixels & (0x80 >> row)) != 0) {
         const auto offset = (x + row + ((y + line) * 64)) % 2048;
         Chip8::BYTE& pixel = m_frameBuffer.at(offset);
-        flipped = pixel;
+
+        if (pixel != 0) {
+          flipped = 1u;
+        }
+
         pixel ^= 1u;
       }
     }
   }
 
   writeRegister(Chip8::REGISTER::VF, flipped);
+  m_ioDevice.drawScreen(m_frameBuffer);
 }
 
 void CPU::executeSkipIfVxIsPressed() {
   const auto x = WordDecoder::readX(m_instruction);
   const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (m_ioConnector.isKeyPressed(key)) {
+  if (m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
@@ -317,13 +323,13 @@ void CPU::executeSkipIfVxIsNotPressed() {
   const auto x = WordDecoder::readX(m_instruction);
   const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
 
-  if (!m_ioConnector.isKeyPressed(key)) {
+  if (!m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
   }
 }
 
 void CPU::executeWaitPressedKeyToVx() {
-  const auto pressedKey = m_ioConnector.getPressedKey();
+  const auto pressedKey = m_ioDevice.getPressedKey();
 
   if (pressedKey != Chip8::KEY::NONE) {
     const auto x = WordDecoder::readX(m_instruction);
