@@ -4,6 +4,7 @@ class Core8(ConanFile):
     name = "core8"
     version = "0.1"
     url = "https://github.com/benvenutti/core8.git"
+    description = """A Chip-8 VM implemented in C++"""
     settings = "os", "compiler", "build_type", "arch"
     license = "MIT"
     exports_sources = "*"
@@ -12,6 +13,7 @@ class Core8(ConanFile):
         cmake = CMake(self.settings)
         self.run('cmake %s %s' % (self.conanfile_directory, cmake.command_line))
         self.run("cmake --build . %s" % cmake.build_config)
+        self.run("ctest .")
 
     def package(self):
         self.copy("*.hpp", dst="include/core8", src="include/core8")
