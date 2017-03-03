@@ -40,6 +40,18 @@ matrix:
             - ubuntu-toolchain-r-test
       env: COMPILER=clang++
 
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
+            - clang++-3.6
+      env: COMPILER=clang++-3.6
+
     - os: osx
       osx_image: xcode7.3
       compiler: clang
