@@ -12,7 +12,7 @@ namespace Core8 {
 /// @brief Big-endian memory management unit.
 class MMU {
   public:
-    MMU() = default;
+    MMU();
     MMU(const MMU& mmu) = default;
 
     bool operator==(const MMU& mmu) const;

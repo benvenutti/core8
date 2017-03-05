@@ -3,9 +3,12 @@
 #include <algorithm>
 #include <iterator>
 #include <limits>
-#include <vector>
 
 namespace Core8 {
+
+MMU::MMU() {
+  clear();
+}
 
 bool MMU::operator==(const MMU& mmu) const {
   return m_memory == mmu.m_memory;
