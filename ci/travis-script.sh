@@ -7,11 +7,9 @@ fi
 
 if [ "$IS_COVERAGE_BUILD" == 1 ]; then
   flags="-g -O0 --coverage"
-  cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="$flags" -DCMAKE_CXX_COMPILER=$COMPILER .
-elif [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$COMPILER" == "clang++" ]; then
-  cmake -DCMAKE_CXX_COMPILER=$COMPILER -DCMAKE_CXX_FLAGS="-stdlib=libc++" ..
+  cmake -DCMAKE_C_COMPILER=$COMPILER_CC -DCMAKE_CXX_COMPILER=$COMPILER_CXX -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="$flags" .
 else
-  cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
+  cmake -DCMAKE_C_COMPILER=$COMPILER_CC -DCMAKE_CXX_COMPILER=$COMPILER_CXX ..
 fi
 
 make
