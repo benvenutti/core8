@@ -13,7 +13,7 @@ class Core8(ConanFile):
         cmake = CMake(self.settings)
         self.run('cmake %s %s' % (self.conanfile_directory, cmake.command_line))
         self.run("cmake --build . %s" % cmake.build_config)
-        self.run("ctest .")
+        self.run("ctest . CTEST_OUTPUT_ON_FAILURE=TRUE")
 
     def package(self):
         self.copy("*.hpp", dst="include/core8", src="include/core8")
