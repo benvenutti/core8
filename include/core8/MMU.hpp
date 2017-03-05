@@ -27,7 +27,7 @@ class MMU {
 
     void clear();
 
-    constexpr std::size_t getSize() const noexcept {
+    std::size_t getSize() const noexcept {
       return m_memory.size();
     }
 
