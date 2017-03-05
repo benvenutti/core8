@@ -11,10 +11,15 @@ namespace {
 SCENARIO("Creating a MMU with the default constructor", "[mmu]") {
   GIVEN("A null context") {
     WHEN("a MMU object is created") {
-      const Core8::MMU mmu{};
+      const Core8::MMU mmu;
 
       THEN("its size is equal the Chip-8 ram size") {
         REQUIRE(mmu.getSize() == Core8::Chip8::RAM_SIZE);
+      }
+      AND_THEN("its memory is cleared (filled with zeros)") {
+        for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
+          REQUIRE(mmu.readByte(i) == 0u);
+        }
       }
     }
   }
