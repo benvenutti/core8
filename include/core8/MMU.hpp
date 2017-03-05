@@ -12,7 +12,7 @@ namespace Core8 {
 /// @brief Big-endian memory management unit.
 class MMU {
   public:
-    MMU() = default;
+    MMU();
     MMU(const MMU& mmu) = default;
 
     bool operator==(const MMU& mmu) const;
@@ -27,7 +27,7 @@ class MMU {
 
     void clear();
 
-    constexpr std::size_t getSize() const noexcept {
+    std::size_t getSize() const noexcept {
       return m_memory.size();
     }
 
