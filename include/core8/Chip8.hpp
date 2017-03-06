@@ -25,7 +25,7 @@ enum class REGISTER {
     V8, V9, VA, VB, VC, VD, VE, VF
 };
 
-enum class OPCODE {
+enum class OpCode {
     CLEAR_SCREEN,
     RETURN,
     JUMP,
