@@ -17,7 +17,7 @@ SCENARIO_METHOD(
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
-    ioDevice.setPressedKey(Core8::Chip8::KEY::K0);
+    ioDevice.setPressedKey(Core8::Chip8::Key::K0);
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EX9E operation with X equal to 0") {
@@ -38,7 +38,7 @@ SCENARIO_METHOD(
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 1 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
-    ioDevice.setPressedKey(Core8::Chip8::KEY::K1);
+    ioDevice.setPressedKey(Core8::Chip8::Key::K1);
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EX9E operation with X equal to 0") {
@@ -59,7 +59,7 @@ SCENARIO_METHOD(
 ) {
   GIVEN("A CPU with V0 set to 1 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 1u);
-    ioDevice.setPressedKey(Core8::Chip8::KEY::K0);
+    ioDevice.setPressedKey(Core8::Chip8::Key::K0);
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EXA1 operation with X equal to 0") {
@@ -80,7 +80,7 @@ SCENARIO_METHOD(
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
-    ioDevice.setPressedKey(Core8::Chip8::KEY::K0);
+    ioDevice.setPressedKey(Core8::Chip8::Key::K0);
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EXA1 operation with X equal to 0") {
@@ -100,7 +100,7 @@ SCENARIO_METHOD(
     "Operation FX0A halts the CPU when no key is pressed", "[keyboard]"
 ) {
   GIVEN("A CPU and an i/o connector with no key pressed") {
-    ioDevice.setPressedKey(Core8::Chip8::KEY::NONE);
+    ioDevice.setPressedKey(Core8::Chip8::Key::NONE);
     const auto originalV0 = cpu.readRegister(Core8::Chip8::Register::V0);
     const auto originalPc = cpu.getPc();
 
@@ -124,7 +124,7 @@ SCENARIO_METHOD(
     "Operation FX0A sets register to the value of the pressed key", "[keyboard]"
 ) {
   GIVEN("a CPU and an i/o connector with the key F pressed") {
-    ioDevice.setPressedKey(Core8::Chip8::KEY::KF);
+    ioDevice.setPressedKey(Core8::Chip8::Key::KF);
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an FX0A operation with X equal to 0") {

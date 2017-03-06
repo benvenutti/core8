@@ -66,7 +66,7 @@ enum class OpCode {
 const BYTE CHAR_SPRITE_SIZE{5};
 const BYTE SPRITE_WIDTH{8};
 
-enum class KEY {
+enum class Key {
     K0, K1, K2, K3, K4, K5, K6, K7,
     K8, K9, KA, KB, KC, KD, KE, KF, NONE
 };

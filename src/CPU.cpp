@@ -312,7 +312,7 @@ void CPU::draw() {
 
 void CPU::executeSkipIfVxIsPressed() {
   const auto x = WordDecoder::readX(m_instruction);
-  const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
+  const auto key = static_cast<Chip8::Key>(m_registers.at(x));
 
   if (m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -321,7 +321,7 @@ void CPU::executeSkipIfVxIsPressed() {
 
 void CPU::executeSkipIfVxIsNotPressed() {
   const auto x = WordDecoder::readX(m_instruction);
-  const auto key = static_cast<Chip8::KEY>(m_registers.at(x));
+  const auto key = static_cast<Chip8::Key>(m_registers.at(x));
 
   if (!m_ioDevice.isKeyPressed(key)) {
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
@@ -331,7 +331,7 @@ void CPU::executeSkipIfVxIsNotPressed() {
 void CPU::executeWaitPressedKeyToVx() {
   const auto pressedKey = m_ioDevice.getPressedKey();
 
-  if (pressedKey != Chip8::KEY::NONE) {
+  if (pressedKey != Chip8::Key::NONE) {
     const auto x = WordDecoder::readX(m_instruction);
     m_registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
     m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
