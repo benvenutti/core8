@@ -30,6 +30,13 @@ class MMU {
       return m_memory.size();
     }
 
+    using Memory = std::array<Chip8::BYTE, Chip8::RAM_SIZE>;
+
+    Memory::const_iterator begin() const;
+    Memory::iterator begin();
+    Memory::const_iterator end() const;
+    Memory::iterator end();
+
   private:
     std::array<Chip8::BYTE, Chip8::RAM_SIZE> m_memory;
 };
