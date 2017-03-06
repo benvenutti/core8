@@ -21,8 +21,8 @@ class CPU {
     void decode();
     void execute();
 
-    Chip8::BYTE readRegister(const Chip8::REGISTER id) const;
-    void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
+    Chip8::BYTE readRegister(const Chip8::Register id) const;
+    void writeRegister(const Chip8::Register id, const Chip8::BYTE value);
 
     Chip8::WORD getPc() const { return m_pc; }
     Chip8::BYTE getSp() const { return m_sp; };
@@ -83,7 +83,7 @@ class CPU {
     Chip8::WORD m_instruction{0u};
     Chip8::WORD m_I{0u};
 
-    Chip8::OPCODE m_opcode{Chip8::OPCODE::INVALID};
+    Chip8::OpCode m_opcode{Chip8::OpCode::INVALID};
 
     Chip8::BYTE m_sp{0u};
     Chip8::BYTE m_delayTimer{0u};
@@ -97,7 +97,7 @@ class CPU {
     IoDevice& m_ioDevice;
     RandomNumberGenerator& m_rndGenerator;
 
-    const std::map<Chip8::OPCODE, std::function<void(void)>> m_dispatchTable;
+    const std::map<Chip8::OpCode, std::function<void(void)>> m_dispatchTable;
 };
 
 } // namespace Core8

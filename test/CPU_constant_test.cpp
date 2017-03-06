@@ -25,9 +25,9 @@ SCENARIO("CPUs can load constants to registers", "[constant]") {
       cpu.execute();
 
       THEN("that register holds the loaded constant") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V0) == 0x1);
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V9) == 0x3A);
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0xFF);
+        REQUIRE(cpu.readRegister(Chip8::Register::V0) == 0x1);
+        REQUIRE(cpu.readRegister(Chip8::Register::V9) == 0x3A);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0xFF);
       }
     }
   }
@@ -37,9 +37,9 @@ SCENARIO("CPUs can add constants to registers", "[constant]") {
   GIVEN("A CPU with initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V3, 0x03);
-    cpu.writeRegister(Chip8::REGISTER::V7, 0x34);
-    cpu.writeRegister(Chip8::REGISTER::VF, 0xFE);
+    cpu.writeRegister(Chip8::Register::V3, 0x03);
+    cpu.writeRegister(Chip8::Register::V7, 0x34);
+    cpu.writeRegister(Chip8::Register::VF, 0xFE);
 
     WHEN("the CPU executes an add constant operation to a register") {
       cpu.setInstruction(0x7301);
@@ -53,9 +53,9 @@ SCENARIO("CPUs can add constants to registers", "[constant]") {
       cpu.execute();
 
       THEN("that register holds the value of the sum") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V3) == 0x4);
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V7) == 0xC7);
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0xFF);
+        REQUIRE(cpu.readRegister(Chip8::Register::V3) == 0x4);
+        REQUIRE(cpu.readRegister(Chip8::Register::V7) == 0xC7);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0xFF);
       }
     }
   }

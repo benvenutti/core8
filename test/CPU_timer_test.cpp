@@ -22,8 +22,8 @@ SCENARIO("CPUs can assign the value of the delay timer to a register", "[timer]"
 
       THEN("the target register holds a copy of the delay timer value") {
         const auto delay = cpu.getDelayTimer();
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == delay);
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::VE) == delay);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == delay);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VE) == delay);
       }
     }
   }
@@ -33,8 +33,8 @@ SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]")
   GIVEN("A CPU with initialized registers") {
     Aux::TestKit testKit;
     Core8::CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0x2A);
-    cpu.writeRegister(Core8::Chip8::REGISTER::VF, 0xCD);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 0x2A);
+    cpu.writeRegister(Core8::Chip8::Register::VF, 0xCD);
 
     WHEN("the CPU executes a FX15 operation") {
       cpu.setInstruction(0xF015);
@@ -47,8 +47,8 @@ SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]")
       const auto delay2 = cpu.getDelayTimer();
 
       THEN("the delay timer is updated to the value of the register VX") {
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == delay1);
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::VF) == delay2);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == delay1);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == delay2);
       }
     }
   }
@@ -58,8 +58,8 @@ SCENARIO("CPUs can assign the value of registers to the sound timer", "[timer]")
   GIVEN("A CPU with initialized registers") {
     Aux::TestKit testKit;
     Core8::CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0xBE);
-    cpu.writeRegister(Core8::Chip8::REGISTER::VF, 0xFE);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 0xBE);
+    cpu.writeRegister(Core8::Chip8::Register::VF, 0xFE);
 
     WHEN("the CPU executes a FX18 operation") {
       cpu.setInstruction(0xF018);
@@ -72,8 +72,8 @@ SCENARIO("CPUs can assign the value of registers to the sound timer", "[timer]")
       const auto sound2 = cpu.getSoundTimer();
 
       THEN("the sound timer is updated to the value of the register VX") {
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == sound1);
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::VF) == sound2);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == sound1);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == sound2);
       }
     }
   }

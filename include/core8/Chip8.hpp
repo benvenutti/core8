@@ -20,12 +20,15 @@ const std::size_t DISPLAY_WIDTH{64};
 const std::size_t DISPLAY_HEIGHT{32};
 const std::size_t DISPLAY_SIZE{DISPLAY_WIDTH * DISPLAY_HEIGHT};
 
-enum class REGISTER {
+const BYTE CHAR_SPRITE_SIZE{5};
+const BYTE SPRITE_WIDTH{8};
+
+enum class Register {
     V0, V1, V2, V3, V4, V5, V6, V7,
     V8, V9, VA, VB, VC, VD, VE, VF
 };
 
-enum class OPCODE {
+enum class OpCode {
     CLEAR_SCREEN,
     RETURN,
     JUMP,
@@ -63,10 +66,7 @@ enum class OPCODE {
     INVALID
 };
 
-const BYTE CHAR_SPRITE_SIZE{5};
-const BYTE SPRITE_WIDTH{8};
-
-enum class KEY {
+enum class Key {
     K0, K1, K2, K3, K4, K5, K6, K7,
     K8, K9, KA, KB, KC, KD, KE, KF, NONE
 };
