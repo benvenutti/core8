@@ -54,7 +54,7 @@ void MMU::clear() {
 }
 
 MMU::Memory::const_iterator MMU::begin() const {
-  return std::cbegin(m_memory);
+  return std::begin(m_memory);
 }
 
 MMU::Memory::iterator MMU::begin() {
@@ -62,7 +62,7 @@ MMU::Memory::iterator MMU::begin() {
 }
 
 MMU::Memory::const_iterator MMU::end() const {
-  return std::cend(m_memory);
+  return std::end(m_memory);
 }
 
 MMU::Memory::iterator MMU::end() {
