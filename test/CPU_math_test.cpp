@@ -12,9 +12,9 @@ SCENARIO("CPUs can add VY from VX", "[math]") {
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V1, 0x11);
-    cpu.writeRegister(Chip8::REGISTER::V4, 0x35);
-    cpu.writeRegister(Chip8::REGISTER::V5, 0xFE);
+    cpu.writeRegister(Chip8::Register::V1, 0x11);
+    cpu.writeRegister(Chip8::Register::V4, 0x35);
+    cpu.writeRegister(Chip8::Register::V5, 0xFE);
 
     WHEN("the CPU executes a 8XY4 operation on two registers without carry") {
       cpu.setInstruction(0x8144);
@@ -22,10 +22,10 @@ SCENARIO("CPUs can add VY from VX", "[math]") {
       cpu.execute();
 
       THEN("the value of VY is added to VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V1) == 0x46);
+        REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0x46);
       }
       AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x0);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
       }
     }
     AND_WHEN("the CPU executes a 8XY4 operation on two registers with a carry") {
@@ -34,10 +34,10 @@ SCENARIO("CPUs can add VY from VX", "[math]") {
       cpu.execute();
 
       THEN("the value of VY is added to VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V1) == 0xF);
+        REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0xF);
       }
       AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x1);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
       }
     }
   }
@@ -47,9 +47,9 @@ SCENARIO("CPUs can subtract VY from VX", "[math]") {
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::VA, 0xA3);
-    cpu.writeRegister(Chip8::REGISTER::VB, 0x15);
-    cpu.writeRegister(Chip8::REGISTER::VC, 0xFF);
+    cpu.writeRegister(Chip8::Register::VA, 0xA3);
+    cpu.writeRegister(Chip8::Register::VB, 0x15);
+    cpu.writeRegister(Chip8::Register::VC, 0xFF);
 
     WHEN("the CPU executes a 8XY5 operation on two registers without a borrow") {
       cpu.setInstruction(0x8AB5);
@@ -57,10 +57,10 @@ SCENARIO("CPUs can subtract VY from VX", "[math]") {
       cpu.execute();
 
       THEN("the value of VY is subtracted from VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VA) == 0x8E);
+        REQUIRE(cpu.readRegister(Chip8::Register::VA) == 0x8E);
       }
       AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x1);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
       }
     }
     AND_WHEN("the CPU executes a 8XY5 operation on two registers with a borrow") {
@@ -69,10 +69,10 @@ SCENARIO("CPUs can subtract VY from VX", "[math]") {
       cpu.execute();
 
       THEN("the value of VY is subtracted from VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VA) == 0xa4);
+        REQUIRE(cpu.readRegister(Chip8::Register::VA) == 0xa4);
       }
       AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x0);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
       }
     }
   }
@@ -82,9 +82,9 @@ SCENARIO("CPUs can subtract VX to VY", "[math]") {
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V3, 0x3F);
-    cpu.writeRegister(Chip8::REGISTER::V4, 0xBB);
-    cpu.writeRegister(Chip8::REGISTER::V5, 0xFF);
+    cpu.writeRegister(Chip8::Register::V3, 0x3F);
+    cpu.writeRegister(Chip8::Register::V4, 0xBB);
+    cpu.writeRegister(Chip8::Register::V5, 0xFF);
 
     WHEN("a 8XY7 operation is executed on two registers without a borrow") {
       cpu.setInstruction(0x8347);
@@ -92,10 +92,10 @@ SCENARIO("CPUs can subtract VX to VY", "[math]") {
       cpu.execute();
 
       THEN("VX is set to the value of VY minus VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V3) == 0x7C);
+        REQUIRE(cpu.readRegister(Chip8::Register::V3) == 0x7C);
       }
       AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x1);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
       }
     }
     AND_WHEN("a 8XY7 operation is executed on two registers with a borrow") {
@@ -104,10 +104,10 @@ SCENARIO("CPUs can subtract VX to VY", "[math]") {
       cpu.execute();
 
       THEN("VX is set to the value of VY minus VX") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::V5) == 0xBC);
+        REQUIRE(cpu.readRegister(Chip8::Register::V5) == 0xBC);
       }
       AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::REGISTER::VF) == 0x0);
+        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
       }
     }
   }

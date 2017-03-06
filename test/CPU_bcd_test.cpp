@@ -15,7 +15,7 @@ SCENARIO(
     Core8::CPU& cpu = testKit.cpu;
     Core8::MMU& mmu = testKit.mmu;
 
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0x0);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 0x0);
     cpu.setI(100);
 
     WHEN("the CPU executes a FX33 operation with X equal to 0") {
@@ -41,7 +41,7 @@ SCENARIO(
     Core8::CPU& cpu = testKit.cpu;
     Core8::MMU& mmu = testKit.mmu;
 
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0xFF);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 0xFF);
     cpu.setI(200);
 
     WHEN("the CPU executes a FX33 operation with X equal to 0") {

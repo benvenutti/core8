@@ -21,8 +21,8 @@ class CPU {
     void decode();
     void execute();
 
-    Chip8::BYTE readRegister(const Chip8::REGISTER id) const;
-    void writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value);
+    Chip8::BYTE readRegister(const Chip8::Register id) const;
+    void writeRegister(const Chip8::Register id, const Chip8::BYTE value);
 
     Chip8::WORD getPc() const { return m_pc; }
     Chip8::BYTE getSp() const { return m_sp; };

@@ -49,11 +49,11 @@ CPU::CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator)
   m_mmu.load(Chip8::FONT_SET, 0x0);
 }
 
-Chip8::BYTE CPU::readRegister(const Chip8::REGISTER id) const {
+Chip8::BYTE CPU::readRegister(const Chip8::Register id) const {
   return m_registers[static_cast<std::size_t>(id)];
 }
 
-void CPU::writeRegister(const Chip8::REGISTER id, const Chip8::BYTE value) {
+void CPU::writeRegister(const Chip8::Register id, const Chip8::BYTE value) {
   m_registers[static_cast<std::size_t>(id)] = value;
 }
 
@@ -177,14 +177,14 @@ void CPU::shiftVxRight() {
   const auto mask = static_cast<Chip8::BYTE>(0x1);
   auto& vx = m_registers.at(x);
 
-  writeRegister(Chip8::REGISTER::VF, vx & mask);
+  writeRegister(Chip8::Register::VF, vx & mask);
   vx >>= 1;
 }
 
 void CPU::shiftVxLeft() {
   const auto x = WordDecoder::readX(m_instruction);
   auto& vx = m_registers.at(x);
-  writeRegister(Chip8::REGISTER::VF, vx >> 7);
+  writeRegister(Chip8::Register::VF, vx >> 7);
   vx <<= 1;
 }
 
@@ -196,7 +196,7 @@ void CPU::addVyToVx() {
   const auto& vy = m_registers.at(y);
 
   const auto hasCarry = vy > (0xFF - vx);
-  writeRegister(Chip8::REGISTER::VF, hasCarry ? 0x1 : 0x0);
+  writeRegister(Chip8::Register::VF, hasCarry ? 0x1 : 0x0);
 
   vx += vy;
 }
@@ -209,7 +209,7 @@ void CPU::subVyFromVx() {
   const auto& vy = m_registers.at(y);
 
   const auto hasBorrow = vy > vx;
-  writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
+  writeRegister(Chip8::Register::VF, hasBorrow ? 0x0 : 0x1);
 
   vx -= vy;
 }
@@ -222,7 +222,7 @@ void CPU::subVxFromVy() {
   const auto& vy = m_registers.at(y);
 
   const auto hasBorrow = vx > vy;
-  writeRegister(Chip8::REGISTER::VF, hasBorrow ? 0x0 : 0x1);
+  writeRegister(Chip8::Register::VF, hasBorrow ? 0x0 : 0x1);
 
   vx = vy - vx;
 }
@@ -306,7 +306,7 @@ void CPU::draw() {
     }
   }
 
-  writeRegister(Chip8::REGISTER::VF, flipped);
+  writeRegister(Chip8::Register::VF, flipped);
   m_ioDevice.drawScreen(m_frameBuffer);
 }
 

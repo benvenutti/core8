@@ -12,8 +12,8 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V1, 0x11);
-    cpu.writeRegister(Chip8::REGISTER::V4, 0x35);
+    cpu.writeRegister(Chip8::Register::V1, 0x11);
+    cpu.writeRegister(Chip8::Register::V4, 0x35);
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 3XNN opcode on matching register x constant") {
@@ -55,8 +55,8 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::VA, 0x1A);
-    cpu.writeRegister(Chip8::REGISTER::VB, 0x2B);
+    cpu.writeRegister(Chip8::Register::VA, 0x1A);
+    cpu.writeRegister(Chip8::Register::VB, 0x2B);
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 4XNN opcode on non-matching register x constant") {
@@ -98,12 +98,12 @@ SCENARIO("CPUs can skip instructions if a register equals another", "[conditiona
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V0, 0x47);
-    cpu.writeRegister(Chip8::REGISTER::VF, 0xE3);
-    cpu.writeRegister(Chip8::REGISTER::V2, 0x47);
-    cpu.writeRegister(Chip8::REGISTER::V3, 0xE3);
-    cpu.writeRegister(Chip8::REGISTER::V8, 0xE1);
-    cpu.writeRegister(Chip8::REGISTER::V9, 0xE0);
+    cpu.writeRegister(Chip8::Register::V0, 0x47);
+    cpu.writeRegister(Chip8::Register::VF, 0xE3);
+    cpu.writeRegister(Chip8::Register::V2, 0x47);
+    cpu.writeRegister(Chip8::Register::V3, 0xE3);
+    cpu.writeRegister(Chip8::Register::V8, 0xE1);
+    cpu.writeRegister(Chip8::Register::V9, 0xE0);
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 5XY0 opcode on matching registers") {
@@ -145,12 +145,12 @@ SCENARIO("CPUs can skip instructions if a register differs from another", "[cond
   GIVEN("A CPU with some initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::VA, 0xA1);
-    cpu.writeRegister(Chip8::REGISTER::VB, 0xB2);
-    cpu.writeRegister(Chip8::REGISTER::VC, 0xC3);
-    cpu.writeRegister(Chip8::REGISTER::VD, 0xC3);
-    cpu.writeRegister(Chip8::REGISTER::VE, 0xB2);
-    cpu.writeRegister(Chip8::REGISTER::VF, 0xA1);
+    cpu.writeRegister(Chip8::Register::VA, 0xA1);
+    cpu.writeRegister(Chip8::Register::VB, 0xB2);
+    cpu.writeRegister(Chip8::Register::VC, 0xC3);
+    cpu.writeRegister(Chip8::Register::VD, 0xC3);
+    cpu.writeRegister(Chip8::Register::VE, 0xB2);
+    cpu.writeRegister(Chip8::Register::VF, 0xA1);
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 9XY0 opcode on non-matching registers") {

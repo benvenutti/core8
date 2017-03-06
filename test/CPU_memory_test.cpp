@@ -43,7 +43,7 @@ SCENARIO("CPUs can load the registers into memory", "[memory]") {
     cpu.setI(1024);
 
     for (std::size_t i = 0; i < 16; ++i) {
-      cpu.writeRegister(static_cast<Core8::Chip8::REGISTER>(i), bytes[i]);
+      cpu.writeRegister(static_cast<Core8::Chip8::Register>(i), bytes[i]);
     }
 
     WHEN("the CPU executes a FX55 operation") {
@@ -83,7 +83,7 @@ SCENARIO("CPUs can load values from memory into registers", "[memory]") {
 
       THEN("registers V0 to VX are filled with values from memory starting at address I") {
         for (std::size_t i = 0; i < 0x5; ++i) {
-          REQUIRE(cpu.readRegister(static_cast<Core8::Chip8::REGISTER>(i)) == bytes[i]);
+          REQUIRE(cpu.readRegister(static_cast<Core8::Chip8::Register>(i)) == bytes[i]);
         }
       }
       AND_THEN("the value of I is incremented by X plus one") {
@@ -97,8 +97,8 @@ SCENARIO("CPUs can add registers to the address register I", "[memory]") {
   GIVEN("A CPU with registers V and I initialized") {
     Aux::TestKit testKit;
     Core8::CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 10);
-    cpu.writeRegister(Core8::Chip8::REGISTER::VE, 66);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 10);
+    cpu.writeRegister(Core8::Chip8::Register::VE, 66);
     cpu.setI(512);
 
     WHEN("the CPU executes a FX1E operation") {
@@ -124,8 +124,8 @@ SCENARIO("CPUs can load to I the address of the sprite for the character in Vx",
   GIVEN("A CPU with registers Vx initialized") {
     Aux::TestKit testKit;
     Core8::CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Core8::Chip8::REGISTER::V0, 0x0);
-    cpu.writeRegister(Core8::Chip8::REGISTER::VE, 0xF);
+    cpu.writeRegister(Core8::Chip8::Register::V0, 0x0);
+    cpu.writeRegister(Core8::Chip8::Register::VE, 0xF);
 
     WHEN("the CPU executes a FX29 operation") {
       cpu.setInstruction(0xF029);

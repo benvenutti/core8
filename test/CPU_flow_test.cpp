@@ -88,7 +88,7 @@ SCENARIO("CPUs can execute unconditional jumps using register V0", "[flow]") {
   GIVEN("A CPU with initialized registers") {
     Aux::TestKit testKit;
     CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::REGISTER::V0, 0x2D);
+    cpu.writeRegister(Chip8::Register::V0, 0x2D);
 
     WHEN("the CPU executes an BNNN operation") {
       cpu.setInstruction(0xB131);

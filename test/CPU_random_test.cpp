@@ -22,7 +22,7 @@ SCENARIO(
       cpu.execute();
 
       THEN("register V0 is set to 0") {
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::V0) == 0x0);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0x0);
       }
     }
   }
@@ -44,7 +44,7 @@ SCENARIO(
       cpu.execute();
 
       THEN("register VF is set to FF") {
-        REQUIRE(cpu.readRegister(Core8::Chip8::REGISTER::VF) == 0xFF);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0xFF);
       }
     }
   }
