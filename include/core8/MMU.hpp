@@ -13,7 +13,6 @@ namespace Core8 {
 class MMU {
   public:
     MMU();
-    MMU(const MMU& mmu) = default;
 
     bool operator==(const MMU& mmu) const;
 
@@ -30,6 +29,13 @@ class MMU {
     std::size_t getSize() const noexcept {
       return m_memory.size();
     }
+
+    using Memory = std::array<Chip8::BYTE, Chip8::RAM_SIZE>;
+
+    Memory::const_iterator begin() const;
+    Memory::iterator begin();
+    Memory::const_iterator end() const;
+    Memory::iterator end();
 
   private:
     std::array<Chip8::BYTE, Chip8::RAM_SIZE> m_memory;

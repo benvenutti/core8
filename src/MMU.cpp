@@ -53,4 +53,20 @@ void MMU::clear() {
   m_memory.fill(0x0);
 }
 
+MMU::Memory::const_iterator MMU::begin() const {
+  return std::begin(m_memory);
+}
+
+MMU::Memory::iterator MMU::begin() {
+  return std::begin(m_memory);
+}
+
+MMU::Memory::const_iterator MMU::end() const {
+  return std::end(m_memory);
+}
+
+MMU::Memory::iterator MMU::end() {
+  return std::end(m_memory);
+}
+
 } // namespace Core8
