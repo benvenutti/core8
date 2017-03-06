@@ -25,27 +25,6 @@ SCENARIO("Creating a MMU with the default constructor", "[mmu]") {
   }
 }
 
-SCENARIO("Creating a MMU with the copy constructor", "[mmu]") {
-  GIVEN("A MMU with initialized values") {
-    Core8::MMU mmu;
-    mmu.writeByte(0x11, 0x0);
-    mmu.writeByte(0xFF, 0xFFF);
-
-    WHEN("a new MMU object is created with the copy constructor") {
-      const Core8::MMU copy{mmu};
-
-      THEN("both MMUs have the same size") {
-        REQUIRE(mmu.getSize() == copy.getSize());
-      }
-      THEN("both MMUs hold the same values in memory") {
-        for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
-          REQUIRE(mmu.readByte(i) == copy.readByte(i));
-        }
-      }
-    }
-  }
-}
-
 SCENARIO("Comparing two identical MMUs using the equal operator", "[mmu]") {
   GIVEN("Two MMUs with the same values in memory") {
     Core8::MMU mmu1;

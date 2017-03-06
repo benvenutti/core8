@@ -13,7 +13,6 @@ namespace Core8 {
 class MMU {
   public:
     MMU();
-    MMU(const MMU& mmu) = default;
 
     bool operator==(const MMU& mmu) const;
 
