@@ -1,6 +1,9 @@
-#include <catch.hpp>
-
+#include <algorithm>
+#include <cstdint>
+#include <numeric>
 #include <stdexcept>
+
+#include <catch.hpp>
 
 #include "aux/Aux.hpp"
 #include "Chip8.hpp"
@@ -17,9 +20,7 @@ SCENARIO("Creating a MMU with the default constructor", "[mmu]") {
         REQUIRE(mmu.getSize() == Core8::Chip8::RAM_SIZE);
       }
       AND_THEN("its memory is cleared (filled with zeros)") {
-        for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
-          REQUIRE(mmu.readByte(i) == 0u);
-        }
+        REQUIRE(std::accumulate(std::begin(mmu), std::end(mmu), 0u) == 0u);
       }
     }
   }
@@ -29,11 +30,8 @@ SCENARIO("Comparing two identical MMUs using the equal operator", "[mmu]") {
   GIVEN("Two MMUs with the same values in memory") {
     Core8::MMU mmu1;
     Core8::MMU mmu2;
-
-    for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
-      mmu1.writeByte(0xFF, i);
-      mmu2.writeByte(0xFF, i);
-    }
+    std::generate(std::begin(mmu1), std::end(mmu1), [] { return 0xFF; });
+    std::generate(std::begin(mmu2), std::end(mmu2), [] { return 0xFF; });
 
     WHEN("the MMUs are compared using the equal operator") {
       const auto areEqual = mmu1 == mmu2;
@@ -49,13 +47,7 @@ SCENARIO("Comparing two different MMUs using the equal operator", "[mmu]") {
   GIVEN("Two MMUs with different values in memory") {
     Core8::MMU mmu1;
     Core8::MMU mmu2;
-
-    for (auto i = 0u; i < Core8::Chip8::RAM_SIZE; ++i) {
-      mmu1.writeByte(0xFF, i);
-      mmu2.writeByte(0xFF, i);
-    }
-
-    mmu2.writeByte(0xFE, 0);
+    mmu1.writeByte(0x01, 0x0);
 
     WHEN("the MMUs are compared using the equal operator") {
       const auto areEqual = mmu1 == mmu2;
@@ -213,16 +205,13 @@ SCENARIO("MMU loads a rom to an invalid memory address", "[mmu]") {
 SCENARIO("MMU clears its memory", "[mmu]") {
   GIVEN("A MMU with initialized values") {
     Core8::MMU mmu;
-    mmu.writeByte(0x1A, 0x80);
+    std::generate(std::begin(mmu), std::end(mmu), [] { return 0xFF; });
 
     WHEN("the MMU clears the memory") {
       mmu.clear();
 
       THEN("all bytes in memory are set to zero") {
-        const auto memorySize = mmu.getSize();
-        for (auto i = 0u; i < memorySize; ++i) {
-          REQUIRE(mmu.readByte(i) == 0x0);
-        }
+        REQUIRE(std::accumulate(std::begin(mmu), std::end(mmu), 0u) == 0u);
       }
     }
   }
