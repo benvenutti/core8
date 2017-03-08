@@ -13,7 +13,7 @@ struct CpuFixture {
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns register VA to register V0 using op 8XY0",
+    "CPU assigns register VA to register V0 using opcode 8XY0",
     "[assign]"
 ) {
   GIVEN("A CPU with an initialized register VA") {
@@ -34,7 +34,7 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns register VA to register VF using op 8XY0",
+    "CPU assigns register VA to register VF using opcode 8XY0",
     "[assign]"
 ) {
   GIVEN("A CPU with an initialized register VA") {
@@ -55,7 +55,7 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns a register to itself using op 8XY0",
+    "CPU assigns a register to itself using opcode 8XY0",
     "[assign]"
 ) {
   GIVEN("A CPU with an initialized register V1") {
