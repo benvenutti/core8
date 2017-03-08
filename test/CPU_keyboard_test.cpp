@@ -13,7 +13,9 @@ struct CpuFixture {
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation EX9E skips next instruction when VX is pressed", "[keyboard]"
+    "CPU skips next instruction with EX9E opcode "
+        "when the key pressed is equal to register VX",
+    "[keyboard]"
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
@@ -24,7 +26,7 @@ SCENARIO_METHOD(
       cpu.execute(0xE09E);
 
       THEN("the program counter is updated to skip the next instruction") {
-        REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
+        REQUIRE(cpu.getPc() == originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE);
       }
     }
   }
@@ -32,7 +34,9 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation EX9E does not skip instruction when VX is not pressed", "[keyboard]"
+    "CPU does not skip next instruction with EX9E opcode "
+        "when the key pressed is not equal to register VX",
+    "[keyboard]"
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 1 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
@@ -51,7 +55,9 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation EXA1 skips next instruction when VX is not pressed", "[keyboard]"
+    "CPU skips next instruction with EXA1 opcode "
+        "when the key pressed is not equal to register VX",
+    "[keyboard]"
 ) {
   GIVEN("A CPU with V0 set to 1 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 1u);
@@ -62,7 +68,7 @@ SCENARIO_METHOD(
       cpu.execute(0xE0A1);
 
       THEN("the program counter is updated to skip the next instruction") {
-        REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
+        REQUIRE(cpu.getPc() == originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE);
       }
     }
   }
@@ -70,7 +76,9 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation EXA1 does not skip instruction when VX is pressed", "[keyboard]"
+    "CPU does not skip next instruction with EXA1 opcode "
+        "when the key pressed is equal to register VX",
+    "[keyboard]"
 ) {
   GIVEN("A CPU with V0 set to 0 and an i/o connector with the key 0 pressed") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0u);
@@ -89,14 +97,16 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation FX0A halts the CPU when no key is pressed", "[keyboard]"
+    "CPU does not update the program counter with FX0A opcode "
+        "when there is no key pressed",
+    "[keyboard]"
 ) {
   GIVEN("A CPU and an i/o connector with no key pressed") {
     ioDevice.setPressedKey(Core8::Chip8::Key::NONE);
-    const auto originalV0 = cpu.readRegister(Core8::Chip8::Register::V0);
     const auto originalPc = cpu.getPc();
+    const auto originalV0 = cpu.readRegister(Core8::Chip8::Register::V0);
 
-    WHEN("the CPU executes an FX0A operation with X equal to 0") {
+    WHEN("the CPU executes an FX0A") {
       cpu.execute(0xF00A);
 
       THEN("the program counter remains unchanged (the CPU is halted)") {
@@ -111,19 +121,47 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "Operation FX0A sets register to the value of the pressed key", "[keyboard]"
+    "A halted CPU (after a FX0A opcode) does not update the program counter "
+        "when the CPU executes another instruction",
+    "[keyboard]"
 ) {
-  GIVEN("a CPU and an i/o connector with the key F pressed") {
-    ioDevice.setPressedKey(Core8::Chip8::Key::KF);
+  GIVEN("A halted CPU and an i/o connector with no key pressed") {
+    ioDevice.setPressedKey(Core8::Chip8::Key::NONE);
+    cpu.execute(0xF00A);
     const auto originalPc = cpu.getPc();
+    const auto originalV0 = cpu.readRegister(Core8::Chip8::Register::V0);
 
-    WHEN("the CPU executes an FX0A operation with X equal to 0") {
+    WHEN("the CPU cycles") {
       cpu.execute(0xF00A);
 
       THEN("the program counter remains unchanged (the CPU is halted)") {
+        REQUIRE(cpu.getPc() == originalPc);
+      }
+      AND_THEN("register V0 remains unchanged") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == originalV0);
+      }
+    }
+  }
+}
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU updates the program counter "
+        "and sets register X to the value of the pressed key "
+        "after any key is pressed during a FX0A operation",
+    "[keyboard]"
+) {
+  GIVEN("A CPU and an i/o connector with the key F pressed") {
+    ioDevice.setPressedKey(Core8::Chip8::Key::KF);
+    const auto originalPc = cpu.getPc();
+
+    WHEN("the CPU executes an FX0A opcode") {
+      cpu.execute(0xF00A);
+
+      THEN("the program counter advances on instruction)") {
         REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
       }
-      AND_THEN("the pressed key value F is stored in V0") {
+      AND_THEN("the pressed key is stored in V0") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0xF);
       }
     }
