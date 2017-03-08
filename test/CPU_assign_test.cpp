@@ -13,7 +13,8 @@ struct CpuFixture {
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns register VA to register V0 using op 8XY0", "[assign]"
+    "CPU assigns register VA to register V0 using op 8XY0",
+    "[assign]"
 ) {
   GIVEN("A CPU with an initialized register VA") {
     cpu.writeRegister(Core8::Chip8::Register::VA, 0xCC);
@@ -33,7 +34,8 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns register VA to register VF using op 8XY0", "[assign]"
+    "CPU assigns register VA to register VF using op 8XY0",
+    "[assign]"
 ) {
   GIVEN("A CPU with an initialized register VA") {
     cpu.writeRegister(Core8::Chip8::Register::VA, 0xDD);
@@ -53,7 +55,8 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU assigns a register to itself using op 8XY0", "[assign]"
+    "CPU assigns a register to itself using op 8XY0",
+    "[assign]"
 ) {
   GIVEN("A CPU with an initialized register V1") {
     cpu.writeRegister(Core8::Chip8::Register::V1, 0x1D);
