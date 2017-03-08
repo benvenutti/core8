@@ -6,33 +6,66 @@
 
 namespace {
 
-using namespace Core8;
+struct CpuFixture {
+  Aux::TestKit testKit;
+  Core8::CPU& cpu = testKit.cpu;
+};
 
-SCENARIO("CPUs can assign the value of one register to another", "[assign]") {
-  GIVEN("A CPU with some initialized registers") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::Register::V0, 0x01);
-    cpu.writeRegister(Chip8::Register::VC, 0xCB);
-    cpu.writeRegister(Chip8::Register::VF, 0xFF);
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU assigns register VA to register V0 using op 8XY0", "[assign]"
+) {
+  GIVEN("A CPU with an initialized register VA") {
+    cpu.writeRegister(Core8::Chip8::Register::VA, 0xCC);
 
-    WHEN("the CPU assigns one register to another") {
-      cpu.execute(0x8100);
-      cpu.execute(0x8DC0);
-      cpu.execute(0x8EF0);
+    WHEN("the CPU executes a 80A0 opcode") {
+      cpu.execute(0x80A0);
 
-      THEN("the target register holds a copy of the source register") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0x01);
-        REQUIRE(cpu.readRegister(Chip8::Register::VD) == 0xCB);
-        REQUIRE(cpu.readRegister(Chip8::Register::VE) == 0xFF);
+      THEN("the value of register VA is copied to register V0") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0xCC);
       }
-      AND_THEN("the source register remains unchanged") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V0) == 0x01);
-        REQUIRE(cpu.readRegister(Chip8::Register::VC) == 0xCB);
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0xFF);
+      AND_THEN("the source register VA remains unchanged") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VA) == 0xCC);
       }
     }
   }
 }
 
-} // unnamed namespace
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU assigns register VA to register VF using op 8XY0", "[assign]"
+) {
+  GIVEN("A CPU with an initialized register VA") {
+    cpu.writeRegister(Core8::Chip8::Register::VA, 0xDD);
+
+    WHEN("the CPU executes a 8FA0 opcode") {
+      cpu.execute(0x8FA0);
+
+      THEN("the value of register VA is copied to register VF") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0xDD);
+      }
+      AND_THEN("the source register VA remains unchanged") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VA) == 0xDD);
+      }
+    }
+  }
+}
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU assigns a register to itself using op 8XY0", "[assign]"
+) {
+  GIVEN("A CPU with an initialized register V1") {
+    cpu.writeRegister(Core8::Chip8::Register::V1, 0x1D);
+
+    WHEN("the CPU executes a 8110 opcode") {
+      cpu.execute(0x8000);
+
+      THEN("the source register V0 remains unchanged") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V1) == 0x1D);
+      }
+    }
+  }
+}
+
+} // namespace
