@@ -17,9 +17,7 @@ SCENARIO(
     rng.setValue(0x0);
 
     WHEN("the CPU executes a CXNN operation with X equal to 0 and NN equal to FF") {
-      cpu.setInstruction(0xC0FF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xC0FF);
 
       THEN("register V0 is set to 0") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0x0);
@@ -39,9 +37,7 @@ SCENARIO(
     rng.setValue(0xFF);
 
     WHEN("the CPU executes a CXNN operation with X equal to F and NN equal to FF") {
-      cpu.setInstruction(0xCFFF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xCFFF);
 
       THEN("register VF is set to FF") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0xFF);

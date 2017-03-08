@@ -17,15 +17,9 @@ SCENARIO("CPUs can assign the value of one register to another", "[assign]") {
     cpu.writeRegister(Chip8::Register::VF, 0xFF);
 
     WHEN("the CPU assigns one register to another") {
-      cpu.setInstruction(0x8100);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x8DC0);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x8EF0);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x8100);
+      cpu.execute(0x8DC0);
+      cpu.execute(0x8EF0);
 
       THEN("the target register holds a copy of the source register") {
         REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0x01);

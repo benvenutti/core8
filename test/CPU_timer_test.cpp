@@ -10,18 +10,14 @@ SCENARIO("CPUs can assign the value of the delay timer to a register", "[timer]"
   GIVEN("A CPU with an initialized delay timer") {
     Aux::TestKit testKit;
     Core8::CPU& cpu = testKit.cpu;
-    cpu.setDelayTimer(0x3C);
+    const Core8::Chip8::BYTE delay{0x3C};
+    cpu.setDelayTimer(delay);
 
     WHEN("the CPU executes a FX07 operation") {
-      cpu.setInstruction(0xF007);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0xFE07);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF007);
+      cpu.execute(0xFE07);
 
       THEN("the target register holds a copy of the delay timer value") {
-        const auto delay = cpu.getDelayTimer();
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == delay);
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::VE) == delay);
       }
@@ -37,13 +33,10 @@ SCENARIO("CPUs can assign the value of registers to the delay timer", "[timer]")
     cpu.writeRegister(Core8::Chip8::Register::VF, 0xCD);
 
     WHEN("the CPU executes a FX15 operation") {
-      cpu.setInstruction(0xF015);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF015);
       const auto delay1 = cpu.getDelayTimer();
-      cpu.setInstruction(0xFF15);
-      cpu.decode();
-      cpu.execute();
+
+      cpu.execute(0xFF15);
       const auto delay2 = cpu.getDelayTimer();
 
       THEN("the delay timer is updated to the value of the register VX") {
@@ -62,13 +55,10 @@ SCENARIO("CPUs can assign the value of registers to the sound timer", "[timer]")
     cpu.writeRegister(Core8::Chip8::Register::VF, 0xFE);
 
     WHEN("the CPU executes a FX18 operation") {
-      cpu.setInstruction(0xF018);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF018);
       const auto sound1 = cpu.getSoundTimer();
-      cpu.setInstruction(0xFF18);
-      cpu.decode();
-      cpu.execute();
+
+      cpu.execute(0xFF18);
       const auto sound2 = cpu.getSoundTimer();
 
       THEN("the sound timer is updated to the value of the register VX") {

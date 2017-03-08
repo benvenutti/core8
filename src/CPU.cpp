@@ -57,6 +57,20 @@ void CPU::writeRegister(const Chip8::Register id, const Chip8::BYTE value) {
   m_registers[static_cast<std::size_t>(id)] = value;
 }
 
+void CPU::cycle() {
+  fetch();
+  decode();
+  execute();
+  updateDelayTimer();
+  updateSoundTimer();
+}
+
+void CPU::execute(const Chip8::WORD instr) {
+  m_instruction = instr;
+  decode();
+  execute();
+}
+
 void CPU::fetch() {
   m_instruction = m_mmu.readWord(m_pc);
   m_pc += Chip8::INSTRUCTION_BYTE_SIZE;

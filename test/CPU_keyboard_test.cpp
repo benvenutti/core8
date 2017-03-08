@@ -21,9 +21,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EX9E operation with X equal to 0") {
-      cpu.setInstruction(0xE09E);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xE09E);
 
       THEN("the program counter is updated to skip the next instruction") {
         REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
@@ -42,9 +40,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EX9E operation with X equal to 0") {
-      cpu.setInstruction(0xE09E);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xE09E);
 
       THEN("the program counter remains unchanged") {
         REQUIRE(cpu.getPc() == originalPc);
@@ -63,9 +59,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EXA1 operation with X equal to 0") {
-      cpu.setInstruction(0xE0A1);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xE0A1);
 
       THEN("the program counter is updated to skip the next instruction") {
         REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
@@ -84,9 +78,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an EXA1 operation with X equal to 0") {
-      cpu.setInstruction(0xE0A1);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xE0A1);
 
       THEN("the program counter is updated to skip the next instruction") {
         REQUIRE(cpu.getPc() == originalPc);
@@ -105,9 +97,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an FX0A operation with X equal to 0") {
-      cpu.setInstruction(0xF00A);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF00A);
 
       THEN("the program counter remains unchanged (the CPU is halted)") {
         REQUIRE(cpu.getPc() == originalPc);
@@ -128,9 +118,7 @@ SCENARIO_METHOD(
     const auto originalPc = cpu.getPc();
 
     WHEN("the CPU executes an FX0A operation with X equal to 0") {
-      cpu.setInstruction(0xF00A);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF00A);
 
       THEN("the program counter remains unchanged (the CPU is halted)") {
         REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));

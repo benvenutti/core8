@@ -19,9 +19,7 @@ SCENARIO(
     cpu.setI(100);
 
     WHEN("the CPU executes a FX33 operation with X equal to 0") {
-      cpu.setInstruction(0xF033);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF033);
 
       THEN("the memory holds 3 digits with the BCD representation of VX starting at I") {
         REQUIRE(mmu.readByte(100u) == 0);
@@ -45,9 +43,7 @@ SCENARIO(
     cpu.setI(200);
 
     WHEN("the CPU executes a FX33 operation with X equal to 0") {
-      cpu.setInstruction(0xF033);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF033);
 
       THEN("the memory holds 3 digits with the BCD representation of VX starting at I") {
         REQUIRE(mmu.readByte(200u) == 2);

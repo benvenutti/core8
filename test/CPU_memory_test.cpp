@@ -13,14 +13,10 @@ SCENARIO("CPUs can load addresses to the address register I", "[memory]") {
     Core8::CPU& cpu = testKit.cpu;
 
     WHEN("the CPU executes a ANNN operation") {
-      cpu.setInstruction(0xA123);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xA123);
       const auto address1 = cpu.getI();
 
-      cpu.setInstruction(0xAFFF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xAFFF);
       const auto address2 = cpu.getI();
 
       THEN("the address NNN is loaded into the address register I") {
@@ -47,9 +43,7 @@ SCENARIO("CPUs can load the registers into memory", "[memory]") {
     }
 
     WHEN("the CPU executes a FX55 operation") {
-      cpu.setInstruction(0xFF55);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xFF55);
 
       THEN("the registers from V0 to VX are stored in memory starting at address I") {
         const Core8::MMU& mmu = testKit.mmu;
@@ -77,9 +71,7 @@ SCENARIO("CPUs can load values from memory into registers", "[memory]") {
     mmu.load(rom, 1024);
 
     WHEN("the CPU executes a FX65 operation") {
-      cpu.setInstruction(0xF565);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF565);
 
       THEN("registers V0 to VX are filled with values from memory starting at address I") {
         for (std::size_t i = 0; i < 0x5; ++i) {
@@ -102,14 +94,10 @@ SCENARIO("CPUs can add registers to the address register I", "[memory]") {
     cpu.setI(512);
 
     WHEN("the CPU executes a FX1E operation") {
-      cpu.setInstruction(0xF01E);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF01E);
       const auto address1 = cpu.getI();
 
-      cpu.setInstruction(0xFE1E);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xFE1E);
       const auto address2 = cpu.getI();
 
       THEN("the value of register Vx is added to the address register I") {
@@ -128,14 +116,10 @@ SCENARIO("CPUs can load to I the address of the sprite for the character in Vx",
     cpu.writeRegister(Core8::Chip8::Register::VE, 0xF);
 
     WHEN("the CPU executes a FX29 operation") {
-      cpu.setInstruction(0xF029);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xF029);
       const auto address1 = cpu.getI();
 
-      cpu.setInstruction(0xFE29);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xFE29);
       const auto address2 = cpu.getI();
 
       THEN("register I is updated with the address of the character sprite of Vx value") {

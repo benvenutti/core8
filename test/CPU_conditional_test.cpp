@@ -17,14 +17,10 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 3XNN opcode on matching register x constant") {
-      cpu.setInstruction(0x3111);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x3111);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x3435);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x3435);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is updated") {
@@ -33,14 +29,10 @@ SCENARIO("CPUs can skip instructions if a register equals a constant value", "[c
       }
     }
     AND_WHEN("the CPU executes a 3XNN opcode on non-matching register x constant") {
-      cpu.setInstruction(0x31FF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x31FF);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x34EE);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x34EE);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is remains unchanged") {
@@ -60,14 +52,10 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 4XNN opcode on non-matching register x constant") {
-      cpu.setInstruction(0x4AA1);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x4AA1);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x4BB2);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x4BB2);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is updated") {
@@ -76,14 +64,10 @@ SCENARIO("CPUs can skip instructions if a register differs from a constant", "[c
       }
     }
     AND_WHEN("the CPU executes a 4XNN opcode on matching register x constant") {
-      cpu.setInstruction(0x4A1A);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x4A1A);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x4B2B);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x4B2B);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is remains unchanged") {
@@ -107,14 +91,10 @@ SCENARIO("CPUs can skip instructions if a register equals another", "[conditiona
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 5XY0 opcode on matching registers") {
-      cpu.setInstruction(0x5020);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x5020);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x5F30);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x5F30);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is updated") {
@@ -123,14 +103,10 @@ SCENARIO("CPUs can skip instructions if a register equals another", "[conditiona
       }
     }
     AND_WHEN("the CPU executes a 5XY0 opcode on non-matching registers") {
-      cpu.setInstruction(0x5080);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x5080);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x5F90);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x5F90);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is remains unchanged") {
@@ -154,14 +130,10 @@ SCENARIO("CPUs can skip instructions if a register differs from another", "[cond
     const auto pc0 = cpu.getPc();
 
     WHEN("the CPU executes a 9XY0 opcode on non-matching registers") {
-      cpu.setInstruction(0x9AD0);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x9AD0);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x9BF0);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x9BF0);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is updated") {
@@ -170,14 +142,10 @@ SCENARIO("CPUs can skip instructions if a register differs from another", "[cond
       }
     }
     AND_WHEN("the CPU executes a 9XY0 opcode on matching registers") {
-      cpu.setInstruction(0x9CD0);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x9CD0);
       const auto pc1 = cpu.getPc();
 
-      cpu.setInstruction(0x9EB0);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x9EB0);
       const auto pc2 = cpu.getPc();
 
       THEN("the CPUs program counter is remains unchanged") {

@@ -14,15 +14,9 @@ SCENARIO("CPUs can load constants to registers", "[constant]") {
     CPU& cpu = testKit.cpu;
 
     WHEN("the CPU executes a load constant operation to a register") {
-      cpu.setInstruction(0x6001);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x693A);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x6FFF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x6001);
+      cpu.execute(0x693A);
+      cpu.execute(0x6FFF);
 
       THEN("that register holds the loaded constant") {
         REQUIRE(cpu.readRegister(Chip8::Register::V0) == 0x1);
@@ -42,15 +36,9 @@ SCENARIO("CPUs can add constants to registers", "[constant]") {
     cpu.writeRegister(Chip8::Register::VF, 0xFE);
 
     WHEN("the CPU executes an add constant operation to a register") {
-      cpu.setInstruction(0x7301);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x7793);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x7F01);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0x7301);
+      cpu.execute(0x7793);
+      cpu.execute(0x7F01);
 
       THEN("that register holds the value of the sum") {
         REQUIRE(cpu.readRegister(Chip8::Register::V3) == 0x4);
