@@ -1,21 +1,28 @@
-#include <catch.hpp>
-
+#include <algorithm>
 #include <vector>
+
+#include <catch.hpp>
 
 #include "aux/Aux.hpp"
 #include "CPU.hpp"
 
 namespace {
 
-SCENARIO("CPUs can load addresses to the address register I", "[memory]") {
-  GIVEN("A CPU") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
+struct CpuFixture {
+  Aux::TestKit testKit;
+  Core8::MMU& mmu = testKit.mmu;
+  Core8::CPU& cpu = testKit.cpu;
+};
 
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU sets I to the address NNN using opcode ANNN",
+    "[memory]"
+) {
+  GIVEN("A CPU") {
     WHEN("the CPU executes a ANNN operation") {
       cpu.execute(0xA123);
       const auto address1 = cpu.getI();
-
       cpu.execute(0xAFFF);
       const auto address2 = cpu.getI();
 
@@ -27,28 +34,30 @@ SCENARIO("CPUs can load addresses to the address register I", "[memory]") {
   }
 }
 
-SCENARIO("CPUs can load the registers into memory", "[memory]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU stores registers V0 to VX in memory starting at address I "
+        "using the FX55 opcode",
+    "[memory]"
+) {
   GIVEN("A CPU with initialized V and I registers") {
+    const Core8::Chip8::WORD address{1024};
+    cpu.setI(address);
+
     const std::vector<Core8::Chip8::BYTE> bytes{
         0x10, 0x11, 0x12, 0x13, 0x24, 0x25, 0x26, 0x27,
         0x38, 0x39, 0x3A, 0x3B, 0x4C, 0x4D, 0x4E, 0x4F
     };
+    cpu.loadToRegisters(bytes);
 
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
-    cpu.setI(1024);
-
-    for (std::size_t i = 0; i < 16; ++i) {
-      cpu.writeRegister(static_cast<Core8::Chip8::Register>(i), bytes[i]);
-    }
-
-    WHEN("the CPU executes a FX55 operation") {
+    WHEN("the CPU executes a FX55 opcode") {
       cpu.execute(0xFF55);
 
-      THEN("the registers from V0 to VX are stored in memory starting at address I") {
-        const Core8::MMU& mmu = testKit.mmu;
-        for (std::size_t i = 0; i < 0xF; ++i) {
-          REQUIRE(mmu.readByte(1024 + i) == bytes[i]);
+      THEN("the registers from V0 to VX are stored in memory") {
+        for (auto i = 0u; i < 0xFu; ++i) {
+          const auto r = cpu.readRegister(static_cast<Core8::Chip8::Register>(i));
+          const auto m = mmu.readByte(address + i);
+          REQUIRE(r == m);
         }
       }
       AND_THEN("the value of I is incremented by X plus one") {
@@ -58,24 +67,28 @@ SCENARIO("CPUs can load the registers into memory", "[memory]") {
   }
 }
 
-SCENARIO("CPUs can load values from memory into registers", "[memory]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU fills registers V0 to VX in memory starting at address I "
+        "using the FX65 opcode",
+    "[memory]"
+) {
   GIVEN("A CPU with initialized memory and register I") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
-    Core8::MMU& mmu = testKit.mmu;
+    const Core8::Chip8::WORD address{1024};
+    cpu.setI(address);
 
-    cpu.setI(1024);
+    const std::vector<Core8::Chip8::BYTE> bytes = { 0x10, 0x11, 0x12,
+                                                    0x13, 0x24, 0x25 };
+    mmu.load(bytes, address);
 
-    std::vector<Core8::Chip8::BYTE> bytes = { 0x10, 0x11, 0x12, 0x13, 0x24, 0x25 };
-    Aux::ByteStream rom{bytes};
-    mmu.load(rom, 1024);
-
-    WHEN("the CPU executes a FX65 operation") {
+    WHEN("the CPU executes a FX65 opcode") {
       cpu.execute(0xF565);
 
-      THEN("registers V0 to VX are filled with values from memory starting at address I") {
-        for (std::size_t i = 0; i < 0x5; ++i) {
-          REQUIRE(cpu.readRegister(static_cast<Core8::Chip8::Register>(i)) == bytes[i]);
+      THEN("registers V0 to VX are filled with values from memory") {
+        for (auto i = 0u; i < 0x5; ++i) {
+          const auto r = cpu.readRegister(static_cast<Core8::Chip8::Register>(i));
+          const auto m = mmu.readByte(address + i);
+          REQUIRE(r == m);
         }
       }
       AND_THEN("the value of I is incremented by X plus one") {
@@ -85,22 +98,24 @@ SCENARIO("CPUs can load values from memory into registers", "[memory]") {
   }
 }
 
-SCENARIO("CPUs can add registers to the address register I", "[memory]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU adds register X to register I using FX1E opcode",
+    "[memory]"
+) {
   GIVEN("A CPU with registers V and I initialized") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
     cpu.writeRegister(Core8::Chip8::Register::V0, 10);
     cpu.writeRegister(Core8::Chip8::Register::VE, 66);
     cpu.setI(512);
 
-    WHEN("the CPU executes a FX1E operation") {
+    WHEN("the CPU executes a FX1E opcode") {
       cpu.execute(0xF01E);
       const auto address1 = cpu.getI();
 
       cpu.execute(0xFE1E);
       const auto address2 = cpu.getI();
 
-      THEN("the value of register Vx is added to the address register I") {
+      THEN("the value of register VX is added to register I") {
         REQUIRE(522 == address1);
         REQUIRE(588 == address2);
       }
@@ -108,21 +123,24 @@ SCENARIO("CPUs can add registers to the address register I", "[memory]") {
   }
 }
 
-SCENARIO("CPUs can load to I the address of the sprite for the character in Vx", "[memory]") {
-  GIVEN("A CPU with registers Vx initialized") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU sets I to the location of the sprite for the character in VX "
+        "using FX29 opcode",
+    "[memory]"
+) {
+  GIVEN("A CPU with initialized registers") {
     cpu.writeRegister(Core8::Chip8::Register::V0, 0x0);
     cpu.writeRegister(Core8::Chip8::Register::VE, 0xF);
 
-    WHEN("the CPU executes a FX29 operation") {
+    WHEN("the CPU executes a FX29 opcode") {
       cpu.execute(0xF029);
       const auto address1 = cpu.getI();
 
       cpu.execute(0xFE29);
       const auto address2 = cpu.getI();
 
-      THEN("register I is updated with the address of the character sprite of Vx value") {
+      THEN("register I is updated to the address of the character sprite of VX") {
         REQUIRE(address1 == 0);
         REQUIRE(address2 == 75);
       }
@@ -130,4 +148,4 @@ SCENARIO("CPUs can load to I the address of the sprite for the character in Vx",
   }
 }
 
-} // unnamed namespace
+} // namespace
