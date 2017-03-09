@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "CPU.hpp"
 
 #include "WordDecoder.hpp"
@@ -55,6 +57,11 @@ Chip8::BYTE CPU::readRegister(const Chip8::Register id) const {
 
 void CPU::writeRegister(const Chip8::Register id, const Chip8::BYTE value) {
   m_registers[static_cast<std::size_t>(id)] = value;
+}
+
+void CPU::loadToRegisters(const std::vector<Chip8::BYTE> values) {
+  const auto size = std::min(values.size(), m_registers.size());
+  std::copy_n(std::begin(values), size, std::begin(m_registers));
 }
 
 void CPU::cycle() {

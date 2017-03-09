@@ -22,6 +22,7 @@ class CPU {
 
     Chip8::BYTE readRegister(const Chip8::Register id) const;
     void writeRegister(const Chip8::Register id, const Chip8::BYTE value);
+    void loadToRegisters(const std::vector<Chip8::BYTE> values);
 
     Chip8::WORD getPc() const { return m_pc; }
     Chip8::BYTE getSp() const { return m_sp; };
