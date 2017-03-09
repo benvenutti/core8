@@ -52,11 +52,11 @@ CPU::CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator)
 }
 
 Chip8::BYTE CPU::readRegister(const Chip8::Register id) const {
-  return m_registers[static_cast<std::size_t>(id)];
+  return m_registers.at(static_cast<std::size_t>(id));
 }
 
 void CPU::writeRegister(const Chip8::Register id, const Chip8::BYTE value) {
-  m_registers[static_cast<std::size_t>(id)] = value;
+  m_registers.at(static_cast<std::size_t>(id)) = value;
 }
 
 void CPU::loadToRegisters(const std::vector<Chip8::BYTE> values) {
@@ -205,6 +205,7 @@ void CPU::shiftVxRight() {
 void CPU::shiftVxLeft() {
   const auto x = WordDecoder::readX(m_instruction);
   auto& vx = m_registers.at(x);
+
   writeRegister(Chip8::Register::VF, vx >> 7);
   vx <<= 1;
 }
@@ -274,9 +275,8 @@ void CPU::loadNnnToI() {
 void CPU::loadRegistersToI() {
   const auto x = WordDecoder::readX(m_instruction);
 
-  for (std::size_t i = 0; i <= x; ++i) {
-    m_mmu.writeByte(m_registers.at(i), m_I + i);
-  }
+  std::copy_n(std::begin(m_registers), x,
+              std::begin(m_mmu) + m_I);
 
   m_I += x + 1;
 }
@@ -284,9 +284,8 @@ void CPU::loadRegistersToI() {
 void CPU::loadItoRegisters() {
   const auto x = WordDecoder::readX(m_instruction);
 
-  for (std::size_t i = 0; i <= x; ++i) {
-    m_registers.at(i) = m_mmu.readByte(m_I + i);
-  }
+  std::copy_n(std::begin(m_mmu) + m_I, x,
+              std::begin(m_registers));
 
   m_I += x + 1;
 }
@@ -380,4 +379,4 @@ void CPU::executeLoadRandomToVx() {
   m_registers.at(x) = nn & randomNumber;
 }
 
-} //namespace Core8
+} // namespace Core8
