@@ -6,99 +6,149 @@
 
 namespace {
 
-using namespace Core8;
+struct CpuFixture {
+  Aux::TestKit testKit;
+  Core8::CPU& cpu = testKit.cpu;
+};
 
-SCENARIO("CPUs can add VY from VX", "[math]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU adds register Y to register X using 8XY4 opcode "
+        "without the need for a carry",
+    "[math]"
+) {
   GIVEN("A CPU with some initialized registers") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::Register::V1, 0x11);
-    cpu.writeRegister(Chip8::Register::V4, 0x35);
-    cpu.writeRegister(Chip8::Register::V5, 0xFE);
+    cpu.writeRegister(Core8::Chip8::Register::V1, 0x11);
+    cpu.writeRegister(Core8::Chip8::Register::V4, 0x35);
 
-    WHEN("the CPU executes a 8XY4 operation on two registers without carry") {
+    WHEN("the CPU executes a 8XY4 opcode") {
       cpu.execute(0x8144);
 
       THEN("the value of VY is added to VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0x46);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V1) == 0x46);
       }
-      AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
-      }
-    }
-    AND_WHEN("the CPU executes a 8XY4 operation on two registers with a carry") {
-      cpu.execute(0x8154);
-
-      THEN("the value of VY is added to VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V1) == 0xF);
-      }
-      AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
+      AND_THEN("VF is set to 0 since there is no need for a carry") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x0);
       }
     }
   }
 }
 
-SCENARIO("CPUs can subtract VY from VX", "[math]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU adds register Y to register X using 8XY4 opcode "
+        "with the need for a carry",
+    "[math]"
+) {
   GIVEN("A CPU with some initialized registers") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::Register::VA, 0xA3);
-    cpu.writeRegister(Chip8::Register::VB, 0x15);
-    cpu.writeRegister(Chip8::Register::VC, 0xFF);
+    cpu.writeRegister(Core8::Chip8::Register::V1, 0x11);
+    cpu.writeRegister(Core8::Chip8::Register::V5, 0xFE);
 
-    WHEN("the CPU executes a 8XY5 operation on two registers without a borrow") {
+    WHEN("the CPU executes a 8XY4 opcode") {
+      cpu.execute(0x8154);
+
+      THEN("the value of VY is added to VX (with an overflow)") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V1) == 0xF);
+      }
+      AND_THEN("VF is set to 1 since there is a carry") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x1);
+      }
+    }
+  }
+}
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU subtracts register Y from register X using 8XY5 opcode "
+        "without the need for a borrow",
+    "[math]"
+) {
+  GIVEN("A CPU with some initialized registers") {
+    cpu.writeRegister(Core8::Chip8::Register::VA, 0xA3);
+    cpu.writeRegister(Core8::Chip8::Register::VB, 0x15);
+
+    WHEN("the CPU executes a 8XY5 opcode") {
       cpu.execute(0x8AB5);
 
       THEN("the value of VY is subtracted from VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VA) == 0x8E);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VA) == 0x8E);
       }
-      AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
+      AND_THEN("VF is set to 1 since there is no borrow") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x1);
       }
     }
-    AND_WHEN("the CPU executes a 8XY5 operation on two registers with a borrow") {
+  }
+}
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU subtracts register Y from register X using 8XY5 opcode "
+        "with the need for a borrow",
+    "[math]"
+) {
+  GIVEN("A CPU with some initialized registers") {
+    cpu.writeRegister(Core8::Chip8::Register::VA, 0xA3);
+    cpu.writeRegister(Core8::Chip8::Register::VC, 0xFF);
+
+    WHEN("the CPU executes a 8XY5 opcode") {
       cpu.execute(0x8AC5);
 
       THEN("the value of VY is subtracted from VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VA) == 0xa4);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VA) == 0xA4);
       }
-      AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
+      AND_THEN("VF is set to 0 since there is a borrow") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x0);
       }
     }
   }
 }
 
-SCENARIO("CPUs can subtract VX to VY", "[math]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU executes opcode 8XY7 to "
+        "subtract register X from register Y (storing the result in VX) "
+        "without the need for a borrow",
+    "[math]"
+) {
   GIVEN("A CPU with some initialized registers") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::Register::V3, 0x3F);
-    cpu.writeRegister(Chip8::Register::V4, 0xBB);
-    cpu.writeRegister(Chip8::Register::V5, 0xFF);
+    cpu.writeRegister(Core8::Chip8::Register::V3, 0x3F);
+    cpu.writeRegister(Core8::Chip8::Register::V4, 0xBB);
 
-    WHEN("a 8XY7 operation is executed on two registers without a borrow") {
+    WHEN("the CPU executes a 8XY7 opcode") {
       cpu.execute(0x8347);
 
-      THEN("VX is set to the value of VY minus VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V3) == 0x7C);
+      THEN("the the result of VY minus VX is stored in VX") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V3) == 0x7C);
       }
-      AND_THEN("VF is set to 1") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x1);
-      }
-    }
-    AND_WHEN("a 8XY7 operation is executed on two registers with a borrow") {
-      cpu.execute(0x8547);
-
-      THEN("VX is set to the value of VY minus VX") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V5) == 0xBC);
-      }
-      AND_THEN("VF is set to 0") {
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0x0);
+      AND_THEN("VF is set to 1 since there is no borrow") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x1);
       }
     }
   }
 }
 
-} // unnamed namespace
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU executes opcode 8XY7 to "
+        "subtract register X from register Y (storing the result in VX) "
+        "with the need for a borrow",
+    "[math]"
+) {
+  GIVEN("A CPU with some initialized registers") {
+    cpu.writeRegister(Core8::Chip8::Register::V4, 0xBB);
+    cpu.writeRegister(Core8::Chip8::Register::V5, 0xFF);
+
+    WHEN("the CPU executes a 8XY7 opcode") {
+      cpu.execute(0x8547);
+
+      THEN("the the result of VY minus VX is stored in VX") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V5) == 0xBC);
+      }
+      AND_THEN("VF is set to 1 since there is a borrow") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x0);
+      }
+    }
+  }
+}
+
+} // namespace
