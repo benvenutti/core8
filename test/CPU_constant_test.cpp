@@ -6,59 +6,48 @@
 
 namespace {
 
-using namespace Core8;
+struct CpuFixture {
+  Aux::TestKit testKit;
+  Core8::CPU& cpu = testKit.cpu;
+};
 
-SCENARIO("CPUs can load constants to registers", "[constant]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU loads constant NN to register VX using opcode 6XNN",
+    "[constant]"
+) {
   GIVEN("A CPU") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
+    WHEN("the CPU executes a 6XNN opcode") {
+      cpu.execute(0x60FF);
+      cpu.execute(0x6F01);
 
-    WHEN("the CPU executes a load constant operation to a register") {
-      cpu.setInstruction(0x6001);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x693A);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x6FFF);
-      cpu.decode();
-      cpu.execute();
-
-      THEN("that register holds the loaded constant") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V0) == 0x1);
-        REQUIRE(cpu.readRegister(Chip8::Register::V9) == 0x3A);
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0xFF);
+      THEN("the constant NN is loaded to register VX") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0xFF);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0x1);
       }
     }
   }
 }
 
-SCENARIO("CPUs can add constants to registers", "[constant]") {
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU adds constant NN to register VX using opcode 7XNN",
+    "[constant]"
+) {
   GIVEN("A CPU with initialized registers") {
-    Aux::TestKit testKit;
-    CPU& cpu = testKit.cpu;
-    cpu.writeRegister(Chip8::Register::V3, 0x03);
-    cpu.writeRegister(Chip8::Register::V7, 0x34);
-    cpu.writeRegister(Chip8::Register::VF, 0xFE);
+    cpu.writeRegister(Core8::Chip8::Register::V3, 0x00);
+    cpu.writeRegister(Core8::Chip8::Register::VF, 0xFE);
 
-    WHEN("the CPU executes an add constant operation to a register") {
-      cpu.setInstruction(0x7301);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x7793);
-      cpu.decode();
-      cpu.execute();
-      cpu.setInstruction(0x7F01);
-      cpu.decode();
-      cpu.execute();
+    WHEN("the CPU executes a 7XNN opcode") {
+      cpu.execute(0x7301);
+      cpu.execute(0x7F01);
 
-      THEN("that register holds the value of the sum") {
-        REQUIRE(cpu.readRegister(Chip8::Register::V3) == 0x4);
-        REQUIRE(cpu.readRegister(Chip8::Register::V7) == 0xC7);
-        REQUIRE(cpu.readRegister(Chip8::Register::VF) == 0xFF);
+      THEN("the constant NN is added to register VX") {
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::V3) == 0x1);
+        REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0xFF);
       }
     }
   }
 }
 
-} // unnamed namespace
+} // namespace

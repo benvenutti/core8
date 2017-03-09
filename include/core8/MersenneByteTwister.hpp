@@ -10,9 +10,9 @@ namespace Core8 {
 class MersenneByteTwister : public RandomNumberGenerator {
   public:
     MersenneByteTwister() = default;
-    virtual ~MersenneByteTwister() = default;
+    ~MersenneByteTwister() override = default;
 
-    virtual Chip8::BYTE get() override {
+    Chip8::BYTE get() override {
       return m_distribution(m_generator);
     }
 

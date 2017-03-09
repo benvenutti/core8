@@ -17,12 +17,12 @@ class CPU {
   public:
     CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator);
 
-    void fetch();
-    void decode();
-    void execute();
+    void cycle();
+    void execute(const Chip8::WORD instr);
 
     Chip8::BYTE readRegister(const Chip8::Register id) const;
     void writeRegister(const Chip8::Register id, const Chip8::BYTE value);
+    void loadToRegisters(const std::vector<Chip8::BYTE> values);
 
     Chip8::WORD getPc() const { return m_pc; }
     Chip8::BYTE getSp() const { return m_sp; };
@@ -40,10 +40,13 @@ class CPU {
     void setI(const Chip8::WORD address) { m_I = address; }
     Chip8::WORD getI() const { return m_I; }
 
+  private:
+    void fetch();
+    void decode();
+    void execute();
     void updateDelayTimer();
     void updateSoundTimer();
 
-  private:
     void clearDisplay();
     void jumpToNnn();
     void returnFromSubroutine();

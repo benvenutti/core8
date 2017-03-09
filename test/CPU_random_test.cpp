@@ -6,20 +6,25 @@
 
 namespace {
 
-SCENARIO(
-    "Operation CXNN sets VX to the result of NN and (bitwise) the minimum possible random number",
-    "[random]"
+struct CpuFixture {
+  Aux::TestKit testKit;
+  Core8::MMU& mmu = testKit.mmu;
+  Core8::CPU& cpu = testKit.cpu;
+  Aux::RandomNumberGeneratorMock& rndGenerator = testKit.rndGenerator;
+};
+
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU sets register X to the result of a bitwise AND operation on "
+        "the minimum possible random number generated and NN "
+        "using the CXNN opcode"
+    "[memory]"
 ) {
   GIVEN("A CPU and the random generated value 0") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
-    Aux::RandomNumberGeneratorMock& rng = testKit.rndGenerator;
-    rng.setValue(0x0);
+    rndGenerator.setValue(0x0);
 
     WHEN("the CPU executes a CXNN operation with X equal to 0 and NN equal to FF") {
-      cpu.setInstruction(0xC0FF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xC0FF);
 
       THEN("register V0 is set to 0") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0x0);
@@ -28,20 +33,18 @@ SCENARIO(
   }
 }
 
-SCENARIO(
-    "Operation CXNN sets VX to the result of NN and (bitwise) the maximum possible random number",
-    "[random]"
+SCENARIO_METHOD(
+    CpuFixture,
+    "CPU sets register X to the result of a bitwise AND operation on "
+        "the maximum possible random number generated and NN "
+        "using the CXNN opcode"
+        "[memory]"
 ) {
   GIVEN("A CPU and the random generated value FF") {
-    Aux::TestKit testKit;
-    Core8::CPU& cpu = testKit.cpu;
-    Aux::RandomNumberGeneratorMock& rng = testKit.rndGenerator;
-    rng.setValue(0xFF);
+    rndGenerator.setValue(0xFF);
 
     WHEN("the CPU executes a CXNN operation with X equal to F and NN equal to FF") {
-      cpu.setInstruction(0xCFFF);
-      cpu.decode();
-      cpu.execute();
+      cpu.execute(0xCFFF);
 
       THEN("register VF is set to FF") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::VF) == 0xFF);
@@ -50,4 +53,4 @@ SCENARIO(
   }
 }
 
-} // unnamed namespace
+} // namespace

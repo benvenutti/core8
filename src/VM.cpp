@@ -22,11 +22,7 @@ bool VM::loadRom(const std::string& fileName) {
 }
 
 void VM::cycle() {
-  m_cpu.fetch();
-  m_cpu.decode();
-  m_cpu.execute();
-  m_cpu.updateDelayTimer();
-  m_cpu.updateSoundTimer();
+  m_cpu.cycle();
 }
 
 } // namespace Core8
