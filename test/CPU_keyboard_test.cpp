@@ -146,8 +146,7 @@ SCENARIO_METHOD(
 
 SCENARIO_METHOD(
     CpuFixture,
-    "CPU updates the program counter "
-        "and sets register X to the value of the pressed key "
+    "CPU sets register X to the value of the pressed key "
         "after any key is pressed during a FX0A operation",
     "[keyboard]"
 ) {
@@ -158,10 +157,7 @@ SCENARIO_METHOD(
     WHEN("the CPU executes an FX0A opcode") {
       cpu.execute(0xF00A);
 
-      THEN("the program counter advances on instruction)") {
-        REQUIRE(cpu.getPc() == (originalPc + Core8::Chip8::INSTRUCTION_BYTE_SIZE));
-      }
-      AND_THEN("the pressed key is stored in V0") {
+      THEN("the pressed key is stored in V0") {
         REQUIRE(cpu.readRegister(Core8::Chip8::Register::V0) == 0xF);
       }
     }
