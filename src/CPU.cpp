@@ -65,7 +65,10 @@ void CPU::loadToRegisters(const std::vector<Chip8::BYTE> values) {
 }
 
 void CPU::cycle() {
-  fetch();
+  if (!isInterrupted) {
+    fetch();
+  }
+
   decode();
   execute();
   updateDelayTimer();
@@ -347,12 +350,13 @@ void CPU::executeSkipIfVxIsNotPressed() {
 }
 
 void CPU::executeWaitPressedKeyToVx() {
+  isInterrupted = true;
   const auto pressedKey = m_ioDevice.getPressedKey();
 
   if (pressedKey != Chip8::Key::NONE) {
     const auto x = WordDecoder::readX(m_instruction);
     m_registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
-    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+    isInterrupted = false;
   }
 }
 
