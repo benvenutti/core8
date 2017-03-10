@@ -54,14 +54,11 @@ SCENARIO_METHOD(
       cpu.execute(0xFF55);
 
       THEN("the registers from V0 to VX are stored in memory") {
-        for (auto i = 0u; i < 0xFu; ++i) {
+        for (auto i = 0u; i <= 0xFu; ++i) {
           const auto r = cpu.readRegister(static_cast<Core8::Chip8::Register>(i));
           const auto m = mmu.readByte(address + i);
           REQUIRE(r == m);
         }
-      }
-      AND_THEN("the value of I is incremented by X plus one") {
-        REQUIRE(cpu.getI() == 1024 + 0xF + 1);
       }
     }
   }
@@ -85,14 +82,11 @@ SCENARIO_METHOD(
       cpu.execute(0xF565);
 
       THEN("registers V0 to VX are filled with values from memory") {
-        for (auto i = 0u; i < 0x5; ++i) {
+        for (auto i = 0u; i <= 0x5; ++i) {
           const auto r = cpu.readRegister(static_cast<Core8::Chip8::Register>(i));
           const auto m = mmu.readByte(address + i);
           REQUIRE(r == m);
         }
-      }
-      AND_THEN("the value of I is incremented by X plus one") {
-        REQUIRE(cpu.getI() == 1024 + 0x5 + 1);
       }
     }
   }

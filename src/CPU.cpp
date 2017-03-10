@@ -274,20 +274,18 @@ void CPU::loadNnnToI() {
 
 void CPU::loadRegistersToI() {
   const auto x = WordDecoder::readX(m_instruction);
+  const auto size = x + 1u;
 
-  std::copy_n(std::begin(m_registers), x,
+  std::copy_n(std::begin(m_registers), size,
               std::begin(m_mmu) + m_I);
-
-  m_I += x + 1;
 }
 
 void CPU::loadItoRegisters() {
   const auto x = WordDecoder::readX(m_instruction);
+  const auto size = x + 1u;
 
-  std::copy_n(std::begin(m_mmu) + m_I, x,
+  std::copy_n(std::begin(m_mmu) + m_I, size,
               std::begin(m_registers));
-
-  m_I += x + 1;
 }
 
 void CPU::addVxToI() {
