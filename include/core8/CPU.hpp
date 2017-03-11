@@ -101,8 +101,6 @@ class CPU {
     MMU& m_mmu;
     IoDevice& m_ioDevice;
     RandomNumberGenerator& m_rndGenerator;
-
-    const std::map<Chip8::OpCode, std::function<void(void)>> m_dispatchTable;
 };
 
 } // namespace Core8
