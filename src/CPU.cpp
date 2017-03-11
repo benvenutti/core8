@@ -9,44 +9,7 @@ namespace Core8 {
 CPU::CPU(MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator)
     : m_mmu{mmu},
       m_ioDevice{ioDevice},
-      m_rndGenerator{rndGenerator},
-      m_dispatchTable{
-        {Chip8::OpCode::CLEAR_SCREEN, [this] () { clearDisplay(); }},
-        {Chip8::OpCode::JUMP, [this] () { jumpToNnn(); }},
-        {Chip8::OpCode::RETURN, [this] () { returnFromSubroutine(); }},
-        {Chip8::OpCode::CALL, [this] () { callNNN(); }},
-        {Chip8::OpCode::SKIP_IF_VX_EQUALS_NN, [this] () { skipIfVxEqualsNn(); }},
-        {Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_NN, [this] () { skipIfVxNotEqualsNn(); }},
-        {Chip8::OpCode::SKIP_IF_VX_EQUALS_VY, [this] () { skipIfVxEqualsVy(); }},
-        {Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_VY, [this] () { skipIfVxNotEqualsVy(); }},
-        {Chip8::OpCode::LOAD_NN_TO_VX, [this] () { loadNnToVx(); }},
-        {Chip8::OpCode::ADD_NN_TO_VX, [this] () { addNnToVx(); }},
-        {Chip8::OpCode::LOAD_VY_TO_VX, [this] () { loadVyToVx(); }},
-        {Chip8::OpCode::VX_OR_VY, [this] () { bitwiseVxOrVy(); }},
-        {Chip8::OpCode::VX_AND_VY, [this] () { bitwiseVxAndVy(); }},
-        {Chip8::OpCode::VX_XOR_VY, [this] () { bitwiseVxXorVy(); }},
-        {Chip8::OpCode::SHIFT_VX_RIGHT, [this] () { shiftVxRight(); }},
-        {Chip8::OpCode::SHIFT_VX_LEFT, [this] () { shiftVxLeft(); }},
-        {Chip8::OpCode::VX_PLUS_VY, [this] () { addVyToVx(); }},
-        {Chip8::OpCode::VX_MINUS_VY, [this] () { subVyFromVx(); }},
-        {Chip8::OpCode::SET_VX_TO_VY_MINUS_VX, [this] () { subVxFromVy(); }},
-        {Chip8::OpCode::JUMP_NNN_PLUS_V0, [this] () { jumpToNnnPlusV0(); }},
-        {Chip8::OpCode::LOAD_DELAY_TIMER_TO_VX, [this] () { loadDelayToVx(); }},
-        {Chip8::OpCode::LOAD_VX_TO_DELAY_TIMER, [this] () { loadVxToDelay(); }},
-        {Chip8::OpCode::LOAD_VX_TO_SOUND_TIMER, [this] () { loadVxToSound(); }},
-        {Chip8::OpCode::LOAD_NNN_TO_I, [this] () { loadNnnToI(); }},
-        {Chip8::OpCode::LOAD_V0_TO_VX_IN_ADDRESS_I, [this] () { loadRegistersToI(); }},
-        {Chip8::OpCode::LOAD_ADDRESS_I_TO_V0_TO_VX, [this] () { loadItoRegisters(); }},
-        {Chip8::OpCode::ADD_VX_TO_I, [this] () { addVxToI(); }},
-        {Chip8::OpCode::LOAD_FONT_SPRITE_ADDRESS_TO_I, [this] () { loadFontSpriteAddressToI(); }},
-        {Chip8::OpCode::DRAW, [this]() { draw(); }},
-        {Chip8::OpCode::SKIP_IF_VX_IS_PRESSED, [this] () { executeSkipIfVxIsPressed(); }},
-        {Chip8::OpCode::SKIP_IF_VX_IS_NOT_PRESSED, [this] () { executeSkipIfVxIsNotPressed(); }},
-        {Chip8::OpCode::LOAD_PRESSED_KEY_TO_VX, [this] () { executeWaitPressedKeyToVx(); }},
-        {Chip8::OpCode::LOAD_VX_BCD_TO_I, [this] () { executeLoadVxBcdToI(); }},
-        {Chip8::OpCode::LOAD_RANDOM_TO_VX, [this] () { executeLoadRandomToVx(); }}
-      }
-{
+      m_rndGenerator{rndGenerator} {
   m_registers.fill(0x0);
   m_mmu.load(Chip8::FONT_SET, 0x0);
 }
@@ -65,7 +28,10 @@ void CPU::loadToRegisters(const std::vector<Chip8::BYTE> values) {
 }
 
 void CPU::cycle() {
-  fetch();
+  if (!isInterrupted) {
+    fetch();
+  }
+
   decode();
   execute();
   updateDelayTimer();
@@ -88,7 +54,113 @@ void CPU::decode() {
 }
 
 void CPU::execute() {
-  m_dispatchTable.at(m_opcode)();
+  switch (m_opcode) {
+    case Chip8::OpCode::CLEAR_SCREEN:
+      clearDisplay();
+      break;
+    case Chip8::OpCode::RETURN:
+      returnFromSubroutine();
+      break;
+    case Chip8::OpCode::JUMP:
+      jumpToNnn();
+      break;
+    case Chip8::OpCode::CALL:
+      callNNN();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_EQUALS_NN:
+      skipIfVxEqualsNn();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_NN:
+      skipIfVxNotEqualsNn();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_EQUALS_VY:
+      skipIfVxEqualsVy();
+      break;
+    case Chip8::OpCode::LOAD_NN_TO_VX:
+      loadNnToVx();
+      break;
+    case Chip8::OpCode::ADD_NN_TO_VX:
+      addNnToVx();
+      break;
+    case Chip8::OpCode::LOAD_VY_TO_VX:
+      loadVyToVx();
+      break;
+    case Chip8::OpCode::VX_OR_VY:
+      bitwiseVxOrVy();
+      break;
+    case Chip8::OpCode::VX_AND_VY:
+      bitwiseVxAndVy();
+      break;
+    case Chip8::OpCode::VX_XOR_VY:
+      bitwiseVxXorVy();
+      break;
+    case Chip8::OpCode::VX_PLUS_VY:
+      addVyToVx();
+      break;
+    case Chip8::OpCode::VX_MINUS_VY:
+      subVyFromVx();
+      break;
+    case Chip8::OpCode::SHIFT_VX_RIGHT:
+      shiftVxRight();
+      break;
+    case Chip8::OpCode::SET_VX_TO_VY_MINUS_VX:
+      subVxFromVy();
+      break;
+    case Chip8::OpCode::SHIFT_VX_LEFT:
+      shiftVxLeft();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_VY:
+      skipIfVxNotEqualsVy();
+      break;
+    case Chip8::OpCode::LOAD_NNN_TO_I:
+      loadNnnToI();
+      break;
+    case Chip8::OpCode::JUMP_NNN_PLUS_V0:
+      jumpToNnnPlusV0();
+      break;
+    case Chip8::OpCode::LOAD_RANDOM_TO_VX:
+      executeLoadRandomToVx();
+      break;
+    case Chip8::OpCode::DRAW:
+      draw();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_IS_PRESSED:
+      executeSkipIfVxIsPressed();
+      break;
+    case Chip8::OpCode::SKIP_IF_VX_IS_NOT_PRESSED:
+      executeSkipIfVxIsNotPressed();
+      break;
+    case Chip8::OpCode::LOAD_DELAY_TIMER_TO_VX:
+      loadDelayToVx();
+      break;
+    case Chip8::OpCode::LOAD_PRESSED_KEY_TO_VX:
+      executeWaitPressedKeyToVx();
+      break;
+    case Chip8::OpCode::LOAD_VX_TO_DELAY_TIMER:
+      loadVxToDelay();
+      break;
+    case Chip8::OpCode::LOAD_VX_TO_SOUND_TIMER:
+      loadVxToSound();
+      break;
+    case Chip8::OpCode::ADD_VX_TO_I:
+      addVxToI();
+      break;
+    case Chip8::OpCode::LOAD_FONT_SPRITE_ADDRESS_TO_I:
+      loadFontSpriteAddressToI();
+      break;
+    case Chip8::OpCode::LOAD_VX_BCD_TO_I:
+      executeLoadVxBcdToI();
+      break;
+    case Chip8::OpCode::LOAD_V0_TO_VX_IN_ADDRESS_I:
+      loadRegistersToI();
+      break;
+    case Chip8::OpCode::LOAD_ADDRESS_I_TO_V0_TO_VX:
+      loadItoRegisters();
+      break;
+    default:
+      // Chip8::OpCode::INVALID
+      break;
+  }
 }
 
 void CPU::updateDelayTimer() {
@@ -274,20 +346,18 @@ void CPU::loadNnnToI() {
 
 void CPU::loadRegistersToI() {
   const auto x = WordDecoder::readX(m_instruction);
+  const auto size = x + 1u;
 
-  std::copy_n(std::begin(m_registers), x,
+  std::copy_n(std::begin(m_registers), size,
               std::begin(m_mmu) + m_I);
-
-  m_I += x + 1;
 }
 
 void CPU::loadItoRegisters() {
   const auto x = WordDecoder::readX(m_instruction);
+  const auto size = x + 1u;
 
-  std::copy_n(std::begin(m_mmu) + m_I, x,
+  std::copy_n(std::begin(m_mmu) + m_I, size,
               std::begin(m_registers));
-
-  m_I += x + 1;
 }
 
 void CPU::addVxToI() {
@@ -349,12 +419,13 @@ void CPU::executeSkipIfVxIsNotPressed() {
 }
 
 void CPU::executeWaitPressedKeyToVx() {
+  isInterrupted = true;
   const auto pressedKey = m_ioDevice.getPressedKey();
 
   if (pressedKey != Chip8::Key::NONE) {
     const auto x = WordDecoder::readX(m_instruction);
     m_registers.at(x) = static_cast<Chip8::BYTE>(pressedKey);
-    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+    isInterrupted = false;
   }
 }
 

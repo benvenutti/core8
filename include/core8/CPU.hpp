@@ -92,6 +92,8 @@ class CPU {
     Chip8::BYTE m_delayTimer{0u};
     Chip8::BYTE m_soundTimer{0u};
 
+    bool isInterrupted{false};
+
     std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> m_registers;
     std::array<Chip8::WORD, Chip8::STACK_SIZE> m_stack;
     std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE> m_frameBuffer;
@@ -99,8 +101,6 @@ class CPU {
     MMU& m_mmu;
     IoDevice& m_ioDevice;
     RandomNumberGenerator& m_rndGenerator;
-
-    const std::map<Chip8::OpCode, std::function<void(void)>> m_dispatchTable;
 };
 
 } // namespace Core8
