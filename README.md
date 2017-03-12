@@ -12,7 +12,9 @@ It is important to notice that this project is **not an actual emulator**, but i
 
 The lib entities were designed as independent components (classes, if you will) to mirror the following conceptual CHIP8 architecture (here a simplified version is showed):
 
-![Overview of core architecture](https://github.com/benvenutti/core8/blob/issue-36/images/core8-overview.png)
+<p align="center">
+  <img src="https://github.com/benvenutti/core8/blob/issue-36/images/core8-overview.png" alt="Overview of core8 architecture">
+</p>
 
 While the class `Core8::VM` drives the whole underlying CPU, the pure virtual class `Core8::IoDevice` can be implemented on frameworks like [sfml](http://www.sfml-dev.org/), [SDL](https://www.libsdl.org/), etc. to provide a GUI for the user experience.
 
