@@ -4,6 +4,10 @@
 
 The **core8** lib is written in C++14.
 
+## Overview
+
+![Overview of core architecture](https://github.com/benvenutti/core8/blob/issue-36/images/core8-overview.png)
+
 ### Branches
 
 Here is the starting branching model:
