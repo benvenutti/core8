@@ -10,9 +10,9 @@ It is important to notice that this project is **not an actual emulator**, but i
 
 ## Design
 
-It is quite common for CHIP8 interpreters/emulators to be implemented in a more procedural approach, usually embedding the GUI framework in the core of the code. This usually leads to high coupling and low cohesion, yet, it usually has a good performance. The **core8** lib proposes a fully testable object-oriented solution, where the entities of the interpreter are highly cohesive classes. *Is there an extra cost in all this?* Yes, the interpreter is not as fast as the monolithic procedural approach. But don't worry, it runs fast enough.
+It is quite common for CHIP8 interpreters/emulators to be implemented in a more procedural approach, usually embedding the GUI framework in the core of the code. This usually leads to high coupling and low cohesion, yet, it usually has a good performance. The **core8** lib proposes a fully testable object-oriented solution, where the entities of the interpreter are highly cohesive classes. *Is there an extra cost in all this?* Yes, the interpreter is not as fast as the monolithic procedural approach. But don't worry, it runs fast enough! :wink:
 
-The lib entities were designed as independent components (classes, if you will) to mirror the following conceptual CHIP8 architecture (here a simplified version is showed):
+The lib entities were designed as independent components (classes, if you will) to mirror the following conceptual CHIP8 architecture (here a simplified version is shown):
 
 <p align="center">
   <br>
