@@ -20,6 +20,15 @@ message(STATUS "Compiler flags: " ${CMAKE_CXX_FLAGS})
 include(AddCatch)
 include_directories(${CATCH_INCLUDE_DIR})
 
+# config file
+set(CORE8_VERSION_MAJOR 0)
+set(CORE8_VERSION_MINOR 1)
+set(CORE8_VERSION_PATCH 0)
+
+configure_file(
+        "${PROJECT_SOURCE_DIR}/include/core8/Config.hpp.in"
+        "${PROJECT_BINARY_DIR}/include/core8/Config.hpp")
+
 include_directories(include)
 include_directories(include/core8)
 
