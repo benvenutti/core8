@@ -17,6 +17,8 @@ set(CMAKE_CXX_FLAGS_RELEASE -O3)
 add_library(catch INTERFACE)
 target_include_directories(catch INTERFACE libs/Catch2/single_include)
 
+find_package(Qt5Widgets REQUIRED)
+
 ## compiler definitions:
 
 add_definitions(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast
@@ -26,3 +28,4 @@ add_definitions(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast
 
 enable_testing(true)
 add_subdirectory(model)
+add_subdirectory(app)
