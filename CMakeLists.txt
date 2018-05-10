@@ -1,38 +1,28 @@
-cmake_minimum_required(VERSION 3.2)
-project(core8)
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+project(core8 VERSION 0.1.0 LANGUAGES CXX)
 
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+## build settings:
 
-# compiler variables
-set(CPP_DIALECT "-std=c++14")
-set(FLAGS "-Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -pedantic-errors")
-set(FLAGS "${FLAGS} -Wunused -Wold-style-cast -Wsign-conversion")
+set(CMAKE_CXX_STANDARD 14)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS} ${CPP_DIALECT}")
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
-message(STATUS "Compiler flags: " ${CMAKE_CXX_FLAGS})
+set(CMAKE_CXX_FLAGS_DEBUG -g)
+set(CMAKE_CXX_FLAGS_RELEASE -O3)
+
+## 3rd party dependencies:
 
 add_library(catch INTERFACE)
 target_include_directories(catch INTERFACE libs/Catch2/single_include)
 
-# config file
-set(CORE8_VERSION_MAJOR 0)
-set(CORE8_VERSION_MINOR 1)
-set(CORE8_VERSION_PATCH 0)
+## compiler definitions:
 
-configure_file(
-        "${PROJECT_SOURCE_DIR}/include/core8/Config.hpp.in"
-        "${PROJECT_BINARY_DIR}/include/core8/Config.hpp")
+add_definitions(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast
+  -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -pedantic)
 
-include_directories(include)
-include_directories(include/core8)
-
-file(GLOB sources src/*.cpp include/*.hpp include/core/*.hpp)
-
-add_library(core8 SHARED ${sources})
-set_target_properties(core8 PROPERTIES LINKER_LANGUAGE CXX)
+## folders:
 
 enable_testing(true)
-add_subdirectory(test)
+add_subdirectory(model)
