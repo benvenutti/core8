@@ -2,7 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
+#include <istream>
+#include <iterator>
 
 namespace model
 {

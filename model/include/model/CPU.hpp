@@ -126,9 +126,9 @@ private:
 
     bool isInterrupted{ false };
 
-    std::array<chip8::byte_t, chip8::num_registers> m_registers{};
-    std::array<chip8::word_t, chip8::stack_size>    m_stack{};
-    std::array<chip8::byte_t, chip8::display_size>  m_frameBuffer;
+    std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
+    std::array<chip8::word_t, chip8::stack_size>    m_stack       = {};
+    std::array<chip8::byte_t, chip8::display_size>  m_frameBuffer = {};
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;
