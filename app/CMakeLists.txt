@@ -7,13 +7,13 @@ set(source_files
   core8.cpp)
 
 set(header_files
-   MainWindow.hpp)
+  MainWindow.hpp)
 
 set(ui_files
-  mainwindow.ui)
+  MainWindow.ui)
 
 qt5_wrap_cpp(header_files_moc ${header_files})
-qt5_wrap_ui (ui_files_moc ${ui_files})
+qt5_wrap_ui(ui_files_moc ${ui_files})
 
 include_directories(${PROJECT_BINARY_DIR})
 
@@ -25,5 +25,4 @@ add_executable(${PROJECT_NAME}
   ${header_files_moc}
   ${ui_files_moc})
 
-target_link_libraries (${PROJECT_NAME}
-  PUBLIC model Qt5::Widgets)
+target_link_libraries (${PROJECT_NAME} PUBLIC model Qt5::Widgets)

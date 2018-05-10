@@ -1,5 +1,5 @@
 #include "MainWindow.hpp"
-#include "ui_mainwindow.h"
+#include "ui_MainWindow.h"
 
 #include <QColorDialog>
 
