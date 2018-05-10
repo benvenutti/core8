@@ -10,7 +10,7 @@ namespace
 struct CpuFixture
 {
     Aux::TestKit testKit;
-    Core8::CPU&  cpu = testKit.cpu;
+    model::CPU&  cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture,
@@ -20,8 +20,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V1, 0x11 );
-        cpu.writeRegister( Core8::Chip8::Register::V4, 0x35 );
+        cpu.writeRegister( model::chip8::reg::v1, 0x11 );
+        cpu.writeRegister( model::chip8::reg::v4, 0x35 );
 
         WHEN( "the CPU executes a 8XY4 opcode" )
         {
@@ -29,11 +29,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the value of VY is added to VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V1 ) == 0x46 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v1 ) == 0x46 );
             }
             AND_THEN( "VF is set to 0 since there is no need for a carry" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x0 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x0 );
             }
         }
     }
@@ -46,8 +46,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V1, 0x11 );
-        cpu.writeRegister( Core8::Chip8::Register::V5, 0xFE );
+        cpu.writeRegister( model::chip8::reg::v1, 0x11 );
+        cpu.writeRegister( model::chip8::reg::v5, 0xFE );
 
         WHEN( "the CPU executes a 8XY4 opcode" )
         {
@@ -55,11 +55,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the value of VY is added to VX (with an overflow)" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V1 ) == 0xF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v1 ) == 0xF );
             }
             AND_THEN( "VF is set to 1 since there is a carry" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x1 );
             }
         }
     }
@@ -72,8 +72,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::VA, 0xA3 );
-        cpu.writeRegister( Core8::Chip8::Register::VB, 0x15 );
+        cpu.writeRegister( model::chip8::reg::va, 0xA3 );
+        cpu.writeRegister( model::chip8::reg::vb, 0x15 );
 
         WHEN( "the CPU executes a 8XY5 opcode" )
         {
@@ -81,11 +81,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the value of VY is subtracted from VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VA ) == 0x8E );
+                REQUIRE( cpu.readRegister( model::chip8::reg::va ) == 0x8E );
             }
             AND_THEN( "VF is set to 1 since there is no borrow" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x1 );
             }
         }
     }
@@ -98,8 +98,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::VA, 0xA3 );
-        cpu.writeRegister( Core8::Chip8::Register::VC, 0xFF );
+        cpu.writeRegister( model::chip8::reg::va, 0xA3 );
+        cpu.writeRegister( model::chip8::reg::vc, 0xFF );
 
         WHEN( "the CPU executes a 8XY5 opcode" )
         {
@@ -107,11 +107,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the value of VY is subtracted from VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VA ) == 0xA4 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::va ) == 0xA4 );
             }
             AND_THEN( "VF is set to 0 since there is a borrow" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x0 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x0 );
             }
         }
     }
@@ -125,8 +125,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V3, 0x3F );
-        cpu.writeRegister( Core8::Chip8::Register::V4, 0xBB );
+        cpu.writeRegister( model::chip8::reg::v3, 0x3F );
+        cpu.writeRegister( model::chip8::reg::v4, 0xBB );
 
         WHEN( "the CPU executes a 8XY7 opcode" )
         {
@@ -134,11 +134,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the the result of VY minus VX is stored in VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V3 ) == 0x7C );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v3 ) == 0x7C );
             }
             AND_THEN( "VF is set to 1 since there is no borrow" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x1 );
             }
         }
     }
@@ -152,8 +152,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V4, 0xBB );
-        cpu.writeRegister( Core8::Chip8::Register::V5, 0xFF );
+        cpu.writeRegister( model::chip8::reg::v4, 0xBB );
+        cpu.writeRegister( model::chip8::reg::v5, 0xFF );
 
         WHEN( "the CPU executes a 8XY7 opcode" )
         {
@@ -161,11 +161,11 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the the result of VY minus VX is stored in VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V5 ) == 0xBC );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v5 ) == 0xBC );
             }
             AND_THEN( "VF is set to 1 since there is a borrow" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x0 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x0 );
             }
         }
     }

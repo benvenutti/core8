@@ -1,5 +1,4 @@
-#ifndef CORE8_MMU_H
-#define CORE8_MMU_H
+#pragma once
 
 #include <array>
 #include <istream>
@@ -7,43 +6,54 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 /// @brief Big-endian memory management unit.
 class MMU
 {
 public:
-    MMU();
+    MMU() = default;
 
     bool operator==( const MMU& mmu ) const;
 
-    Chip8::BYTE readByte( const std::size_t address ) const;
-    Chip8::WORD readWord( const std::size_t address ) const;
+    chip8::byte_t readByte( chip8::word_t address ) const;
+    chip8::word_t readWord( chip8::word_t address ) const;
 
-    void writeByte( const Chip8::BYTE byte, const std::size_t address );
+    void writeByte( chip8::byte_t byte, chip8::word_t address );
 
-    void load( const std::vector<Chip8::BYTE>& rom, const std::size_t address );
-    void load( std::istream& rom, const std::size_t address );
+    void load( const std::vector<chip8::byte_t>& rom, chip8::word_t address );
+    void load( std::istream& rom, chip8::word_t address );
 
     void clear();
 
-    std::size_t getSize() const noexcept
+    constexpr std::size_t size() const noexcept
     {
         return m_memory.size();
     }
 
-    using Memory = std::array<Chip8::BYTE, Chip8::RAM_SIZE>;
+    auto begin() const
+    {
+        return std::begin( m_memory );
+    }
 
-    Memory::const_iterator begin() const;
-    Memory::iterator       begin();
-    Memory::const_iterator end() const;
-    Memory::iterator       end();
+    auto begin()
+    {
+        return std::begin( m_memory );
+    }
+
+    auto end() const
+    {
+        return std::end( m_memory );
+    }
+
+    auto end()
+    {
+        return std::end( m_memory );
+    }
 
 private:
-    std::array<Chip8::BYTE, Chip8::RAM_SIZE> m_memory;
+    std::array<chip8::byte_t, chip8::ram_size> m_memory = {};
 };
 
-} // namespace Core8
-
-#endif
+} // namespace model

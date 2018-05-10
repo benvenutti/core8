@@ -1,10 +1,11 @@
-#include <algorithm>
-
 #include "CPU.hpp"
 
+#include "OpDecoder.hpp"
 #include "WordDecoder.hpp"
 
-namespace Core8
+#include <algorithm>
+
+namespace model
 {
 
 CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
@@ -12,21 +13,20 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 , m_ioDevice{ ioDevice }
 , m_rndGenerator{ rndGenerator }
 {
-    m_registers.fill( 0x0 );
-    m_mmu.load( Chip8::FONT_SET, 0x0 );
+    m_mmu.load( chip8::font_set, 0x0 );
 }
 
-Chip8::BYTE CPU::readRegister( const Chip8::Register id ) const
+chip8::byte_t CPU::readRegister( chip8::reg id ) const
 {
     return m_registers.at( static_cast<std::size_t>( id ) );
 }
 
-void CPU::writeRegister( const Chip8::Register id, const Chip8::BYTE value )
+void CPU::writeRegister( chip8::reg id, chip8::byte_t value )
 {
     m_registers.at( static_cast<std::size_t>( id ) ) = value;
 }
 
-void CPU::loadToRegisters( const std::vector<Chip8::BYTE> values )
+void CPU::loadToRegisters( std::vector<chip8::byte_t> values )
 {
     const auto size = std::min( values.size(), m_registers.size() );
     std::copy_n( std::begin( values ), size, std::begin( m_registers ) );
@@ -45,7 +45,7 @@ void CPU::cycle()
     updateSoundTimer();
 }
 
-void CPU::execute( const Chip8::WORD instr )
+void CPU::execute( chip8::word_t instr )
 {
     m_instruction = instr;
     decode();
@@ -55,122 +55,122 @@ void CPU::execute( const Chip8::WORD instr )
 void CPU::fetch()
 {
     m_instruction = m_mmu.readWord( m_pc );
-    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+    m_pc += chip8::instruction_size_in_bytes;
 }
 
 void CPU::decode()
 {
-    m_opcode = OpDecoder::decode( m_instruction );
+    m_opcode = opdecoder::decode( m_instruction );
 }
 
 void CPU::execute()
 {
     switch ( m_opcode )
     {
-        case Chip8::OpCode::CLEAR_SCREEN:
+        case chip8::opcode::clear_screen:
             clearDisplay();
             break;
-        case Chip8::OpCode::RETURN:
+        case chip8::opcode::ret:
             returnFromSubroutine();
             break;
-        case Chip8::OpCode::JUMP:
+        case chip8::opcode::jump:
             jumpToNnn();
             break;
-        case Chip8::OpCode::CALL:
+        case chip8::opcode::call:
             callNNN();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_EQUALS_NN:
+        case chip8::opcode::skip_if_vx_equals_nn:
             skipIfVxEqualsNn();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_NN:
+        case chip8::opcode::skip_if_vx_not_equals_nn:
             skipIfVxNotEqualsNn();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_EQUALS_VY:
+        case chip8::opcode::skip_if_vx_equals_vy:
             skipIfVxEqualsVy();
             break;
-        case Chip8::OpCode::LOAD_NN_TO_VX:
+        case chip8::opcode::load_nn_to_vx:
             loadNnToVx();
             break;
-        case Chip8::OpCode::ADD_NN_TO_VX:
+        case chip8::opcode::add_nn_to_vx:
             addNnToVx();
             break;
-        case Chip8::OpCode::LOAD_VY_TO_VX:
+        case chip8::opcode::load_vy_to_vx:
             loadVyToVx();
             break;
-        case Chip8::OpCode::VX_OR_VY:
+        case chip8::opcode::vx_or_vy:
             bitwiseVxOrVy();
             break;
-        case Chip8::OpCode::VX_AND_VY:
+        case chip8::opcode::vx_and_vy:
             bitwiseVxAndVy();
             break;
-        case Chip8::OpCode::VX_XOR_VY:
+        case chip8::opcode::vx_xor_vy:
             bitwiseVxXorVy();
             break;
-        case Chip8::OpCode::VX_PLUS_VY:
+        case chip8::opcode::vx_plus_vy:
             addVyToVx();
             break;
-        case Chip8::OpCode::VX_MINUS_VY:
+        case chip8::opcode::vx_minus_vy:
             subVyFromVx();
             break;
-        case Chip8::OpCode::SHIFT_VX_RIGHT:
+        case chip8::opcode::shift_vx_right:
             shiftVxRight();
             break;
-        case Chip8::OpCode::SET_VX_TO_VY_MINUS_VX:
+        case chip8::opcode::set_vx_to_vy_minus_vx:
             subVxFromVy();
             break;
-        case Chip8::OpCode::SHIFT_VX_LEFT:
+        case chip8::opcode::shift_vx_left:
             shiftVxLeft();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_VY:
+        case chip8::opcode::skip_if_vx_not_equals_vy:
             skipIfVxNotEqualsVy();
             break;
-        case Chip8::OpCode::LOAD_NNN_TO_I:
+        case chip8::opcode::load_nnn_to_i:
             loadNnnToI();
             break;
-        case Chip8::OpCode::JUMP_NNN_PLUS_V0:
+        case chip8::opcode::jump_nnn_plus_v0:
             jumpToNnnPlusV0();
             break;
-        case Chip8::OpCode::LOAD_RANDOM_TO_VX:
+        case chip8::opcode::load_random_to_vx:
             executeLoadRandomToVx();
             break;
-        case Chip8::OpCode::DRAW:
+        case chip8::opcode::draw:
             draw();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_IS_PRESSED:
+        case chip8::opcode::skip_if_vx_is_pressed:
             executeSkipIfVxIsPressed();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_IS_NOT_PRESSED:
+        case chip8::opcode::skip_if_vx_is_not_pressed:
             executeSkipIfVxIsNotPressed();
             break;
-        case Chip8::OpCode::LOAD_DELAY_TIMER_TO_VX:
+        case chip8::opcode::load_delay_timer_to_vx:
             loadDelayToVx();
             break;
-        case Chip8::OpCode::LOAD_PRESSED_KEY_TO_VX:
+        case chip8::opcode::load_pressed_key_to_vx:
             executeWaitPressedKeyToVx();
             break;
-        case Chip8::OpCode::LOAD_VX_TO_DELAY_TIMER:
+        case chip8::opcode::load_vx_to_delay_timer:
             loadVxToDelay();
             break;
-        case Chip8::OpCode::LOAD_VX_TO_SOUND_TIMER:
+        case chip8::opcode::load_vx_to_sound_timer:
             loadVxToSound();
             break;
-        case Chip8::OpCode::ADD_VX_TO_I:
+        case chip8::opcode::add_vx_to_i:
             addVxToI();
             break;
-        case Chip8::OpCode::LOAD_FONT_SPRITE_ADDRESS_TO_I:
+        case chip8::opcode::load_font_sprite_address_to_i:
             loadFontSpriteAddressToI();
             break;
-        case Chip8::OpCode::LOAD_VX_BCD_TO_I:
+        case chip8::opcode::load_vx_bcd_to_i:
             executeLoadVxBcdToI();
             break;
-        case Chip8::OpCode::LOAD_V0_TO_VX_IN_ADDRESS_I:
+        case chip8::opcode::load_v0_to_vx_in_address_i:
             loadRegistersToI();
             break;
-        case Chip8::OpCode::LOAD_ADDRESS_I_TO_V0_TO_VX:
+        case chip8::opcode::load_address_i_to_v0_to_vx:
             loadItoRegisters();
             break;
         default:
-            // Chip8::OpCode::INVALID
+            // chip8::OpCode::INVALID
             break;
     }
 }
@@ -193,7 +193,7 @@ void CPU::updateSoundTimer()
 
 void CPU::clearDisplay()
 {
-    m_frameBuffer.fill( 0x0 );
+    m_frameBuffer = {};
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 
@@ -220,7 +220,7 @@ void CPU::skipIfVxEqualsNn()
 
     if ( m_registers.at( x ) == nn )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
@@ -231,7 +231,7 @@ void CPU::skipIfVxNotEqualsNn()
 
     if ( m_registers.at( x ) != nn )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
@@ -242,7 +242,7 @@ void CPU::skipIfVxEqualsVy()
 
     if ( m_registers.at( x ) == m_registers.at( y ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
@@ -253,7 +253,7 @@ void CPU::skipIfVxNotEqualsVy()
 
     if ( m_registers.at( x ) != m_registers.at( y ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
@@ -302,10 +302,10 @@ void CPU::bitwiseVxXorVy()
 void CPU::shiftVxRight()
 {
     const auto x    = WordDecoder::readX( m_instruction );
-    const auto mask = static_cast<Chip8::BYTE>( 0x1 );
+    const auto mask = static_cast<chip8::byte_t>( 0x1 );
     auto&      vx   = m_registers.at( x );
 
-    writeRegister( Chip8::Register::VF, vx & mask );
+    writeRegister( chip8::reg::vf, vx & mask );
     vx >>= 1;
 }
 
@@ -314,7 +314,7 @@ void CPU::shiftVxLeft()
     const auto x  = WordDecoder::readX( m_instruction );
     auto&      vx = m_registers.at( x );
 
-    writeRegister( Chip8::Register::VF, vx >> 7 );
+    writeRegister( chip8::reg::vf, vx >> 7 );
     vx <<= 1;
 }
 
@@ -327,7 +327,7 @@ void CPU::addVyToVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasCarry = vy > ( 0xFF - vx );
-    writeRegister( Chip8::Register::VF, hasCarry ? 0x1 : 0x0 );
+    writeRegister( chip8::reg::vf, hasCarry ? 0x1 : 0x0 );
 
     vx += vy;
 }
@@ -341,7 +341,7 @@ void CPU::subVyFromVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vy > vx;
-    writeRegister( Chip8::Register::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::reg::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx -= vy;
 }
@@ -355,7 +355,7 @@ void CPU::subVxFromVy()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vx > vy;
-    writeRegister( Chip8::Register::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::reg::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx = vy - vx;
 }
@@ -413,7 +413,7 @@ void CPU::addVxToI()
 void CPU::loadFontSpriteAddressToI()
 {
     const auto x = WordDecoder::readX( m_instruction );
-    m_I          = m_registers.at( x ) * Chip8::CHAR_SPRITE_SIZE;
+    m_I          = m_registers.at( x ) * chip8::char_sprite_size;
 }
 
 void CPU::draw()
@@ -424,18 +424,18 @@ void CPU::draw()
     const auto y      = m_registers.at( vy );
     const auto height = WordDecoder::readN( m_instruction );
 
-    Chip8::BYTE flipped{ 0x0u };
+    chip8::byte_t flipped{ 0x0u };
 
     for ( auto line = 0u; line < height; ++line )
     {
         const auto rowPixels = m_mmu.readByte( m_I + line );
 
-        for ( auto row = 0u; row < Chip8::SPRITE_WIDTH; ++row )
+        for ( auto row = 0u; row < chip8::sprite_width; ++row )
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto   offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
-                Chip8::BYTE& pixel  = m_frameBuffer.at( offset );
+                const auto     offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
+                chip8::byte_t& pixel  = m_frameBuffer.at( offset );
 
                 if ( pixel != 0 )
                 {
@@ -447,29 +447,29 @@ void CPU::draw()
         }
     }
 
-    writeRegister( Chip8::Register::VF, flipped );
+    writeRegister( chip8::reg::vf, flipped );
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 
 void CPU::executeSkipIfVxIsPressed()
 {
     const auto x   = WordDecoder::readX( m_instruction );
-    const auto key = static_cast<Chip8::Key>( m_registers.at( x ) );
+    const auto key = static_cast<chip8::key>( m_registers.at( x ) );
 
     if ( m_ioDevice.isKeyPressed( key ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
 void CPU::executeSkipIfVxIsNotPressed()
 {
     const auto x   = WordDecoder::readX( m_instruction );
-    const auto key = static_cast<Chip8::Key>( m_registers.at( x ) );
+    const auto key = static_cast<chip8::key>( m_registers.at( x ) );
 
     if ( !m_ioDevice.isKeyPressed( key ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += chip8::instruction_size_in_bytes;
     }
 }
 
@@ -478,10 +478,10 @@ void CPU::executeWaitPressedKeyToVx()
     isInterrupted         = true;
     const auto pressedKey = m_ioDevice.getPressedKey();
 
-    if ( pressedKey != Chip8::Key::NONE )
+    if ( pressedKey != chip8::key::none )
     {
         const auto x        = WordDecoder::readX( m_instruction );
-        m_registers.at( x ) = static_cast<Chip8::BYTE>( pressedKey );
+        m_registers.at( x ) = static_cast<chip8::byte_t>( pressedKey );
         isInterrupted       = false;
     }
 }
@@ -509,4 +509,4 @@ void CPU::executeLoadRandomToVx()
     m_registers.at( x ) = nn & randomNumber;
 }
 
-} // namespace Core8
+} // namespace model

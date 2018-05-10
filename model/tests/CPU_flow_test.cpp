@@ -10,7 +10,7 @@ namespace
 struct CpuFixture
 {
     Aux::TestKit testKit;
-    Core8::CPU&  cpu = testKit.cpu;
+    model::CPU&  cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture, "CPU executes an unconditional jump to address NNN with opcode 1NNN", "[flow]" )
@@ -86,7 +86,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V0, 0x2D );
+        cpu.writeRegister( model::chip8::reg::v0, 0x2D );
 
         WHEN( "the CPU executes an BNNN operation" )
         {

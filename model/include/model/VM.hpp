@@ -1,5 +1,4 @@
-#ifndef CORE8_VM_HPP
-#define CORE8_VM_HPP
+#pragma once
 
 #include <string>
 
@@ -7,13 +6,10 @@
 #include "MMU.hpp"
 #include "MersenneByteTwister.hpp"
 
-namespace Core8
+namespace model
 {
-class IoConnector;
-} // namespace Core8
 
-namespace Core8
-{
+class IoDevice;
 
 class VM
 {
@@ -41,6 +37,4 @@ private:
     CPU                 m_cpu;
 };
 
-} // namespace Core8
-
-#endif
+} // namespace model

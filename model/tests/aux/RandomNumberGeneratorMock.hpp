@@ -5,21 +5,21 @@
 
 namespace Aux {
 
-class RandomNumberGeneratorMock : public Core8::RandomNumberGenerator {
+class RandomNumberGeneratorMock : public model::RandomNumberGenerator {
   public:
     RandomNumberGeneratorMock() = default;
     virtual ~RandomNumberGeneratorMock() = default;
 
-    virtual Core8::Chip8::BYTE get() override {
+    virtual model::chip8::byte_t get() override {
       return m_value;
     }
 
-    void setValue(const Core8::Chip8::BYTE value) {
+    void setValue(const model::chip8::byte_t value) {
       m_value = value;
     }
 
   private:
-    Core8::Chip8::BYTE m_value{0u};
+    model::chip8::byte_t m_value{0u};
 };
 
 } // namespace Aux

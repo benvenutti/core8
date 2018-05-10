@@ -10,8 +10,8 @@ namespace
 struct CpuFixture
 {
     Aux::TestKit                    testKit;
-    Core8::MMU&                     mmu          = testKit.mmu;
-    Core8::CPU&                     cpu          = testKit.cpu;
+    model::MMU&                     mmu          = testKit.mmu;
+    model::CPU&                     cpu          = testKit.cpu;
     Aux::RandomNumberGeneratorMock& rndGenerator = testKit.rndGenerator;
 };
 
@@ -31,7 +31,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "register V0 is set to 0" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V0 ) == 0x0 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == 0x0 );
             }
         }
     }
@@ -53,7 +53,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "register VF is set to FF" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0xFF );
             }
         }
     }

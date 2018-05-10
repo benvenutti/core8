@@ -1,11 +1,10 @@
-#ifndef CORE8_IOCONNECTOR_HPP
-#define CORE8_IOCONNECTOR_HPP
+#pragma once
 
 #include <array>
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 class IoDevice
@@ -13,13 +12,11 @@ class IoDevice
 public:
     virtual ~IoDevice() = default;
 
-    virtual void drawScreen( const std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>& frame ) = 0;
+    virtual void drawScreen( const std::array<chip8::byte_t, chip8::display_size>& frame ) = 0;
 
-    virtual bool isKeyPressed( const Chip8::Key key ) const = 0;
+    virtual bool isKeyPressed( const chip8::key key ) const = 0;
 
-    virtual Chip8::Key getPressedKey() const = 0;
+    virtual chip8::key getPressedKey() const = 0;
 };
 
-} // namespace Core8
-
-#endif
+} // namespace model

@@ -10,7 +10,7 @@ namespace
 struct CpuFixture
 {
     Aux::TestKit testKit;
-    Core8::CPU&  cpu = testKit.cpu;
+    model::CPU&  cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture, "CPU loads constant NN to register VX using opcode 6XNN", "[constant]" )
@@ -24,8 +24,8 @@ SCENARIO_METHOD( CpuFixture, "CPU loads constant NN to register VX using opcode 
 
             THEN( "the constant NN is loaded to register VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V0 ) == 0xFF );
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x1 );
             }
         }
     }
@@ -35,8 +35,8 @@ SCENARIO_METHOD( CpuFixture, "CPU adds constant NN to register VX using opcode 7
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V3, 0x00 );
-        cpu.writeRegister( Core8::Chip8::Register::VF, 0xFE );
+        cpu.writeRegister( model::chip8::reg::v3, 0x00 );
+        cpu.writeRegister( model::chip8::reg::vf, 0xFE );
 
         WHEN( "the CPU executes a 7XNN opcode" )
         {
@@ -45,8 +45,8 @@ SCENARIO_METHOD( CpuFixture, "CPU adds constant NN to register VX using opcode 7
 
             THEN( "the constant NN is added to register VX" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V3 ) == 0x1 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v3 ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0xFF );
             }
         }
     }

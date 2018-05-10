@@ -4,7 +4,7 @@
 
 #include "IoDevice.hpp"
 
-namespace Core8
+namespace model
 {
 
 VM::VM( IoDevice& ioDevice )
@@ -19,7 +19,7 @@ bool VM::loadRom( const std::string& fileName )
 
     if ( in.is_open() )
     {
-        m_mmu.load( in, Chip8::INIT_ROM_LOAD_ADDRESS );
+        m_mmu.load( in, chip8::init_rom_load_address );
         in.close();
     }
 
@@ -31,4 +31,4 @@ void VM::cycle()
     m_cpu.cycle();
 }
 
-} // namespace Core8
+} // namespace model

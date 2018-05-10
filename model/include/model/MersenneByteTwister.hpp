@@ -1,11 +1,10 @@
-#ifndef CORE8_MERSENNETWISTER_HPP
-#define CORE8_MERSENNETWISTER_HPP
+#pragma once
 
 #include <random>
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 class MersenneByteTwister : public RandomNumberGenerator
@@ -14,16 +13,14 @@ public:
     MersenneByteTwister()           = default;
     ~MersenneByteTwister() override = default;
 
-    Chip8::BYTE get() override
+    chip8::byte_t get() override
     {
         return m_distribution( m_generator );
     }
 
 private:
-    std::mt19937                               m_generator{ std::random_device{}() };
-    std::uniform_int_distribution<Chip8::BYTE> m_distribution{ 0x01, 0xFF };
+    std::mt19937                                 m_generator{ std::random_device{}() };
+    std::uniform_int_distribution<chip8::byte_t> m_distribution{ 0x01, 0xFF };
 };
 
-} // namespace Core8
-
-#endif
+} // namespace model
