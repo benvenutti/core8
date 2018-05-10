@@ -10,7 +10,7 @@ set(header_files
   MainWindow.hpp)
 
 set(ui_files
-  MainWindow.ui)
+  mainwindow.ui)
 
 qt5_wrap_cpp(header_files_moc ${header_files})
 qt5_wrap_ui(ui_files_moc ${ui_files})
