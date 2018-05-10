@@ -21,7 +21,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 0 pressed" )
     {
         cpu.writeRegister( model::chip8::registers::v0, 0u );
-        ioDevice.setPressedKey( model::chip8::key::K0 );
+        ioDevice.setPressedKey( model::chip8::key::k0 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an EX9E operation with X equal to 0" )
@@ -44,7 +44,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 1 pressed" )
     {
         cpu.writeRegister( model::chip8::registers::v0, 0u );
-        ioDevice.setPressedKey( model::chip8::key::K1 );
+        ioDevice.setPressedKey( model::chip8::key::k1 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an EX9E operation with X equal to 0" )
@@ -67,7 +67,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 1 and an i/o connector with the key 0 pressed" )
     {
         cpu.writeRegister( model::chip8::registers::v0, 1u );
-        ioDevice.setPressedKey( model::chip8::key::K0 );
+        ioDevice.setPressedKey( model::chip8::key::k0 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an EXA1 operation with X equal to 0" )
@@ -90,7 +90,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 0 pressed" )
     {
         cpu.writeRegister( model::chip8::registers::v0, 0u );
-        ioDevice.setPressedKey( model::chip8::key::K0 );
+        ioDevice.setPressedKey( model::chip8::key::k0 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an EXA1 operation with X equal to 0" )
@@ -112,7 +112,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU and an i/o connector with no key pressed" )
     {
-        ioDevice.setPressedKey( model::chip8::key::NONE );
+        ioDevice.setPressedKey( model::chip8::key::none );
         const auto originalPc = cpu.getPc();
         const auto originalV0 = cpu.readRegister( model::chip8::registers::v0 );
 
@@ -139,7 +139,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A halted CPU and an i/o connector with no key pressed" )
     {
-        ioDevice.setPressedKey( model::chip8::key::NONE );
+        ioDevice.setPressedKey( model::chip8::key::none );
         cpu.execute( 0xF00A );
         const auto originalPc = cpu.getPc();
         const auto originalV0 = cpu.readRegister( model::chip8::registers::v0 );
@@ -167,7 +167,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU and an i/o connector with the key F pressed" )
     {
-        ioDevice.setPressedKey( model::chip8::key::KF );
+        ioDevice.setPressedKey( model::chip8::key::kf );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an FX0A opcode" )

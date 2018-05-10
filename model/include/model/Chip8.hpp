@@ -85,23 +85,23 @@ enum class opcode
 
 enum class key
 {
-    K0,
-    K1,
-    K2,
-    K3,
-    K4,
-    K5,
-    K6,
-    K7,
-    K8,
-    K9,
-    KA,
-    KB,
-    KC,
-    KD,
-    KE,
-    KF,
-    NONE
+    k0,
+    k1,
+    k2,
+    k3,
+    k4,
+    k5,
+    k6,
+    k7,
+    k8,
+    k9,
+    ka,
+    kb,
+    kc,
+    kd,
+    ke,
+    kf,
+    none
 };
 
 const std::vector<byte_t> font_set{

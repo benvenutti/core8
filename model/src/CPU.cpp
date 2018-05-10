@@ -478,7 +478,7 @@ void CPU::executeWaitPressedKeyToVx()
     isInterrupted         = true;
     const auto pressedKey = m_ioDevice.getPressedKey();
 
-    if ( pressedKey != chip8::key::NONE )
+    if ( pressedKey != chip8::key::none )
     {
         const auto x        = WordDecoder::readX( m_instruction );
         m_registers.at( x ) = static_cast<chip8::byte_t>( pressedKey );

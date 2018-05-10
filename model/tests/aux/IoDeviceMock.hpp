@@ -27,7 +27,7 @@ class IoDeviceMock : public model::IoDevice {
     }
 
   private:
-    model::chip8::key pressedKey{model::chip8::key::NONE};
+    model::chip8::key pressedKey{model::chip8::key::none};
 };
 
 } // namespace Aux
