@@ -1,8 +1,9 @@
-#include <algorithm>
-
 #include "CPU.hpp"
 
+#include "OpDecoder.hpp"
 #include "WordDecoder.hpp"
+
+#include <algorithm>
 
 namespace model
 {
@@ -60,7 +61,7 @@ void CPU::fetch()
 
 void CPU::decode()
 {
-    m_opcode = OpDecoder::decode( m_instruction );
+    m_opcode = opdecoder::decode( m_instruction );
 }
 
 void CPU::execute()

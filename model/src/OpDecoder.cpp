@@ -3,7 +3,7 @@
 namespace model
 {
 
-chip8::opcode OpDecoder::decode( const chip8::word_t word )
+chip8::opcode opdecoder::decode( chip8::word_t word )
 {
     switch ( word & 0xF000 )
     {

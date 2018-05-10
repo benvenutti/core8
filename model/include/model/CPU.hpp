@@ -7,7 +7,6 @@
 #include "Chip8.hpp"
 #include "IoDevice.hpp"
 #include "MMU.hpp"
-#include "OpDecoder.hpp"
 #include "RandomNumberGenerator.hpp"
 
 namespace model
