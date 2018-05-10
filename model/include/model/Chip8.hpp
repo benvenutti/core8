@@ -26,22 +26,22 @@ constexpr byte_t sprite_width{ 8 };
 
 enum class registers
 {
-    V0,
-    V1,
-    V2,
-    V3,
-    V4,
-    V5,
-    V6,
-    V7,
-    V8,
-    V9,
-    VA,
-    VB,
-    VC,
-    VD,
-    VE,
-    VF
+    v0,
+    v1,
+    v2,
+    v3,
+    v4,
+    v5,
+    v6,
+    v7,
+    v8,
+    v9,
+    va,
+    vb,
+    vc,
+    vd,
+    ve,
+    vf
 };
 
 enum class opcode

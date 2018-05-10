@@ -20,7 +20,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 0 pressed" )
     {
-        cpu.writeRegister( model::chip8::registers::V0, 0u );
+        cpu.writeRegister( model::chip8::registers::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::K0 );
         const auto originalPc = cpu.getPc();
 
@@ -43,7 +43,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 1 pressed" )
     {
-        cpu.writeRegister( model::chip8::registers::V0, 0u );
+        cpu.writeRegister( model::chip8::registers::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::K1 );
         const auto originalPc = cpu.getPc();
 
@@ -66,7 +66,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with V0 set to 1 and an i/o connector with the key 0 pressed" )
     {
-        cpu.writeRegister( model::chip8::registers::V0, 1u );
+        cpu.writeRegister( model::chip8::registers::v0, 1u );
         ioDevice.setPressedKey( model::chip8::key::K0 );
         const auto originalPc = cpu.getPc();
 
@@ -89,7 +89,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with V0 set to 0 and an i/o connector with the key 0 pressed" )
     {
-        cpu.writeRegister( model::chip8::registers::V0, 0u );
+        cpu.writeRegister( model::chip8::registers::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::K0 );
         const auto originalPc = cpu.getPc();
 
@@ -114,7 +114,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         ioDevice.setPressedKey( model::chip8::key::NONE );
         const auto originalPc = cpu.getPc();
-        const auto originalV0 = cpu.readRegister( model::chip8::registers::V0 );
+        const auto originalV0 = cpu.readRegister( model::chip8::registers::v0 );
 
         WHEN( "the CPU executes an FX0A" )
         {
@@ -126,7 +126,7 @@ SCENARIO_METHOD( CpuFixture,
             }
             AND_THEN( "register V0 remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::V0 ) == originalV0 );
+                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == originalV0 );
             }
         }
     }
@@ -142,7 +142,7 @@ SCENARIO_METHOD( CpuFixture,
         ioDevice.setPressedKey( model::chip8::key::NONE );
         cpu.execute( 0xF00A );
         const auto originalPc = cpu.getPc();
-        const auto originalV0 = cpu.readRegister( model::chip8::registers::V0 );
+        const auto originalV0 = cpu.readRegister( model::chip8::registers::v0 );
 
         WHEN( "the CPU cycles" )
         {
@@ -154,7 +154,7 @@ SCENARIO_METHOD( CpuFixture,
             }
             AND_THEN( "register V0 remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::V0 ) == originalV0 );
+                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == originalV0 );
             }
         }
     }
@@ -176,7 +176,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the pressed key is stored in V0" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::V0 ) == 0xF );
+                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == 0xF );
             }
         }
     }

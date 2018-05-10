@@ -305,7 +305,7 @@ void CPU::shiftVxRight()
     const auto mask = static_cast<chip8::byte_t>( 0x1 );
     auto&      vx   = m_registers.at( x );
 
-    writeRegister( chip8::registers::VF, vx & mask );
+    writeRegister( chip8::registers::vf, vx & mask );
     vx >>= 1;
 }
 
@@ -314,7 +314,7 @@ void CPU::shiftVxLeft()
     const auto x  = WordDecoder::readX( m_instruction );
     auto&      vx = m_registers.at( x );
 
-    writeRegister( chip8::registers::VF, vx >> 7 );
+    writeRegister( chip8::registers::vf, vx >> 7 );
     vx <<= 1;
 }
 
@@ -327,7 +327,7 @@ void CPU::addVyToVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasCarry = vy > ( 0xFF - vx );
-    writeRegister( chip8::registers::VF, hasCarry ? 0x1 : 0x0 );
+    writeRegister( chip8::registers::vf, hasCarry ? 0x1 : 0x0 );
 
     vx += vy;
 }
@@ -341,7 +341,7 @@ void CPU::subVyFromVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vy > vx;
-    writeRegister( chip8::registers::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::registers::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx -= vy;
 }
@@ -355,7 +355,7 @@ void CPU::subVxFromVy()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vx > vy;
-    writeRegister( chip8::registers::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::registers::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx = vy - vx;
 }
@@ -447,7 +447,7 @@ void CPU::draw()
         }
     }
 
-    writeRegister( chip8::registers::VF, flipped );
+    writeRegister( chip8::registers::vf, flipped );
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 
