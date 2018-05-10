@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(core8)
 
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/module")
-set(EXTERNALS_PROJECTS_DIR externals)
-
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
@@ -17,8 +14,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS} ${CPP_DIALECT}")
 
 message(STATUS "Compiler flags: " ${CMAKE_CXX_FLAGS})
 
-include(AddCatch)
-include_directories(${CATCH_INCLUDE_DIR})
+add_library(catch INTERFACE)
+target_include_directories(catch INTERFACE libs/Catch2/single_include)
 
 # config file
 set(CORE8_VERSION_MAJOR 0)

@@ -1,21 +1,19 @@
 #include <catch.hpp>
 
-#include "aux/Aux.hpp"
-#include "Chip8.hpp"
 #include "CPU.hpp"
+#include "Chip8.hpp"
+#include "aux/Aux.hpp"
 
 namespace {
 
 struct CpuFixture {
   Aux::TestKit testKit;
-  Core8::CPU& cpu = testKit.cpu;
+  Core8::CPU &cpu = testKit.cpu;
 };
 
-SCENARIO_METHOD(
-    CpuFixture,
-    "CPU assigns register VA to register V0 using opcode 8XY0",
-    "[assign]"
-) {
+SCENARIO_METHOD(CpuFixture,
+                "CPU assigns register VA to register V0 using opcode 8XY0",
+                "[assign]") {
   GIVEN("A CPU with an initialized register VA") {
     cpu.writeRegister(Core8::Chip8::Register::VA, 0xCC);
 
@@ -32,11 +30,9 @@ SCENARIO_METHOD(
   }
 }
 
-SCENARIO_METHOD(
-    CpuFixture,
-    "CPU assigns register VA to register VF using opcode 8XY0",
-    "[assign]"
-) {
+SCENARIO_METHOD(CpuFixture,
+                "CPU assigns register VA to register VF using opcode 8XY0",
+                "[assign]") {
   GIVEN("A CPU with an initialized register VA") {
     cpu.writeRegister(Core8::Chip8::Register::VA, 0xDD);
 
@@ -53,11 +49,9 @@ SCENARIO_METHOD(
   }
 }
 
-SCENARIO_METHOD(
-    CpuFixture,
-    "CPU assigns a register to itself using opcode 8XY0",
-    "[assign]"
-) {
+SCENARIO_METHOD(CpuFixture,
+                "CPU assigns a register to itself using opcode 8XY0",
+                "[assign]") {
   GIVEN("A CPU with an initialized register V1") {
     cpu.writeRegister(Core8::Chip8::Register::V1, 0x1D);
 
