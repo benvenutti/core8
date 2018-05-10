@@ -1,5 +1,4 @@
-#ifndef CORE8_RANDOMNUMBERGENERATOR_HPP
-#define CORE8_RANDOMNUMBERGENERATOR_HPP
+#pragma once
 
 #include "Chip8.hpp"
 
@@ -15,5 +14,3 @@ public:
 };
 
 } // namespace Core8
-
-#endif

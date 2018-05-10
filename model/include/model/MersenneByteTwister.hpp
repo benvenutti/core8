@@ -1,5 +1,4 @@
-#ifndef CORE8_MERSENNETWISTER_HPP
-#define CORE8_MERSENNETWISTER_HPP
+#pragma once
 
 #include <random>
 
@@ -25,5 +24,3 @@ private:
 };
 
 } // namespace Core8
-
-#endif

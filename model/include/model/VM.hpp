@@ -1,5 +1,4 @@
-#ifndef CORE8_VM_HPP
-#define CORE8_VM_HPP
+#pragma once
 
 #include <string>
 
@@ -42,5 +41,3 @@ private:
 };
 
 } // namespace Core8
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CORE8_WORDDECODER_HPP
-#define CORE8_WORDDECODER_HPP
+#pragma once
 
 #include "Chip8.hpp"
 
@@ -40,5 +39,3 @@ inline Chip8::WORD readNNN( const Chip8::WORD instr )
 
 } // namespace WordDecoder
 } // namespace Core8
-
-#endif

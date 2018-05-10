@@ -1,5 +1,4 @@
-#ifndef CORE8_OPDECODER_H
-#define CORE8_OPDECODER_H
+#pragma once
 
 #include "Chip8.hpp"
 
@@ -12,5 +11,3 @@ Chip8::OpCode decode( const Chip8::WORD word );
 
 } // namespace OpDecoder
 } // namespace Core8
-
-#endif

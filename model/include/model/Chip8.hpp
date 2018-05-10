@@ -1,5 +1,4 @@
-#ifndef CORE8_CHIP8_H
-#define CORE8_CHIP8_H
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -126,5 +125,3 @@ const std::vector<BYTE> FONT_SET{
 
 } // namespace Chip8
 } // namespace Core8
-
-#endif

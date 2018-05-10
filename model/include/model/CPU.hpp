@@ -1,5 +1,4 @@
-#ifndef CORE8_CPU_HPP
-#define CORE8_CPU_HPP
+#pragma once
 
 #include <array>
 #include <functional>
@@ -136,5 +135,3 @@ private:
 };
 
 } // namespace Core8
-
-#endif

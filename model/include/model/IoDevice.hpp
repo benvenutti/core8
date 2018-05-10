@@ -1,5 +1,4 @@
-#ifndef CORE8_IOCONNECTOR_HPP
-#define CORE8_IOCONNECTOR_HPP
+#pragma once
 
 #include <array>
 
@@ -21,5 +20,3 @@ public:
 };
 
 } // namespace Core8
-
-#endif

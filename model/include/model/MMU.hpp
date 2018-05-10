@@ -1,5 +1,4 @@
-#ifndef CORE8_MMU_H
-#define CORE8_MMU_H
+#pragma once
 
 #include <array>
 #include <istream>
@@ -45,5 +44,3 @@ private:
 };
 
 } // namespace Core8
-
-#endif
