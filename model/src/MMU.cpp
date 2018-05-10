@@ -41,8 +41,8 @@ void MMU::load( std::istream& rom, chip8::word_t address )
 {
     std::noskipws( rom );
 
-    const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>( rom ),
-                                           std::istream_iterator<chip8::byte_t>() };
+    const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>{ rom },
+                                           std::istream_iterator<chip8::byte_t>{} };
 
     load( data, address );
 }

@@ -13,21 +13,20 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 , m_ioDevice{ ioDevice }
 , m_rndGenerator{ rndGenerator }
 {
-    m_registers.fill( 0x0 );
     m_mmu.load( chip8::font_set, 0x0 );
 }
 
-chip8::byte_t CPU::readRegister( const chip8::reg id ) const
+chip8::byte_t CPU::readRegister( chip8::reg id ) const
 {
     return m_registers.at( static_cast<std::size_t>( id ) );
 }
 
-void CPU::writeRegister( const chip8::reg id, const chip8::byte_t value )
+void CPU::writeRegister( chip8::reg id, chip8::byte_t value )
 {
     m_registers.at( static_cast<std::size_t>( id ) ) = value;
 }
 
-void CPU::loadToRegisters( const std::vector<chip8::byte_t> values )
+void CPU::loadToRegisters( std::vector<chip8::byte_t> values )
 {
     const auto size = std::min( values.size(), m_registers.size() );
     std::copy_n( std::begin( values ), size, std::begin( m_registers ) );
@@ -46,7 +45,7 @@ void CPU::cycle()
     updateSoundTimer();
 }
 
-void CPU::execute( const chip8::word_t instr )
+void CPU::execute( chip8::word_t instr )
 {
     m_instruction = instr;
     decode();
@@ -194,7 +193,7 @@ void CPU::updateSoundTimer()
 
 void CPU::clearDisplay()
 {
-    m_frameBuffer.fill( 0x0 );
+    m_frameBuffer = {};
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 

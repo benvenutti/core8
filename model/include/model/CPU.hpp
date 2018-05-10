@@ -18,10 +18,10 @@ public:
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
 
     void cycle();
-    void execute( const chip8::word_t instr );
+    void execute( chip8::word_t instr );
 
-    chip8::byte_t readRegister( const chip8::reg id ) const;
-    void          writeRegister( const chip8::reg id, const chip8::byte_t value );
+    chip8::byte_t readRegister( chip8::reg id ) const;
+    void          writeRegister( chip8::reg id, chip8::byte_t value );
     void          loadToRegisters( const std::vector<chip8::byte_t> values );
 
     chip8::word_t getPc() const
@@ -38,7 +38,7 @@ public:
         return m_stack;
     }
 
-    void setDelayTimer( const chip8::byte_t delay )
+    void setDelayTimer( chip8::byte_t delay )
     {
         m_delayTimer = delay;
     }
@@ -53,16 +53,17 @@ public:
         return m_soundTimer;
     }
 
-    void setInstruction( const chip8::word_t instr )
+    void setInstruction( chip8::word_t instr )
     {
         m_instruction = instr;
     }
+
     chip8::word_t getInstruction() const
     {
         return m_instruction;
     }
 
-    void setI( const chip8::word_t address )
+    void setI( chip8::word_t address )
     {
         m_I = address;
     }
@@ -125,8 +126,8 @@ private:
 
     bool isInterrupted{ false };
 
-    std::array<chip8::byte_t, chip8::num_registers> m_registers;
-    std::array<chip8::word_t, chip8::stack_size>    m_stack;
+    std::array<chip8::byte_t, chip8::num_registers> m_registers{};
+    std::array<chip8::word_t, chip8::stack_size>    m_stack{};
     std::array<chip8::byte_t, chip8::display_size>  m_frameBuffer;
 
     MMU&                   m_mmu;
