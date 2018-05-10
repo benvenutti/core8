@@ -5,30 +5,48 @@
 #include <cstdint>
 #include <vector>
 
-namespace Core8 {
-namespace Chip8 {
+namespace Core8
+{
+namespace Chip8
+{
 
 using BYTE = std::uint8_t;
 using WORD = std::uint16_t;
 
-const std::size_t RAM_SIZE{4096};
-const std::size_t NUMBER_OF_REGISTERS{16};
-const std::size_t INIT_ROM_LOAD_ADDRESS{512};
-const std::size_t INSTRUCTION_BYTE_SIZE{2};
-const std::size_t STACK_SIZE{16};
-const std::size_t DISPLAY_WIDTH{64};
-const std::size_t DISPLAY_HEIGHT{32};
-const std::size_t DISPLAY_SIZE{DISPLAY_WIDTH * DISPLAY_HEIGHT};
+const std::size_t RAM_SIZE{ 4096 };
+const std::size_t NUMBER_OF_REGISTERS{ 16 };
+const std::size_t INIT_ROM_LOAD_ADDRESS{ 512 };
+const std::size_t INSTRUCTION_BYTE_SIZE{ 2 };
+const std::size_t STACK_SIZE{ 16 };
+const std::size_t DISPLAY_WIDTH{ 64 };
+const std::size_t DISPLAY_HEIGHT{ 32 };
+const std::size_t DISPLAY_SIZE{ DISPLAY_WIDTH * DISPLAY_HEIGHT };
 
-const BYTE CHAR_SPRITE_SIZE{5};
-const BYTE SPRITE_WIDTH{8};
+const BYTE CHAR_SPRITE_SIZE{ 5 };
+const BYTE SPRITE_WIDTH{ 8 };
 
-enum class Register {
-    V0, V1, V2, V3, V4, V5, V6, V7,
-    V8, V9, VA, VB, VC, VD, VE, VF
+enum class Register
+{
+    V0,
+    V1,
+    V2,
+    V3,
+    V4,
+    V5,
+    V6,
+    V7,
+    V8,
+    V9,
+    VA,
+    VB,
+    VC,
+    VD,
+    VE,
+    VF
 };
 
-enum class OpCode {
+enum class OpCode
+{
     CLEAR_SCREEN,
     RETURN,
     JUMP,
@@ -66,9 +84,25 @@ enum class OpCode {
     INVALID
 };
 
-enum class Key {
-    K0, K1, K2, K3, K4, K5, K6, K7,
-    K8, K9, KA, KB, KC, KD, KE, KF, NONE
+enum class Key
+{
+    K0,
+    K1,
+    K2,
+    K3,
+    K4,
+    K5,
+    K6,
+    K7,
+    K8,
+    K9,
+    KA,
+    KB,
+    KC,
+    KD,
+    KE,
+    KF,
+    NONE
 };
 
 const std::vector<BYTE> FONT_SET{
