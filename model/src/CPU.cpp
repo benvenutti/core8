@@ -4,7 +4,7 @@
 
 #include "WordDecoder.hpp"
 
-namespace Core8
+namespace model
 {
 
 CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
@@ -509,4 +509,4 @@ void CPU::executeLoadRandomToVx()
     m_registers.at( x ) = nn & randomNumber;
 }
 
-} // namespace Core8
+} // namespace model

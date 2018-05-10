@@ -5,7 +5,7 @@
 namespace
 {
 
-using namespace Core8;
+using namespace model;
 
 TEST_CASE( "Display opcodes are decoded", "[display]" )
 {

@@ -6,7 +6,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 /// @brief Big-endian memory management unit.
@@ -43,4 +43,4 @@ private:
     std::array<Chip8::byte_t, Chip8::ram_size> m_memory;
 };
 
-} // namespace Core8
+} // namespace model

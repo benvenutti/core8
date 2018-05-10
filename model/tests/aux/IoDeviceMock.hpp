@@ -8,26 +8,26 @@
 
 namespace Aux {
 
-class IoDeviceMock : public Core8::IoDevice {
+class IoDeviceMock : public model::IoDevice {
   public:
     virtual void drawScreen(
-        const std::array<Core8::Chip8::byte_t, Core8::Chip8::display_size>& /*frame*/
+        const std::array<model::Chip8::byte_t, model::Chip8::display_size>& /*frame*/
     ) override { }
 
-    virtual bool isKeyPressed(const Core8::Chip8::key key) const override {
+    virtual bool isKeyPressed(const model::Chip8::key key) const override {
       return key == pressedKey;
     }
 
-    virtual Core8::Chip8::key getPressedKey() const override {
+    virtual model::Chip8::key getPressedKey() const override {
       return pressedKey;
     }
 
-    void setPressedKey(const Core8::Chip8::key key) {
+    void setPressedKey(const model::Chip8::key key) {
       pressedKey = key;
     }
 
   private:
-    Core8::Chip8::key pressedKey{Core8::Chip8::key::NONE};
+    model::Chip8::key pressedKey{model::Chip8::key::NONE};
 };
 
 } // namespace Aux

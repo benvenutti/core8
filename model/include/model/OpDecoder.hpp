@@ -2,7 +2,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 namespace OpDecoder
 {
@@ -10,4 +10,4 @@ namespace OpDecoder
 Chip8::opcode decode( const Chip8::word_t word );
 
 } // namespace OpDecoder
-} // namespace Core8
+} // namespace model

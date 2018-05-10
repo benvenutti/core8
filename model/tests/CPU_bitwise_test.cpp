@@ -10,17 +10,17 @@ namespace
 struct CpuFixture
 {
     Aux::TestKit testKit;
-    Core8::CPU&  cpu = testKit.cpu;
+    model::CPU&  cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture, "CPUs can execute OR operations on registers with opcode 8XY1", "[bitwise]" )
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::registers::V0, 0b00001000 );
-        cpu.writeRegister( Core8::Chip8::registers::V6, 0b01010101 );
-        cpu.writeRegister( Core8::Chip8::registers::VA, 0b00001111 );
-        cpu.writeRegister( Core8::Chip8::registers::VE, 0b11001100 );
+        cpu.writeRegister( model::Chip8::registers::V0, 0b00001000 );
+        cpu.writeRegister( model::Chip8::registers::V6, 0b01010101 );
+        cpu.writeRegister( model::Chip8::registers::VA, 0b00001111 );
+        cpu.writeRegister( model::Chip8::registers::VE, 0b11001100 );
 
         WHEN( "the CPU executes an 8XY1 opcode" )
         {
@@ -29,13 +29,13 @@ SCENARIO_METHOD( CpuFixture, "CPUs can execute OR operations on registers with o
 
             THEN( "the register VX holds the result of VX OR VY" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V0 ) == 0b01011101 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VA ) == 0b11001111 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V0 ) == 0b01011101 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VA ) == 0b11001111 );
             }
             AND_THEN( "the register VY remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V6 ) == 0b01010101 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VE ) == 0b11001100 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V6 ) == 0b01010101 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VE ) == 0b11001100 );
             }
         }
     }
@@ -45,10 +45,10 @@ SCENARIO_METHOD( CpuFixture, "CPUs can execute AND operations on registers with 
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::registers::V1, 0b01011000 );
-        cpu.writeRegister( Core8::Chip8::registers::V7, 0b01010101 );
-        cpu.writeRegister( Core8::Chip8::registers::VB, 0b00001111 );
-        cpu.writeRegister( Core8::Chip8::registers::VF, 0b11001100 );
+        cpu.writeRegister( model::Chip8::registers::V1, 0b01011000 );
+        cpu.writeRegister( model::Chip8::registers::V7, 0b01010101 );
+        cpu.writeRegister( model::Chip8::registers::VB, 0b00001111 );
+        cpu.writeRegister( model::Chip8::registers::VF, 0b11001100 );
 
         WHEN( "the CPU executes an 8XY2 opcode" )
         {
@@ -57,13 +57,13 @@ SCENARIO_METHOD( CpuFixture, "CPUs can execute AND operations on registers with 
 
             THEN( "the register VX holds the result of VX AND VY" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V1 ) == 0b01010000 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VB ) == 0b00001100 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V1 ) == 0b01010000 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VB ) == 0b00001100 );
             }
             AND_THEN( "the register VY remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V7 ) == 0b01010101 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VF ) == 0b11001100 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V7 ) == 0b01010101 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VF ) == 0b11001100 );
             }
         }
     }
@@ -73,10 +73,10 @@ SCENARIO_METHOD( CpuFixture, "CPUs can execute XOR operations on registers with 
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::registers::V2, 0b01011000 );
-        cpu.writeRegister( Core8::Chip8::registers::V8, 0b01010101 );
-        cpu.writeRegister( Core8::Chip8::registers::VC, 0b00001111 );
-        cpu.writeRegister( Core8::Chip8::registers::VD, 0b11001100 );
+        cpu.writeRegister( model::Chip8::registers::V2, 0b01011000 );
+        cpu.writeRegister( model::Chip8::registers::V8, 0b01010101 );
+        cpu.writeRegister( model::Chip8::registers::VC, 0b00001111 );
+        cpu.writeRegister( model::Chip8::registers::VD, 0b11001100 );
 
         WHEN( "the CPU executes an 8XY3 opcode" )
         {
@@ -85,13 +85,13 @@ SCENARIO_METHOD( CpuFixture, "CPUs can execute XOR operations on registers with 
 
             THEN( "the register VX holds the result of VX XOR VY" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V2 ) == 0b00001101 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VC ) == 0b11000011 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V2 ) == 0b00001101 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VC ) == 0b11000011 );
             }
             AND_THEN( "the register VY remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V8 ) == 0b01010101 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VD ) == 0b11001100 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V8 ) == 0b01010101 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VD ) == 0b11001100 );
             }
         }
     }
@@ -101,21 +101,21 @@ SCENARIO_METHOD( CpuFixture, "CPUs can shift registers right by one with 8XY6 op
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::registers::V4, 0b01011000 );
-        cpu.writeRegister( Core8::Chip8::registers::VD, 0b01010101 );
+        cpu.writeRegister( model::Chip8::registers::V4, 0b01011000 );
+        cpu.writeRegister( model::Chip8::registers::VD, 0b01010101 );
 
         WHEN( "the CPU executes an 8XY6 opcode" )
         {
             cpu.execute( 0x8406 );
-            const auto vf1 = cpu.readRegister( Core8::Chip8::registers::VF );
+            const auto vf1 = cpu.readRegister( model::Chip8::registers::VF );
 
             cpu.execute( 0x8D06 );
-            const auto vf2 = cpu.readRegister( Core8::Chip8::registers::VF );
+            const auto vf2 = cpu.readRegister( model::Chip8::registers::VF );
 
             THEN( "the target register VX is shifted right by one" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V4 ) == 0b00101100 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VD ) == 0b00101010 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::V4 ) == 0b00101100 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VD ) == 0b00101010 );
             }
             AND_THEN( "VF is set to the LSB of the target register before the shift" )
             {
@@ -130,21 +130,21 @@ SCENARIO_METHOD( CpuFixture, "CPUs can shift registers left by one with 8XYE opc
 {
     GIVEN( "A CPU with some initialized registers" )
     {
-        cpu.writeRegister( Core8::Chip8::registers::VC, 0b11111111 );
-        cpu.writeRegister( Core8::Chip8::registers::VD, 0b01010101 );
+        cpu.writeRegister( model::Chip8::registers::VC, 0b11111111 );
+        cpu.writeRegister( model::Chip8::registers::VD, 0b01010101 );
 
         WHEN( "the CPU executes an 8XYE opcode" )
         {
             cpu.execute( 0x8C0E );
-            const auto vf1 = cpu.readRegister( Core8::Chip8::registers::VF );
+            const auto vf1 = cpu.readRegister( model::Chip8::registers::VF );
 
             cpu.execute( 0x8D0E );
-            const auto vf2 = cpu.readRegister( Core8::Chip8::registers::VF );
+            const auto vf2 = cpu.readRegister( model::Chip8::registers::VF );
 
             THEN( "the target register VX is shifted left by one" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VC ) == 0b11111110 );
-                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VD ) == 0b10101010 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VC ) == 0b11111110 );
+                REQUIRE( cpu.readRegister( model::Chip8::registers::VD ) == 0b10101010 );
             }
             AND_THEN( "VF is set to the MSB of the target register before the shift" )
             {

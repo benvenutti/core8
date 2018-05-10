@@ -6,12 +6,12 @@
 #include "MMU.hpp"
 #include "MersenneByteTwister.hpp"
 
-namespace Core8
+namespace model
 {
-class IoConnector;
-} // namespace Core8
+class IoConnector; // TODO what is this?
+} // namespace model
 
-namespace Core8
+namespace model
 {
 
 class VM
@@ -40,4 +40,4 @@ private:
     CPU                 m_cpu;
 };
 
-} // namespace Core8
+} // namespace model

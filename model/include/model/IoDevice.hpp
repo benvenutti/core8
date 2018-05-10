@@ -4,7 +4,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 class IoDevice
@@ -19,4 +19,4 @@ public:
     virtual Chip8::key getPressedKey() const = 0;
 };
 
-} // namespace Core8
+} // namespace model

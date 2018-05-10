@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace Core8
+namespace model
 {
 namespace Chip8
 {
@@ -124,4 +124,4 @@ const std::vector<byte_t> font_set{
 };
 
 } // namespace Chip8
-} // namespace Core8
+} // namespace model

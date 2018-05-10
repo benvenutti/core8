@@ -2,7 +2,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 class RandomNumberGenerator
@@ -13,4 +13,4 @@ public:
     virtual Chip8::byte_t get() = 0;
 };
 
-} // namespace Core8
+} // namespace model

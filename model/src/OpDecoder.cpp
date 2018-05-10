@@ -1,6 +1,6 @@
 #include "OpDecoder.hpp"
 
-namespace Core8
+namespace model
 {
 
 Chip8::opcode OpDecoder::decode( const Chip8::word_t word )
@@ -104,4 +104,4 @@ Chip8::opcode OpDecoder::decode( const Chip8::word_t word )
     }
 }
 
-} // namespace Core8
+} // namespace model

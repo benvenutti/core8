@@ -4,7 +4,7 @@
 #include <iterator>
 #include <limits>
 
-namespace Core8
+namespace model
 {
 
 MMU::MMU()
@@ -81,4 +81,4 @@ MMU::Memory::iterator MMU::end()
     return std::end( m_memory );
 }
 
-} // namespace Core8
+} // namespace model

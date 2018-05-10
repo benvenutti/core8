@@ -18,11 +18,11 @@ SCENARIO( "Creating a MMU with the default constructor", "[mmu]" )
     {
         WHEN( "a MMU object is created" )
         {
-            const Core8::MMU mmu;
+            const model::MMU mmu;
 
             THEN( "its size is equal the Chip-8 ram size" )
             {
-                REQUIRE( mmu.getSize() == Core8::Chip8::ram_size );
+                REQUIRE( mmu.getSize() == model::Chip8::ram_size );
             }
             AND_THEN( "its memory is cleared (filled with zeros)" )
             {
@@ -36,8 +36,8 @@ SCENARIO( "Comparing two identical MMUs using the equal operator", "[mmu]" )
 {
     GIVEN( "Two MMUs with the same values in memory" )
     {
-        Core8::MMU mmu1;
-        Core8::MMU mmu2;
+        model::MMU mmu1;
+        model::MMU mmu2;
         std::generate( std::begin( mmu1 ), std::end( mmu1 ), [] { return 0xFF; } );
         std::generate( std::begin( mmu2 ), std::end( mmu2 ), [] { return 0xFF; } );
 
@@ -57,8 +57,8 @@ SCENARIO( "Comparing two different MMUs using the equal operator", "[mmu]" )
 {
     GIVEN( "Two MMUs with different values in memory" )
     {
-        Core8::MMU mmu1;
-        Core8::MMU mmu2;
+        model::MMU mmu1;
+        model::MMU mmu2;
         mmu1.writeByte( 0x01, 0x0 );
 
         WHEN( "the MMUs are compared using the equal operator" )
@@ -77,7 +77,7 @@ SCENARIO( "MMU writes a byte into a valid address", "[mmu]" )
 {
     GIVEN( "A MMU" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
 
         WHEN( "the MMU writes a byte to a valid address" )
         {
@@ -97,7 +97,7 @@ SCENARIO( "MMU writes a byte into an invalid address", "[mmu]" )
 {
     GIVEN( "A MMU" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
 
         WHEN( "the MMU writes a byte to an invalid address" )
         {
@@ -113,7 +113,7 @@ SCENARIO( "MMU reads a byte from a valid address", "[mmu]" )
 {
     GIVEN( "A MMU with initialized values" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
         mmu.writeByte( 0x11, 0x0 );
         mmu.writeByte( 0xFF, 0xFFF );
 
@@ -135,7 +135,7 @@ SCENARIO( "MMU reads a byte from an invalid address", "[mmu]" )
 {
     GIVEN( "A MMU" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
 
         WHEN( "the MMU reads a byte from an invalid address" )
         {
@@ -151,7 +151,7 @@ SCENARIO( "MMU reads a word from a valid address", "[mmu]" )
 {
     GIVEN( "A MMU with initialized values" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
         mmu.writeByte( 0x1A, 0x80 );
         mmu.writeByte( 0xF1, 0x81 );
         mmu.writeByte( 0xCC, 0xFFE );
@@ -175,7 +175,7 @@ SCENARIO( "MMU reads a word from an invalid address", "[mmu]" )
 {
     GIVEN( "A MMU" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
 
         WHEN( "the MMU reads a word from an invalid address" )
         {
@@ -193,7 +193,7 @@ SCENARIO( "MMU loads a rom that fits at the given valid address", "[mmu]" )
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
         Aux::ByteStream           rom{ data };
-        Core8::MMU                mmu;
+        model::MMU                mmu;
 
         WHEN( "the MMU loads the rom at a valid address with enough memory space" )
         {
@@ -216,7 +216,7 @@ SCENARIO( "MMU loads a rom that does not fit at the given valid address", "[mmu]
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
         Aux::ByteStream           rom{ data };
-        Core8::MMU                mmu;
+        model::MMU                mmu;
 
         WHEN( "the MMU loads the rom at a valid address without enough space" )
         {
@@ -238,8 +238,8 @@ SCENARIO( "MMU loads a rom to an invalid memory address", "[mmu]" )
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
         Aux::ByteStream           rom{ data };
-        Core8::MMU                mmu;
-        Core8::MMU                originalMmu{ mmu };
+        model::MMU                mmu;
+        model::MMU                originalMmu{ mmu };
 
         WHEN( "the MMU loads the rom at an invalid address" )
         {
@@ -256,7 +256,7 @@ SCENARIO( "MMU clears its memory", "[mmu]" )
 {
     GIVEN( "A MMU with initialized values" )
     {
-        Core8::MMU mmu;
+        model::MMU mmu;
         std::generate( std::begin( mmu ), std::end( mmu ), [] { return 0xFF; } );
 
         WHEN( "the MMU clears the memory" )

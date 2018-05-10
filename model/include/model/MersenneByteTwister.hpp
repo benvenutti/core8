@@ -4,7 +4,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 
 class MersenneByteTwister : public RandomNumberGenerator
@@ -23,4 +23,4 @@ private:
     std::uniform_int_distribution<Chip8::byte_t> m_distribution{ 0x01, 0xFF };
 };
 
-} // namespace Core8
+} // namespace model

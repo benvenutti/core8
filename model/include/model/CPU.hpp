@@ -10,7 +10,7 @@
 #include "OpDecoder.hpp"
 #include "RandomNumberGenerator.hpp"
 
-namespace Core8
+namespace model
 {
 
 class CPU
@@ -134,4 +134,4 @@ private:
     RandomNumberGenerator& m_rndGenerator;
 };
 
-} // namespace Core8
+} // namespace model

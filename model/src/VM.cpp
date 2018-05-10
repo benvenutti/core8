@@ -4,7 +4,7 @@
 
 #include "IoDevice.hpp"
 
-namespace Core8
+namespace model
 {
 
 VM::VM( IoDevice& ioDevice )
@@ -31,4 +31,4 @@ void VM::cycle()
     m_cpu.cycle();
 }
 
-} // namespace Core8
+} // namespace model

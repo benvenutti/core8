@@ -2,7 +2,7 @@
 
 #include "Chip8.hpp"
 
-namespace Core8
+namespace model
 {
 namespace WordDecoder
 {
@@ -38,4 +38,4 @@ inline Chip8::word_t readNNN( const Chip8::word_t instr )
 }
 
 } // namespace WordDecoder
-} // namespace Core8
+} // namespace model
