@@ -31,7 +31,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "register V0 is set to 0" )
             {
-                REQUIRE( cpu.readRegister( model::Chip8::registers::V0 ) == 0x0 );
+                REQUIRE( cpu.readRegister( model::chip8::registers::V0 ) == 0x0 );
             }
         }
     }
@@ -53,7 +53,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "register VF is set to FF" )
             {
-                REQUIRE( cpu.readRegister( model::Chip8::registers::VF ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::registers::VF ) == 0xFF );
             }
         }
     }

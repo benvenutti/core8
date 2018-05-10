@@ -22,7 +22,7 @@ SCENARIO( "Creating a MMU with the default constructor", "[mmu]" )
 
             THEN( "its size is equal the Chip-8 ram size" )
             {
-                REQUIRE( mmu.getSize() == model::Chip8::ram_size );
+                REQUIRE( mmu.getSize() == model::chip8::ram_size );
             }
             AND_THEN( "its memory is cleared (filled with zeros)" )
             {

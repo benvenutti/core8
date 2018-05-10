@@ -19,7 +19,7 @@ bool VM::loadRom( const std::string& fileName )
 
     if ( in.is_open() )
     {
-        m_mmu.load( in, Chip8::init_rom_load_address );
+        m_mmu.load( in, chip8::init_rom_load_address );
         in.close();
     }
 

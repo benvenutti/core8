@@ -11,23 +11,23 @@ namespace Aux {
 class IoDeviceMock : public model::IoDevice {
   public:
     virtual void drawScreen(
-        const std::array<model::Chip8::byte_t, model::Chip8::display_size>& /*frame*/
+        const std::array<model::chip8::byte_t, model::chip8::display_size>& /*frame*/
     ) override { }
 
-    virtual bool isKeyPressed(const model::Chip8::key key) const override {
+    virtual bool isKeyPressed(const model::chip8::key key) const override {
       return key == pressedKey;
     }
 
-    virtual model::Chip8::key getPressedKey() const override {
+    virtual model::chip8::key getPressedKey() const override {
       return pressedKey;
     }
 
-    void setPressedKey(const model::Chip8::key key) {
+    void setPressedKey(const model::chip8::key key) {
       pressedKey = key;
     }
 
   private:
-    model::Chip8::key pressedKey{model::Chip8::key::NONE};
+    model::chip8::key pressedKey{model::chip8::key::NONE};
 };
 
 } // namespace Aux

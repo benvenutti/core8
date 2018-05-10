@@ -7,7 +7,7 @@ namespace model
 namespace OpDecoder
 {
 
-Chip8::opcode decode( const Chip8::word_t word );
+chip8::opcode decode( const chip8::word_t word );
 
 } // namespace OpDecoder
 } // namespace model

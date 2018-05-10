@@ -10,16 +10,16 @@ class RandomNumberGeneratorMock : public model::RandomNumberGenerator {
     RandomNumberGeneratorMock() = default;
     virtual ~RandomNumberGeneratorMock() = default;
 
-    virtual model::Chip8::byte_t get() override {
+    virtual model::chip8::byte_t get() override {
       return m_value;
     }
 
-    void setValue(const model::Chip8::byte_t value) {
+    void setValue(const model::chip8::byte_t value) {
       m_value = value;
     }
 
   private:
-    model::Chip8::byte_t m_value{0u};
+    model::chip8::byte_t m_value{0u};
 };
 
 } // namespace Aux

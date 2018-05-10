@@ -6,20 +6,20 @@
 
 namespace model
 {
-namespace Chip8
+namespace chip8
 {
 
 using byte_t = std::uint8_t;
 using word_t = std::uint16_t;
 
-constexpr std::size_t ram_size{ 4096 };
-constexpr std::size_t num_registers{ 16 };
-constexpr std::size_t init_rom_load_address{ 512 };
-constexpr std::size_t instruction_size_in_bytes{ 2 };
-constexpr std::size_t stack_size{ 16 };
-constexpr std::size_t display_width{ 64 };
-constexpr std::size_t display_height{ 32 };
-constexpr std::size_t display_size{ display_width * display_height };
+constexpr word_t ram_size{ 4096 };
+constexpr word_t num_registers{ 16 };
+constexpr word_t init_rom_load_address{ 512 };
+constexpr word_t instruction_size_in_bytes{ 2 };
+constexpr word_t stack_size{ 16 };
+constexpr word_t display_width{ 64 };
+constexpr word_t display_height{ 32 };
+constexpr word_t display_size{ display_width * display_height };
 
 constexpr byte_t char_sprite_size{ 5 };
 constexpr byte_t sprite_width{ 8 };
@@ -123,5 +123,5 @@ const std::vector<byte_t> font_set{
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-} // namespace Chip8
+} // namespace chip8
 } // namespace model

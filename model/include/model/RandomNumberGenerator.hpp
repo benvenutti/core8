@@ -10,7 +10,7 @@ class RandomNumberGenerator
 public:
     virtual ~RandomNumberGenerator() = default;
 
-    virtual Chip8::byte_t get() = 0;
+    virtual chip8::byte_t get() = 0;
 };
 
 } // namespace model

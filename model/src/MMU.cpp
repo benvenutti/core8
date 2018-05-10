@@ -17,27 +17,27 @@ bool MMU::operator==( const MMU& mmu ) const
     return m_memory == mmu.m_memory;
 }
 
-Chip8::byte_t MMU::readByte( const std::size_t address ) const
+chip8::byte_t MMU::readByte( const std::size_t address ) const
 {
     const auto byte = m_memory.at( address );
 
     return byte;
 }
 
-Chip8::word_t MMU::readWord( const std::size_t address ) const
+chip8::word_t MMU::readWord( const std::size_t address ) const
 {
-    const auto msb = m_memory.at( address ) << std::numeric_limits<Chip8::byte_t>::digits;
+    const auto msb = m_memory.at( address ) << std::numeric_limits<chip8::byte_t>::digits;
     const auto lsb = m_memory.at( address + 1 );
 
     return msb | lsb;
 }
 
-void MMU::writeByte( const Chip8::byte_t byte, const std::size_t address )
+void MMU::writeByte( const chip8::byte_t byte, const std::size_t address )
 {
     m_memory.at( address ) = byte;
 }
 
-void MMU::load( const std::vector<Chip8::byte_t>& rom, const std::size_t address )
+void MMU::load( const std::vector<chip8::byte_t>& rom, const std::size_t address )
 {
     const auto availableMemory = m_memory.size() - address;
     const auto dataSize        = rom.size();
@@ -50,8 +50,8 @@ void MMU::load( std::istream& rom, const std::size_t address )
 {
     std::noskipws( rom );
 
-    const std::vector<Chip8::byte_t> data{ std::istream_iterator<Chip8::byte_t>( rom ),
-                                           std::istream_iterator<Chip8::byte_t>() };
+    const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>( rom ),
+                                           std::istream_iterator<chip8::byte_t>() };
 
     load( data, address );
 }

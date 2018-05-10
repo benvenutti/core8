@@ -17,12 +17,12 @@ public:
 
     bool operator==( const MMU& mmu ) const;
 
-    Chip8::byte_t readByte( const std::size_t address ) const;
-    Chip8::word_t readWord( const std::size_t address ) const;
+    chip8::byte_t readByte( const std::size_t address ) const;
+    chip8::word_t readWord( const std::size_t address ) const;
 
-    void writeByte( const Chip8::byte_t byte, const std::size_t address );
+    void writeByte( const chip8::byte_t byte, const std::size_t address );
 
-    void load( const std::vector<Chip8::byte_t>& rom, const std::size_t address );
+    void load( const std::vector<chip8::byte_t>& rom, const std::size_t address );
     void load( std::istream& rom, const std::size_t address );
 
     void clear();
@@ -32,7 +32,7 @@ public:
         return m_memory.size();
     }
 
-    using Memory = std::array<Chip8::byte_t, Chip8::ram_size>;
+    using Memory = std::array<chip8::byte_t, chip8::ram_size>;
 
     Memory::const_iterator begin() const;
     Memory::iterator       begin();
@@ -40,7 +40,7 @@ public:
     Memory::iterator       end();
 
 private:
-    std::array<Chip8::byte_t, Chip8::ram_size> m_memory;
+    std::array<chip8::byte_t, chip8::ram_size> m_memory;
 };
 
 } // namespace model
