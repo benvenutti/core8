@@ -168,7 +168,6 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU and an i/o connector with the key F pressed" )
     {
         ioDevice.setPressedKey( model::chip8::key::kf );
-        const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes an FX0A opcode" )
         {
