@@ -67,106 +67,106 @@ void CPU::execute()
 {
     switch ( m_opcode )
     {
-        case chip8::opcode::CLEAR_SCREEN:
+        case chip8::opcode::clear_screen:
             clearDisplay();
             break;
-        case chip8::opcode::RETURN:
+        case chip8::opcode::ret:
             returnFromSubroutine();
             break;
-        case chip8::opcode::JUMP:
+        case chip8::opcode::jump:
             jumpToNnn();
             break;
-        case chip8::opcode::CALL:
+        case chip8::opcode::call:
             callNNN();
             break;
-        case chip8::opcode::SKIP_IF_VX_EQUALS_NN:
+        case chip8::opcode::skip_if_vx_equals_nn:
             skipIfVxEqualsNn();
             break;
-        case chip8::opcode::SKIP_IF_VX_NOT_EQUALS_NN:
+        case chip8::opcode::skip_if_vx_not_equals_nn:
             skipIfVxNotEqualsNn();
             break;
-        case chip8::opcode::SKIP_IF_VX_EQUALS_VY:
+        case chip8::opcode::skip_if_vx_equals_vy:
             skipIfVxEqualsVy();
             break;
-        case chip8::opcode::LOAD_NN_TO_VX:
+        case chip8::opcode::load_nn_to_vx:
             loadNnToVx();
             break;
-        case chip8::opcode::ADD_NN_TO_VX:
+        case chip8::opcode::add_nn_to_vx:
             addNnToVx();
             break;
-        case chip8::opcode::LOAD_VY_TO_VX:
+        case chip8::opcode::load_vy_to_vx:
             loadVyToVx();
             break;
-        case chip8::opcode::VX_OR_VY:
+        case chip8::opcode::vx_or_vy:
             bitwiseVxOrVy();
             break;
-        case chip8::opcode::VX_AND_VY:
+        case chip8::opcode::vx_and_vy:
             bitwiseVxAndVy();
             break;
-        case chip8::opcode::VX_XOR_VY:
+        case chip8::opcode::vx_xor_vy:
             bitwiseVxXorVy();
             break;
-        case chip8::opcode::VX_PLUS_VY:
+        case chip8::opcode::vx_plus_vy:
             addVyToVx();
             break;
-        case chip8::opcode::VX_MINUS_VY:
+        case chip8::opcode::vx_minus_vy:
             subVyFromVx();
             break;
-        case chip8::opcode::SHIFT_VX_RIGHT:
+        case chip8::opcode::shift_vx_right:
             shiftVxRight();
             break;
-        case chip8::opcode::SET_VX_TO_VY_MINUS_VX:
+        case chip8::opcode::set_vx_to_vy_minus_vx:
             subVxFromVy();
             break;
-        case chip8::opcode::SHIFT_VX_LEFT:
+        case chip8::opcode::shift_vx_left:
             shiftVxLeft();
             break;
-        case chip8::opcode::SKIP_IF_VX_NOT_EQUALS_VY:
+        case chip8::opcode::skip_if_vx_not_equals_vy:
             skipIfVxNotEqualsVy();
             break;
-        case chip8::opcode::LOAD_NNN_TO_I:
+        case chip8::opcode::load_nnn_to_i:
             loadNnnToI();
             break;
-        case chip8::opcode::JUMP_NNN_PLUS_V0:
+        case chip8::opcode::jump_nnn_plus_v0:
             jumpToNnnPlusV0();
             break;
-        case chip8::opcode::LOAD_RANDOM_TO_VX:
+        case chip8::opcode::load_random_to_vx:
             executeLoadRandomToVx();
             break;
-        case chip8::opcode::DRAW:
+        case chip8::opcode::draw:
             draw();
             break;
-        case chip8::opcode::SKIP_IF_VX_IS_PRESSED:
+        case chip8::opcode::skip_if_vx_is_pressed:
             executeSkipIfVxIsPressed();
             break;
-        case chip8::opcode::SKIP_IF_VX_IS_NOT_PRESSED:
+        case chip8::opcode::skip_if_vx_is_not_pressed:
             executeSkipIfVxIsNotPressed();
             break;
-        case chip8::opcode::LOAD_DELAY_TIMER_TO_VX:
+        case chip8::opcode::load_delay_timer_to_vx:
             loadDelayToVx();
             break;
-        case chip8::opcode::LOAD_PRESSED_KEY_TO_VX:
+        case chip8::opcode::load_pressed_key_to_vx:
             executeWaitPressedKeyToVx();
             break;
-        case chip8::opcode::LOAD_VX_TO_DELAY_TIMER:
+        case chip8::opcode::load_vx_to_delay_timer:
             loadVxToDelay();
             break;
-        case chip8::opcode::LOAD_VX_TO_SOUND_TIMER:
+        case chip8::opcode::load_vx_to_sound_timer:
             loadVxToSound();
             break;
-        case chip8::opcode::ADD_VX_TO_I:
+        case chip8::opcode::add_vx_to_i:
             addVxToI();
             break;
-        case chip8::opcode::LOAD_FONT_SPRITE_ADDRESS_TO_I:
+        case chip8::opcode::load_font_sprite_address_to_i:
             loadFontSpriteAddressToI();
             break;
-        case chip8::opcode::LOAD_VX_BCD_TO_I:
+        case chip8::opcode::load_vx_bcd_to_i:
             executeLoadVxBcdToI();
             break;
-        case chip8::opcode::LOAD_V0_TO_VX_IN_ADDRESS_I:
+        case chip8::opcode::load_v0_to_vx_in_address_i:
             loadRegistersToI();
             break;
-        case chip8::opcode::LOAD_ADDRESS_I_TO_V0_TO_VX:
+        case chip8::opcode::load_address_i_to_v0_to_vx:
             loadItoRegisters();
             break;
         default:

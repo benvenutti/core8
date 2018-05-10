@@ -117,7 +117,7 @@ private:
     chip8::word_t m_instruction{ 0u };
     chip8::word_t m_I{ 0u };
 
-    chip8::opcode m_opcode{ chip8::opcode::INVALID };
+    chip8::opcode m_opcode{ chip8::opcode::invalid };
 
     chip8::byte_t m_sp{ 0u };
     chip8::byte_t m_delayTimer{ 0u };
