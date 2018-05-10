@@ -18,7 +18,7 @@ SCENARIO( "Creating a MMU with the default constructor", "[mmu]" )
     {
         WHEN( "a MMU object is created" )
         {
-            const model::MMU mmu;
+            model::MMU mmu;
 
             THEN( "its size is equal the Chip-8 ram size" )
             {
