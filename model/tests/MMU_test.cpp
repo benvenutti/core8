@@ -22,7 +22,7 @@ SCENARIO( "Creating a MMU with the default constructor", "[mmu]" )
 
             THEN( "its size is equal the Chip-8 ram size" )
             {
-                REQUIRE( mmu.getSize() == model::chip8::ram_size );
+                REQUIRE( mmu.size() == model::chip8::ram_size );
             }
             AND_THEN( "its memory is cleared (filled with zeros)" )
             {
@@ -93,22 +93,6 @@ SCENARIO( "MMU writes a byte into a valid address", "[mmu]" )
     }
 }
 
-SCENARIO( "MMU writes a byte into an invalid address", "[mmu]" )
-{
-    GIVEN( "A MMU" )
-    {
-        model::MMU mmu;
-
-        WHEN( "the MMU writes a byte to an invalid address" )
-        {
-            THEN( "the MMU will throw an exception" )
-            {
-                REQUIRE_THROWS_AS( mmu.writeByte( 0xFF, 0x1000 ), std::out_of_range );
-            }
-        }
-    }
-}
-
 SCENARIO( "MMU reads a byte from a valid address", "[mmu]" )
 {
     GIVEN( "A MMU with initialized values" )
@@ -126,22 +110,6 @@ SCENARIO( "MMU reads a byte from a valid address", "[mmu]" )
             {
                 REQUIRE( 0x11 == byte1 );
                 REQUIRE( 0xFF == byte2 );
-            }
-        }
-    }
-}
-
-SCENARIO( "MMU reads a byte from an invalid address", "[mmu]" )
-{
-    GIVEN( "A MMU" )
-    {
-        model::MMU mmu;
-
-        WHEN( "the MMU reads a byte from an invalid address" )
-        {
-            THEN( "the MMU will throw an exception" )
-            {
-                REQUIRE_THROWS_AS( mmu.readByte( 0x1000 ), std::out_of_range );
             }
         }
     }
@@ -166,22 +134,6 @@ SCENARIO( "MMU reads a word from a valid address", "[mmu]" )
             {
                 REQUIRE( 0x1AF1 == word1 );
                 REQUIRE( 0xCCDD == word2 );
-            }
-        }
-    }
-}
-
-SCENARIO( "MMU reads a word from an invalid address", "[mmu]" )
-{
-    GIVEN( "A MMU" )
-    {
-        model::MMU mmu;
-
-        WHEN( "the MMU reads a word from an invalid address" )
-        {
-            THEN( "the MMU will throw an exception" )
-            {
-                REQUIRE_THROWS_AS( mmu.readWord( 0xFFF ), std::out_of_range );
             }
         }
     }

@@ -1,7 +1,7 @@
 #include "MMU.hpp"
 
 #include <algorithm>
-#include <iterator>
+#include <cmath>
 #include <limits>
 
 namespace model
@@ -32,9 +32,7 @@ void MMU::writeByte( chip8::byte_t byte, chip8::word_t address )
 
 void MMU::load( const std::vector<chip8::byte_t>& rom, chip8::word_t address )
 {
-    const auto availableMemory = m_memory.size() - address;
-    const auto dataSize        = rom.size();
-    const auto length          = std::min( availableMemory, dataSize );
+    const auto length = std::min( size() - address, rom.size() );
 
     std::copy_n( std::begin( rom ), length, std::begin( m_memory ) + address );
 }

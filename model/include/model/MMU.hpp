@@ -27,7 +27,7 @@ public:
 
     void clear();
 
-    constexpr std::size_t getSize() const noexcept
+    constexpr std::size_t size() const noexcept
     {
         return m_memory.size();
     }
