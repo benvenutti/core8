@@ -8,11 +8,8 @@
 
 namespace model
 {
-class IoConnector; // TODO what is this?
-} // namespace model
 
-namespace model
-{
+class IoDevice;
 
 class VM
 {

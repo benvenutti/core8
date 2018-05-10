@@ -16,12 +16,12 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
     m_mmu.load( chip8::font_set, 0x0 );
 }
 
-chip8::byte_t CPU::readRegister( const chip8::registers id ) const
+chip8::byte_t CPU::readRegister( const chip8::reg id ) const
 {
     return m_registers.at( static_cast<std::size_t>( id ) );
 }
 
-void CPU::writeRegister( const chip8::registers id, const chip8::byte_t value )
+void CPU::writeRegister( const chip8::reg id, const chip8::byte_t value )
 {
     m_registers.at( static_cast<std::size_t>( id ) ) = value;
 }
@@ -305,7 +305,7 @@ void CPU::shiftVxRight()
     const auto mask = static_cast<chip8::byte_t>( 0x1 );
     auto&      vx   = m_registers.at( x );
 
-    writeRegister( chip8::registers::vf, vx & mask );
+    writeRegister( chip8::reg::vf, vx & mask );
     vx >>= 1;
 }
 
@@ -314,7 +314,7 @@ void CPU::shiftVxLeft()
     const auto x  = WordDecoder::readX( m_instruction );
     auto&      vx = m_registers.at( x );
 
-    writeRegister( chip8::registers::vf, vx >> 7 );
+    writeRegister( chip8::reg::vf, vx >> 7 );
     vx <<= 1;
 }
 
@@ -327,7 +327,7 @@ void CPU::addVyToVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasCarry = vy > ( 0xFF - vx );
-    writeRegister( chip8::registers::vf, hasCarry ? 0x1 : 0x0 );
+    writeRegister( chip8::reg::vf, hasCarry ? 0x1 : 0x0 );
 
     vx += vy;
 }
@@ -341,7 +341,7 @@ void CPU::subVyFromVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vy > vx;
-    writeRegister( chip8::registers::vf, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::reg::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx -= vy;
 }
@@ -355,7 +355,7 @@ void CPU::subVxFromVy()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vx > vy;
-    writeRegister( chip8::registers::vf, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( chip8::reg::vf, hasBorrow ? 0x0 : 0x1 );
 
     vx = vy - vx;
 }
@@ -447,7 +447,7 @@ void CPU::draw()
         }
     }
 
-    writeRegister( chip8::registers::vf, flipped );
+    writeRegister( chip8::reg::vf, flipped );
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 

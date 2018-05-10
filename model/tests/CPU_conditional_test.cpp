@@ -20,7 +20,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( model::chip8::registers::v4, 0x35 );
+        cpu.writeRegister( model::chip8::reg::v4, 0x35 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 3XNN opcode where register X equals NN" )
@@ -42,7 +42,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( model::chip8::registers::v4, 0x35 );
+        cpu.writeRegister( model::chip8::reg::v4, 0x35 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 3XNN opcode where register X is not equal to NN" )
@@ -64,7 +64,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( model::chip8::registers::va, 0x1A );
+        cpu.writeRegister( model::chip8::reg::va, 0x1A );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 4XNN opcode where register X is not equal to NN" )
@@ -86,7 +86,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( model::chip8::registers::va, 0x1A );
+        cpu.writeRegister( model::chip8::reg::va, 0x1A );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 4XNN opcode where register X equals NN" )
@@ -108,8 +108,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0x47 );
-        cpu.writeRegister( model::chip8::registers::vf, 0x47 );
+        cpu.writeRegister( model::chip8::reg::v0, 0x47 );
+        cpu.writeRegister( model::chip8::reg::vf, 0x47 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 5XY0 opcode where register X equals register Y" )
@@ -131,8 +131,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0x47 );
-        cpu.writeRegister( model::chip8::registers::vf, 0x48 );
+        cpu.writeRegister( model::chip8::reg::v0, 0x47 );
+        cpu.writeRegister( model::chip8::reg::vf, 0x48 );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 5XY0 opcode where register X is not equal to register Y" )
@@ -154,8 +154,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0xFF );
-        cpu.writeRegister( model::chip8::registers::vf, 0xFE );
+        cpu.writeRegister( model::chip8::reg::v0, 0xFF );
+        cpu.writeRegister( model::chip8::reg::vf, 0xFE );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 9XY0 opcode where register X is not equal to register Y" )
@@ -177,8 +177,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0xAD );
-        cpu.writeRegister( model::chip8::registers::vf, 0xAD );
+        cpu.writeRegister( model::chip8::reg::v0, 0xAD );
+        cpu.writeRegister( model::chip8::reg::vf, 0xAD );
         const auto originalPc = cpu.getPc();
 
         WHEN( "the CPU executes a 9XY0 opcode where register X equals register Y" )

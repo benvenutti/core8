@@ -27,8 +27,8 @@ SCENARIO_METHOD( CpuFixture, "CPU sets register X to the value of the delay time
 
             THEN( "the target register VX holds a copy of the delay timer value" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == delay );
-                REQUIRE( cpu.readRegister( model::chip8::registers::ve ) == delay );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == delay );
+                REQUIRE( cpu.readRegister( model::chip8::reg::ve ) == delay );
             }
         }
     }
@@ -38,8 +38,8 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register 
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0x2A );
-        cpu.writeRegister( model::chip8::registers::vf, 0xCD );
+        cpu.writeRegister( model::chip8::reg::v0, 0x2A );
+        cpu.writeRegister( model::chip8::reg::vf, 0xCD );
 
         WHEN( "the CPU executes a FX15 opcode" )
         {
@@ -51,8 +51,8 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register 
 
             THEN( "the delay timer is updated to the value of the register VX" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == delay1 );
-                REQUIRE( cpu.readRegister( model::chip8::registers::vf ) == delay2 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == delay1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == delay2 );
             }
         }
     }
@@ -62,8 +62,8 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the sound timer to the value of register 
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0xBE );
-        cpu.writeRegister( model::chip8::registers::vf, 0xFE );
+        cpu.writeRegister( model::chip8::reg::v0, 0xBE );
+        cpu.writeRegister( model::chip8::reg::vf, 0xFE );
 
         WHEN( "the CPU executes a FX18 opcode" )
         {
@@ -75,8 +75,8 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the sound timer to the value of register 
 
             THEN( "the sound timer is updated to the value of the register VX" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == sound1 );
-                REQUIRE( cpu.readRegister( model::chip8::registers::vf ) == sound2 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == sound1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == sound2 );
             }
         }
     }

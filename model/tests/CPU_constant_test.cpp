@@ -24,8 +24,8 @@ SCENARIO_METHOD( CpuFixture, "CPU loads constant NN to register VX using opcode 
 
             THEN( "the constant NN is loaded to register VX" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::v0 ) == 0xFF );
-                REQUIRE( cpu.readRegister( model::chip8::registers::vf ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v0 ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0x1 );
             }
         }
     }
@@ -35,8 +35,8 @@ SCENARIO_METHOD( CpuFixture, "CPU adds constant NN to register VX using opcode 7
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v3, 0x00 );
-        cpu.writeRegister( model::chip8::registers::vf, 0xFE );
+        cpu.writeRegister( model::chip8::reg::v3, 0x00 );
+        cpu.writeRegister( model::chip8::reg::vf, 0xFE );
 
         WHEN( "the CPU executes a 7XNN opcode" )
         {
@@ -45,8 +45,8 @@ SCENARIO_METHOD( CpuFixture, "CPU adds constant NN to register VX using opcode 7
 
             THEN( "the constant NN is added to register VX" )
             {
-                REQUIRE( cpu.readRegister( model::chip8::registers::v3 ) == 0x1 );
-                REQUIRE( cpu.readRegister( model::chip8::registers::vf ) == 0xFF );
+                REQUIRE( cpu.readRegister( model::chip8::reg::v3 ) == 0x1 );
+                REQUIRE( cpu.readRegister( model::chip8::reg::vf ) == 0xFF );
             }
         }
     }

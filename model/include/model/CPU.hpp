@@ -21,8 +21,8 @@ public:
     void cycle();
     void execute( const chip8::word_t instr );
 
-    chip8::byte_t readRegister( const chip8::registers id ) const;
-    void          writeRegister( const chip8::registers id, const chip8::byte_t value );
+    chip8::byte_t readRegister( const chip8::reg id ) const;
+    void          writeRegister( const chip8::reg id, const chip8::byte_t value );
     void          loadToRegisters( const std::vector<chip8::byte_t> values );
 
     chip8::word_t getPc() const
@@ -32,7 +32,7 @@ public:
     chip8::byte_t getSp() const
     {
         return m_sp;
-    };
+    }
 
     const std::array<chip8::word_t, chip8::stack_size>& getStack() const
     {
@@ -42,16 +42,17 @@ public:
     void setDelayTimer( const chip8::byte_t delay )
     {
         m_delayTimer = delay;
-    };
+    }
+
     chip8::byte_t getDelayTimer() const
     {
         return m_delayTimer;
-    };
+    }
 
     chip8::byte_t getSoundTimer() const
     {
         return m_soundTimer;
-    };
+    }
 
     void setInstruction( const chip8::word_t instr )
     {

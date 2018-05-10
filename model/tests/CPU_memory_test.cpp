@@ -58,7 +58,7 @@ SCENARIO_METHOD( CpuFixture,
             {
                 for ( auto i = 0u; i <= 0xFu; ++i )
                 {
-                    const auto r = cpu.readRegister( static_cast<model::chip8::registers>( i ) );
+                    const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
                     const auto m = mmu.readByte( address + i );
                     REQUIRE( r == m );
                 }
@@ -88,7 +88,7 @@ SCENARIO_METHOD( CpuFixture,
             {
                 for ( auto i = 0u; i <= 0x5; ++i )
                 {
-                    const auto r = cpu.readRegister( static_cast<model::chip8::registers>( i ) );
+                    const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
                     const auto m = mmu.readByte( address + i );
                     REQUIRE( r == m );
                 }
@@ -101,8 +101,8 @@ SCENARIO_METHOD( CpuFixture, "CPU adds register X to register I using FX1E opcod
 {
     GIVEN( "A CPU with registers V and I initialized" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 10 );
-        cpu.writeRegister( model::chip8::registers::ve, 66 );
+        cpu.writeRegister( model::chip8::reg::v0, 10 );
+        cpu.writeRegister( model::chip8::reg::ve, 66 );
         cpu.setI( 512 );
 
         WHEN( "the CPU executes a FX1E opcode" )
@@ -129,8 +129,8 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized registers" )
     {
-        cpu.writeRegister( model::chip8::registers::v0, 0x0 );
-        cpu.writeRegister( model::chip8::registers::ve, 0xF );
+        cpu.writeRegister( model::chip8::reg::v0, 0x0 );
+        cpu.writeRegister( model::chip8::reg::ve, 0xF );
 
         WHEN( "the CPU executes a FX29 opcode" )
         {

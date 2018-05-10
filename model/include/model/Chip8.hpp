@@ -24,7 +24,7 @@ constexpr word_t display_size{ display_width * display_height };
 constexpr byte_t char_sprite_size{ 5 };
 constexpr byte_t sprite_width{ 8 };
 
-enum class registers
+enum class reg // register
 {
     v0,
     v1,
