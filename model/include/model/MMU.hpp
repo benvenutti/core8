@@ -53,7 +53,7 @@ public:
     }
 
 private:
-    std::array<chip8::byte_t, chip8::ram_size> m_memory{};
+    std::array<chip8::byte_t, chip8::ram_size> m_memory = { 0x0 };
 };
 
 } // namespace model
