@@ -19,54 +19,54 @@ public:
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
 
     void cycle();
-    void execute( const Chip8::WORD instr );
+    void execute( const Chip8::word_t instr );
 
-    Chip8::BYTE readRegister( const Chip8::Register id ) const;
-    void        writeRegister( const Chip8::Register id, const Chip8::BYTE value );
-    void        loadToRegisters( const std::vector<Chip8::BYTE> values );
+    Chip8::byte_t readRegister( const Chip8::registers id ) const;
+    void          writeRegister( const Chip8::registers id, const Chip8::byte_t value );
+    void          loadToRegisters( const std::vector<Chip8::byte_t> values );
 
-    Chip8::WORD getPc() const
+    Chip8::word_t getPc() const
     {
         return m_pc;
     }
-    Chip8::BYTE getSp() const
+    Chip8::byte_t getSp() const
     {
         return m_sp;
     };
 
-    const std::array<Chip8::WORD, Chip8::STACK_SIZE>& getStack() const
+    const std::array<Chip8::word_t, Chip8::stack_size>& getStack() const
     {
         return m_stack;
     }
 
-    void setDelayTimer( const Chip8::BYTE delay )
+    void setDelayTimer( const Chip8::byte_t delay )
     {
         m_delayTimer = delay;
     };
-    Chip8::BYTE getDelayTimer() const
+    Chip8::byte_t getDelayTimer() const
     {
         return m_delayTimer;
     };
 
-    Chip8::BYTE getSoundTimer() const
+    Chip8::byte_t getSoundTimer() const
     {
         return m_soundTimer;
     };
 
-    void setInstruction( const Chip8::WORD instr )
+    void setInstruction( const Chip8::word_t instr )
     {
         m_instruction = instr;
     }
-    Chip8::WORD getInstruction() const
+    Chip8::word_t getInstruction() const
     {
         return m_instruction;
     }
 
-    void setI( const Chip8::WORD address )
+    void setI( const Chip8::word_t address )
     {
         m_I = address;
     }
-    Chip8::WORD getI() const
+    Chip8::word_t getI() const
     {
         return m_I;
     }
@@ -113,21 +113,21 @@ private:
     void executeLoadVxBcdToI();
     void executeLoadRandomToVx();
 
-    Chip8::WORD m_pc{ Chip8::INIT_ROM_LOAD_ADDRESS };
-    Chip8::WORD m_instruction{ 0u };
-    Chip8::WORD m_I{ 0u };
+    Chip8::word_t m_pc{ Chip8::init_rom_load_address };
+    Chip8::word_t m_instruction{ 0u };
+    Chip8::word_t m_I{ 0u };
 
-    Chip8::OpCode m_opcode{ Chip8::OpCode::INVALID };
+    Chip8::opcode m_opcode{ Chip8::opcode::INVALID };
 
-    Chip8::BYTE m_sp{ 0u };
-    Chip8::BYTE m_delayTimer{ 0u };
-    Chip8::BYTE m_soundTimer{ 0u };
+    Chip8::byte_t m_sp{ 0u };
+    Chip8::byte_t m_delayTimer{ 0u };
+    Chip8::byte_t m_soundTimer{ 0u };
 
     bool isInterrupted{ false };
 
-    std::array<Chip8::BYTE, Chip8::NUMBER_OF_REGISTERS> m_registers;
-    std::array<Chip8::WORD, Chip8::STACK_SIZE>          m_stack;
-    std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>        m_frameBuffer;
+    std::array<Chip8::byte_t, Chip8::num_registers> m_registers;
+    std::array<Chip8::word_t, Chip8::stack_size>    m_stack;
+    std::array<Chip8::byte_t, Chip8::display_size>  m_frameBuffer;
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;

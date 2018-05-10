@@ -13,20 +13,20 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 , m_rndGenerator{ rndGenerator }
 {
     m_registers.fill( 0x0 );
-    m_mmu.load( Chip8::FONT_SET, 0x0 );
+    m_mmu.load( Chip8::font_set, 0x0 );
 }
 
-Chip8::BYTE CPU::readRegister( const Chip8::Register id ) const
+Chip8::byte_t CPU::readRegister( const Chip8::registers id ) const
 {
     return m_registers.at( static_cast<std::size_t>( id ) );
 }
 
-void CPU::writeRegister( const Chip8::Register id, const Chip8::BYTE value )
+void CPU::writeRegister( const Chip8::registers id, const Chip8::byte_t value )
 {
     m_registers.at( static_cast<std::size_t>( id ) ) = value;
 }
 
-void CPU::loadToRegisters( const std::vector<Chip8::BYTE> values )
+void CPU::loadToRegisters( const std::vector<Chip8::byte_t> values )
 {
     const auto size = std::min( values.size(), m_registers.size() );
     std::copy_n( std::begin( values ), size, std::begin( m_registers ) );
@@ -45,7 +45,7 @@ void CPU::cycle()
     updateSoundTimer();
 }
 
-void CPU::execute( const Chip8::WORD instr )
+void CPU::execute( const Chip8::word_t instr )
 {
     m_instruction = instr;
     decode();
@@ -55,7 +55,7 @@ void CPU::execute( const Chip8::WORD instr )
 void CPU::fetch()
 {
     m_instruction = m_mmu.readWord( m_pc );
-    m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+    m_pc += Chip8::instruction_size_in_bytes;
 }
 
 void CPU::decode()
@@ -67,106 +67,106 @@ void CPU::execute()
 {
     switch ( m_opcode )
     {
-        case Chip8::OpCode::CLEAR_SCREEN:
+        case Chip8::opcode::CLEAR_SCREEN:
             clearDisplay();
             break;
-        case Chip8::OpCode::RETURN:
+        case Chip8::opcode::RETURN:
             returnFromSubroutine();
             break;
-        case Chip8::OpCode::JUMP:
+        case Chip8::opcode::JUMP:
             jumpToNnn();
             break;
-        case Chip8::OpCode::CALL:
+        case Chip8::opcode::CALL:
             callNNN();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_EQUALS_NN:
+        case Chip8::opcode::SKIP_IF_VX_EQUALS_NN:
             skipIfVxEqualsNn();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_NN:
+        case Chip8::opcode::SKIP_IF_VX_NOT_EQUALS_NN:
             skipIfVxNotEqualsNn();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_EQUALS_VY:
+        case Chip8::opcode::SKIP_IF_VX_EQUALS_VY:
             skipIfVxEqualsVy();
             break;
-        case Chip8::OpCode::LOAD_NN_TO_VX:
+        case Chip8::opcode::LOAD_NN_TO_VX:
             loadNnToVx();
             break;
-        case Chip8::OpCode::ADD_NN_TO_VX:
+        case Chip8::opcode::ADD_NN_TO_VX:
             addNnToVx();
             break;
-        case Chip8::OpCode::LOAD_VY_TO_VX:
+        case Chip8::opcode::LOAD_VY_TO_VX:
             loadVyToVx();
             break;
-        case Chip8::OpCode::VX_OR_VY:
+        case Chip8::opcode::VX_OR_VY:
             bitwiseVxOrVy();
             break;
-        case Chip8::OpCode::VX_AND_VY:
+        case Chip8::opcode::VX_AND_VY:
             bitwiseVxAndVy();
             break;
-        case Chip8::OpCode::VX_XOR_VY:
+        case Chip8::opcode::VX_XOR_VY:
             bitwiseVxXorVy();
             break;
-        case Chip8::OpCode::VX_PLUS_VY:
+        case Chip8::opcode::VX_PLUS_VY:
             addVyToVx();
             break;
-        case Chip8::OpCode::VX_MINUS_VY:
+        case Chip8::opcode::VX_MINUS_VY:
             subVyFromVx();
             break;
-        case Chip8::OpCode::SHIFT_VX_RIGHT:
+        case Chip8::opcode::SHIFT_VX_RIGHT:
             shiftVxRight();
             break;
-        case Chip8::OpCode::SET_VX_TO_VY_MINUS_VX:
+        case Chip8::opcode::SET_VX_TO_VY_MINUS_VX:
             subVxFromVy();
             break;
-        case Chip8::OpCode::SHIFT_VX_LEFT:
+        case Chip8::opcode::SHIFT_VX_LEFT:
             shiftVxLeft();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_NOT_EQUALS_VY:
+        case Chip8::opcode::SKIP_IF_VX_NOT_EQUALS_VY:
             skipIfVxNotEqualsVy();
             break;
-        case Chip8::OpCode::LOAD_NNN_TO_I:
+        case Chip8::opcode::LOAD_NNN_TO_I:
             loadNnnToI();
             break;
-        case Chip8::OpCode::JUMP_NNN_PLUS_V0:
+        case Chip8::opcode::JUMP_NNN_PLUS_V0:
             jumpToNnnPlusV0();
             break;
-        case Chip8::OpCode::LOAD_RANDOM_TO_VX:
+        case Chip8::opcode::LOAD_RANDOM_TO_VX:
             executeLoadRandomToVx();
             break;
-        case Chip8::OpCode::DRAW:
+        case Chip8::opcode::DRAW:
             draw();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_IS_PRESSED:
+        case Chip8::opcode::SKIP_IF_VX_IS_PRESSED:
             executeSkipIfVxIsPressed();
             break;
-        case Chip8::OpCode::SKIP_IF_VX_IS_NOT_PRESSED:
+        case Chip8::opcode::SKIP_IF_VX_IS_NOT_PRESSED:
             executeSkipIfVxIsNotPressed();
             break;
-        case Chip8::OpCode::LOAD_DELAY_TIMER_TO_VX:
+        case Chip8::opcode::LOAD_DELAY_TIMER_TO_VX:
             loadDelayToVx();
             break;
-        case Chip8::OpCode::LOAD_PRESSED_KEY_TO_VX:
+        case Chip8::opcode::LOAD_PRESSED_KEY_TO_VX:
             executeWaitPressedKeyToVx();
             break;
-        case Chip8::OpCode::LOAD_VX_TO_DELAY_TIMER:
+        case Chip8::opcode::LOAD_VX_TO_DELAY_TIMER:
             loadVxToDelay();
             break;
-        case Chip8::OpCode::LOAD_VX_TO_SOUND_TIMER:
+        case Chip8::opcode::LOAD_VX_TO_SOUND_TIMER:
             loadVxToSound();
             break;
-        case Chip8::OpCode::ADD_VX_TO_I:
+        case Chip8::opcode::ADD_VX_TO_I:
             addVxToI();
             break;
-        case Chip8::OpCode::LOAD_FONT_SPRITE_ADDRESS_TO_I:
+        case Chip8::opcode::LOAD_FONT_SPRITE_ADDRESS_TO_I:
             loadFontSpriteAddressToI();
             break;
-        case Chip8::OpCode::LOAD_VX_BCD_TO_I:
+        case Chip8::opcode::LOAD_VX_BCD_TO_I:
             executeLoadVxBcdToI();
             break;
-        case Chip8::OpCode::LOAD_V0_TO_VX_IN_ADDRESS_I:
+        case Chip8::opcode::LOAD_V0_TO_VX_IN_ADDRESS_I:
             loadRegistersToI();
             break;
-        case Chip8::OpCode::LOAD_ADDRESS_I_TO_V0_TO_VX:
+        case Chip8::opcode::LOAD_ADDRESS_I_TO_V0_TO_VX:
             loadItoRegisters();
             break;
         default:
@@ -220,7 +220,7 @@ void CPU::skipIfVxEqualsNn()
 
     if ( m_registers.at( x ) == nn )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
@@ -231,7 +231,7 @@ void CPU::skipIfVxNotEqualsNn()
 
     if ( m_registers.at( x ) != nn )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
@@ -242,7 +242,7 @@ void CPU::skipIfVxEqualsVy()
 
     if ( m_registers.at( x ) == m_registers.at( y ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
@@ -253,7 +253,7 @@ void CPU::skipIfVxNotEqualsVy()
 
     if ( m_registers.at( x ) != m_registers.at( y ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
@@ -302,10 +302,10 @@ void CPU::bitwiseVxXorVy()
 void CPU::shiftVxRight()
 {
     const auto x    = WordDecoder::readX( m_instruction );
-    const auto mask = static_cast<Chip8::BYTE>( 0x1 );
+    const auto mask = static_cast<Chip8::byte_t>( 0x1 );
     auto&      vx   = m_registers.at( x );
 
-    writeRegister( Chip8::Register::VF, vx & mask );
+    writeRegister( Chip8::registers::VF, vx & mask );
     vx >>= 1;
 }
 
@@ -314,7 +314,7 @@ void CPU::shiftVxLeft()
     const auto x  = WordDecoder::readX( m_instruction );
     auto&      vx = m_registers.at( x );
 
-    writeRegister( Chip8::Register::VF, vx >> 7 );
+    writeRegister( Chip8::registers::VF, vx >> 7 );
     vx <<= 1;
 }
 
@@ -327,7 +327,7 @@ void CPU::addVyToVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasCarry = vy > ( 0xFF - vx );
-    writeRegister( Chip8::Register::VF, hasCarry ? 0x1 : 0x0 );
+    writeRegister( Chip8::registers::VF, hasCarry ? 0x1 : 0x0 );
 
     vx += vy;
 }
@@ -341,7 +341,7 @@ void CPU::subVyFromVx()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vy > vx;
-    writeRegister( Chip8::Register::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( Chip8::registers::VF, hasBorrow ? 0x0 : 0x1 );
 
     vx -= vy;
 }
@@ -355,7 +355,7 @@ void CPU::subVxFromVy()
     const auto& vy = m_registers.at( y );
 
     const auto hasBorrow = vx > vy;
-    writeRegister( Chip8::Register::VF, hasBorrow ? 0x0 : 0x1 );
+    writeRegister( Chip8::registers::VF, hasBorrow ? 0x0 : 0x1 );
 
     vx = vy - vx;
 }
@@ -413,7 +413,7 @@ void CPU::addVxToI()
 void CPU::loadFontSpriteAddressToI()
 {
     const auto x = WordDecoder::readX( m_instruction );
-    m_I          = m_registers.at( x ) * Chip8::CHAR_SPRITE_SIZE;
+    m_I          = m_registers.at( x ) * Chip8::char_sprite_size;
 }
 
 void CPU::draw()
@@ -424,18 +424,18 @@ void CPU::draw()
     const auto y      = m_registers.at( vy );
     const auto height = WordDecoder::readN( m_instruction );
 
-    Chip8::BYTE flipped{ 0x0u };
+    Chip8::byte_t flipped{ 0x0u };
 
     for ( auto line = 0u; line < height; ++line )
     {
         const auto rowPixels = m_mmu.readByte( m_I + line );
 
-        for ( auto row = 0u; row < Chip8::SPRITE_WIDTH; ++row )
+        for ( auto row = 0u; row < Chip8::sprite_width; ++row )
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto   offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
-                Chip8::BYTE& pixel  = m_frameBuffer.at( offset );
+                const auto     offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
+                Chip8::byte_t& pixel  = m_frameBuffer.at( offset );
 
                 if ( pixel != 0 )
                 {
@@ -447,29 +447,29 @@ void CPU::draw()
         }
     }
 
-    writeRegister( Chip8::Register::VF, flipped );
+    writeRegister( Chip8::registers::VF, flipped );
     m_ioDevice.drawScreen( m_frameBuffer );
 }
 
 void CPU::executeSkipIfVxIsPressed()
 {
     const auto x   = WordDecoder::readX( m_instruction );
-    const auto key = static_cast<Chip8::Key>( m_registers.at( x ) );
+    const auto key = static_cast<Chip8::key>( m_registers.at( x ) );
 
     if ( m_ioDevice.isKeyPressed( key ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
 void CPU::executeSkipIfVxIsNotPressed()
 {
     const auto x   = WordDecoder::readX( m_instruction );
-    const auto key = static_cast<Chip8::Key>( m_registers.at( x ) );
+    const auto key = static_cast<Chip8::key>( m_registers.at( x ) );
 
     if ( !m_ioDevice.isKeyPressed( key ) )
     {
-        m_pc += Chip8::INSTRUCTION_BYTE_SIZE;
+        m_pc += Chip8::instruction_size_in_bytes;
     }
 }
 
@@ -478,10 +478,10 @@ void CPU::executeWaitPressedKeyToVx()
     isInterrupted         = true;
     const auto pressedKey = m_ioDevice.getPressedKey();
 
-    if ( pressedKey != Chip8::Key::NONE )
+    if ( pressedKey != Chip8::key::NONE )
     {
         const auto x        = WordDecoder::readX( m_instruction );
-        m_registers.at( x ) = static_cast<Chip8::BYTE>( pressedKey );
+        m_registers.at( x ) = static_cast<Chip8::byte_t>( pressedKey );
         isInterrupted       = false;
     }
 }

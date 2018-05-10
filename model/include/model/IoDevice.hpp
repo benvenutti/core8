@@ -12,11 +12,11 @@ class IoDevice
 public:
     virtual ~IoDevice() = default;
 
-    virtual void drawScreen( const std::array<Chip8::BYTE, Chip8::DISPLAY_SIZE>& frame ) = 0;
+    virtual void drawScreen( const std::array<Chip8::byte_t, Chip8::display_size>& frame ) = 0;
 
-    virtual bool isKeyPressed( const Chip8::Key key ) const = 0;
+    virtual bool isKeyPressed( const Chip8::key key ) const = 0;
 
-    virtual Chip8::Key getPressedKey() const = 0;
+    virtual Chip8::key getPressedKey() const = 0;
 };
 
 } // namespace Core8

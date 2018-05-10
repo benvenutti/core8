@@ -9,22 +9,22 @@ namespace Core8
 namespace Chip8
 {
 
-using BYTE = std::uint8_t;
-using WORD = std::uint16_t;
+using byte_t = std::uint8_t;
+using word_t = std::uint16_t;
 
-constexpr std::size_t RAM_SIZE{ 4096 };
-constexpr std::size_t NUMBER_OF_REGISTERS{ 16 };
-constexpr std::size_t INIT_ROM_LOAD_ADDRESS{ 512 };
-constexpr std::size_t INSTRUCTION_BYTE_SIZE{ 2 };
-constexpr std::size_t STACK_SIZE{ 16 };
-constexpr std::size_t DISPLAY_WIDTH{ 64 };
-constexpr std::size_t DISPLAY_HEIGHT{ 32 };
-constexpr std::size_t DISPLAY_SIZE{ DISPLAY_WIDTH * DISPLAY_HEIGHT };
+constexpr std::size_t ram_size{ 4096 };
+constexpr std::size_t num_registers{ 16 };
+constexpr std::size_t init_rom_load_address{ 512 };
+constexpr std::size_t instruction_size_in_bytes{ 2 };
+constexpr std::size_t stack_size{ 16 };
+constexpr std::size_t display_width{ 64 };
+constexpr std::size_t display_height{ 32 };
+constexpr std::size_t display_size{ display_width * display_height };
 
-constexpr BYTE CHAR_SPRITE_SIZE{ 5 };
-constexpr BYTE SPRITE_WIDTH{ 8 };
+constexpr byte_t char_sprite_size{ 5 };
+constexpr byte_t sprite_width{ 8 };
 
-enum class Register
+enum class registers
 {
     V0,
     V1,
@@ -44,7 +44,7 @@ enum class Register
     VF
 };
 
-enum class OpCode
+enum class opcode
 {
     CLEAR_SCREEN,
     RETURN,
@@ -83,7 +83,7 @@ enum class OpCode
     INVALID
 };
 
-enum class Key
+enum class key
 {
     K0,
     K1,
@@ -104,7 +104,7 @@ enum class Key
     NONE
 };
 
-const std::vector<BYTE> FONT_SET{
+const std::vector<byte_t> font_set{
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
     0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2

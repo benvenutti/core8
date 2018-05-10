@@ -86,7 +86,7 @@ SCENARIO_METHOD( CpuFixture,
 {
     GIVEN( "A CPU with initialized register" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V0, 0x2D );
+        cpu.writeRegister( Core8::Chip8::registers::V0, 0x2D );
 
         WHEN( "the CPU executes an BNNN operation" )
         {

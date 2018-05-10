@@ -17,7 +17,7 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns register VA to register V0 using opcod
 {
     GIVEN( "A CPU with an initialized register VA" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::VA, 0xCC );
+        cpu.writeRegister( Core8::Chip8::registers::VA, 0xCC );
 
         WHEN( "the CPU executes a 80A0 opcode" )
         {
@@ -25,11 +25,11 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns register VA to register V0 using opcod
 
             THEN( "the value of register VA is copied to register V0" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V0 ) == 0xCC );
+                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V0 ) == 0xCC );
             }
             AND_THEN( "the source register VA remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VA ) == 0xCC );
+                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VA ) == 0xCC );
             }
         }
     }
@@ -39,7 +39,7 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns register VA to register VF using opcod
 {
     GIVEN( "A CPU with an initialized register VA" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::VA, 0xDD );
+        cpu.writeRegister( Core8::Chip8::registers::VA, 0xDD );
 
         WHEN( "the CPU executes a 8FA0 opcode" )
         {
@@ -47,11 +47,11 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns register VA to register VF using opcod
 
             THEN( "the value of register VA is copied to register VF" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VF ) == 0xDD );
+                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VF ) == 0xDD );
             }
             AND_THEN( "the source register VA remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::VA ) == 0xDD );
+                REQUIRE( cpu.readRegister( Core8::Chip8::registers::VA ) == 0xDD );
             }
         }
     }
@@ -61,7 +61,7 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns a register to itself using opcode 8XY0
 {
     GIVEN( "A CPU with an initialized register V1" )
     {
-        cpu.writeRegister( Core8::Chip8::Register::V1, 0x1D );
+        cpu.writeRegister( Core8::Chip8::registers::V1, 0x1D );
 
         WHEN( "the CPU executes a 8110 opcode" )
         {
@@ -69,7 +69,7 @@ SCENARIO_METHOD( CpuFixture, "CPU assigns a register to itself using opcode 8XY0
 
             THEN( "the source register V0 remains unchanged" )
             {
-                REQUIRE( cpu.readRegister( Core8::Chip8::Register::V1 ) == 0x1D );
+                REQUIRE( cpu.readRegister( Core8::Chip8::registers::V1 ) == 0x1D );
             }
         }
     }

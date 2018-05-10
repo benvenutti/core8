@@ -7,7 +7,7 @@ namespace Core8
 namespace OpDecoder
 {
 
-Chip8::OpCode decode( const Chip8::WORD word );
+Chip8::opcode decode( const Chip8::word_t word );
 
 } // namespace OpDecoder
 } // namespace Core8

@@ -10,16 +10,16 @@ class RandomNumberGeneratorMock : public Core8::RandomNumberGenerator {
     RandomNumberGeneratorMock() = default;
     virtual ~RandomNumberGeneratorMock() = default;
 
-    virtual Core8::Chip8::BYTE get() override {
+    virtual Core8::Chip8::byte_t get() override {
       return m_value;
     }
 
-    void setValue(const Core8::Chip8::BYTE value) {
+    void setValue(const Core8::Chip8::byte_t value) {
       m_value = value;
     }
 
   private:
-    Core8::Chip8::BYTE m_value{0u};
+    Core8::Chip8::byte_t m_value{0u};
 };
 
 } // namespace Aux

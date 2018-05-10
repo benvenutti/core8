@@ -13,14 +13,14 @@ public:
     MersenneByteTwister()           = default;
     ~MersenneByteTwister() override = default;
 
-    Chip8::BYTE get() override
+    Chip8::byte_t get() override
     {
         return m_distribution( m_generator );
     }
 
 private:
-    std::mt19937                               m_generator{ std::random_device{}() };
-    std::uniform_int_distribution<Chip8::BYTE> m_distribution{ 0x01, 0xFF };
+    std::mt19937                                 m_generator{ std::random_device{}() };
+    std::uniform_int_distribution<Chip8::byte_t> m_distribution{ 0x01, 0xFF };
 };
 
 } // namespace Core8
