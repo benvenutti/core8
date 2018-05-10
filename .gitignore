@@ -36,3 +36,6 @@
 
 # CLion IDE files
 **/.idea
+
+# User temp
+**/CMakeLists.txt.user
