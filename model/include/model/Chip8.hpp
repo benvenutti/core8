@@ -12,17 +12,17 @@ namespace Chip8
 using BYTE = std::uint8_t;
 using WORD = std::uint16_t;
 
-const std::size_t RAM_SIZE{ 4096 };
-const std::size_t NUMBER_OF_REGISTERS{ 16 };
-const std::size_t INIT_ROM_LOAD_ADDRESS{ 512 };
-const std::size_t INSTRUCTION_BYTE_SIZE{ 2 };
-const std::size_t STACK_SIZE{ 16 };
-const std::size_t DISPLAY_WIDTH{ 64 };
-const std::size_t DISPLAY_HEIGHT{ 32 };
-const std::size_t DISPLAY_SIZE{ DISPLAY_WIDTH * DISPLAY_HEIGHT };
+constexpr std::size_t RAM_SIZE{ 4096 };
+constexpr std::size_t NUMBER_OF_REGISTERS{ 16 };
+constexpr std::size_t INIT_ROM_LOAD_ADDRESS{ 512 };
+constexpr std::size_t INSTRUCTION_BYTE_SIZE{ 2 };
+constexpr std::size_t STACK_SIZE{ 16 };
+constexpr std::size_t DISPLAY_WIDTH{ 64 };
+constexpr std::size_t DISPLAY_HEIGHT{ 32 };
+constexpr std::size_t DISPLAY_SIZE{ DISPLAY_WIDTH * DISPLAY_HEIGHT };
 
-const BYTE CHAR_SPRITE_SIZE{ 5 };
-const BYTE SPRITE_WIDTH{ 8 };
+constexpr BYTE CHAR_SPRITE_SIZE{ 5 };
+constexpr BYTE SPRITE_WIDTH{ 8 };
 
 enum class Register
 {
