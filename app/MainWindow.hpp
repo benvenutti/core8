@@ -8,6 +8,8 @@ namespace Ui
 class MainWindow;
 }
 
+class GameBoard;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,4 +20,6 @@ public:
 
 private:
     Ui::MainWindow* ui;
+    GameBoard*      gameBoard;
+    QTimer          timer;
 };
