@@ -3,15 +3,15 @@ project(emulator VERSION 0.1 LANGUAGES CXX)
 ## files:
 
 set(source_files
-  GameBoard.cpp
   IoDeviceImpl.cpp
   MainWindow.cpp
+  ScreenWidget.cpp
   core8.cpp)
 
 set(header_files
-  GameBoard.hpp
   IoDeviceImpl.hpp
-  MainWindow.hpp)
+  MainWindow.hpp
+  ScreenWidget.hpp)
 
 set(ui_files
   mainwindow.ui)

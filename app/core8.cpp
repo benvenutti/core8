@@ -5,26 +5,9 @@
 #include "IoDeviceImpl.hpp"
 #include <model/VM.hpp>
 
+#include <cstdint>
 #include <iostream>
-
-void print( const model::VM& vm )
-{
-    int l = 0;
-
-    std::cout << "model::chip8::display_size: " << model::chip8::display_size << std::endl;
-
-    for ( int i = 0; i < model::chip8::display_size; i++ )
-    {
-        if ( i / model::chip8::display_width > l )
-        {
-            l++;
-            std::cout << std::endl;
-        }
-        std::cout << ( vm.getCPU().buffer().at( i ) != 0 ? "1" : "0" );
-    }
-
-    std::cout << std::endl;
-}
+#include <vector>
 
 int main( int argc, char* argv[] )
 {
@@ -34,14 +17,27 @@ int main( int argc, char* argv[] )
 
     return app.exec();
 
-    //    IoDeviceImpl io;
-    //    model::VM    vm{ io };
+    IoDeviceImpl io;
+    model::VM    vm{ io };
 
-    //    vm.loadRom( "/Users/diogo.benvenutti/draft/roms/Keypad Test [Hap, 2006].ch8" );
-    //    for ( auto i = 0; i < 400; ++i )
-    //        vm.cycle();
 
-    //    print( vm );
+    vm.loadRom( "/Users/diogo.benvenutti/draft/roms/Keypad Test [Hap, 2006].ch8" );
+    for ( auto i = 0; i < 500; ++i )
+        vm.cycle();
+
+    std::vector<uint32_t> buff;
+    for ( const auto p : vm.getCPU().buffer() )
+    {
+        buff.push_back( p == 0 ? 0 : 0xffffffff ); // 0xffRRGGBB
+    }
+
+
+    QImage img{ reinterpret_cast<const uchar*>( buff.data() ),
+                model::chip8::display_width,
+                model::chip8::display_height,
+                QImage::Format_RGB32 };
+
+    img.save( "/Users/diogo.benvenutti/core.png" );
 
     return 0;
 }

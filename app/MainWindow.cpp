@@ -1,15 +1,13 @@
 #include "MainWindow.hpp"
 #include "ui_mainwindow.h"
 
-#include "GameBoard.hpp"
-
-#include <QColorDialog>
+#include <QDebug>
 
 MainWindow::MainWindow( QWidget* parent )
 : QMainWindow( parent )
 , ui( new Ui::MainWindow )
 , m_vm{ m_ioDevice }
-, gameBoard{ new GameBoard{ m_vm } }
+, gameBoard{ m_vm.getCPU().buffer() }
 , timer{ this }
 {
     // m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/IBM Logo.ch8" );
@@ -18,13 +16,24 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
     setWindowTitle( "core8" );
 
-    gameBoard->setFixedWidth( 600 );
-    gameBoard->setFixedHeight( 300 );
-    ui->gameLayout->addWidget( gameBoard );
+    gameBoard.setFixedWidth( 600 );
+    gameBoard.setFixedHeight( 300 );
+    ui->gameLayout->addWidget( &gameBoard );
 
-    connect( &timer, SIGNAL( timeout() ), gameBoard, SLOT( update() ) );
+    connect( &timer, SIGNAL( timeout() ), this, SLOT( cycle() ) );
 
-    timer.start();
+    timer.start( 5 );
+}
+
+void MainWindow::cycle()
+{
+    m_vm.cycle();
+
+    if ( m_vm.getCPU().m_drawFlag )
+    {
+        gameBoard.update();
+        m_vm.getCPU().m_drawFlag = false;
+    }
 }
 
 MainWindow::~MainWindow()

@@ -4,7 +4,7 @@ IoDeviceImpl::IoDeviceImpl()
 {
 }
 
-bool IoDeviceImpl::isKeyPressed( const model::chip8::key ) const
+bool IoDeviceImpl::isKeyPressed( model::chip8::key ) const
 {
     // TODO
     return false;

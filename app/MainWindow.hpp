@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IoDeviceImpl.hpp"
+#include "ScreenWidget.hpp"
 
 #include <model/VM.hpp>
 
@@ -12,7 +13,7 @@ namespace Ui
 class MainWindow;
 }
 
-class GameBoard;
+class ScreenWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -22,12 +23,15 @@ public:
     explicit MainWindow( QWidget* parent = nullptr );
     ~MainWindow();
 
+public slots:
+    void cycle();
+
 private:
     Ui::MainWindow* ui;
 
     IoDeviceImpl m_ioDevice;
     model::VM    m_vm;
 
-    GameBoard* gameBoard;
-    QTimer     timer;
+    ScreenWidget gameBoard;
+    QTimer       timer;
 };

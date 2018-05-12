@@ -8,10 +8,7 @@ public:
     IoDeviceImpl();
     ~IoDeviceImpl() override = default;
 
-    bool isKeyPressed( const model::chip8::key key ) const override;
+    bool isKeyPressed( model::chip8::key key ) const override;
 
     model::chip8::key getPressedKey() const override;
-
-private:
-    // TODO ?
 };

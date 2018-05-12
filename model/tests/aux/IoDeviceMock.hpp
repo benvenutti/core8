@@ -1,7 +1,4 @@
-#ifndef CORE8_IOCONNECTORMOCK_HPP
-#define CORE8_IOCONNECTORMOCK_HPP
-
-#include <array>
+#pragma once
 
 #include "Chip8.hpp"
 #include "IoDevice.hpp"
@@ -12,17 +9,17 @@ namespace Aux
 class IoDeviceMock : public model::IoDevice
 {
 public:
-    virtual bool isKeyPressed( const model::chip8::key key ) const override
+    bool isKeyPressed( model::chip8::key key ) const override
     {
         return key == pressedKey;
     }
 
-    virtual model::chip8::key getPressedKey() const override
+    model::chip8::key getPressedKey() const override
     {
         return pressedKey;
     }
 
-    void setPressedKey( const model::chip8::key key )
+    void setPressedKey( model::chip8::key key )
     {
         pressedKey = key;
     }
@@ -32,5 +29,3 @@ private:
 };
 
 } // namespace Aux
-
-#endif

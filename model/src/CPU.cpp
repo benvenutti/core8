@@ -194,6 +194,7 @@ void CPU::updateSoundTimer()
 void CPU::clearDisplay()
 {
     m_frameBuffer = {};
+    m_drawFlag    = true;
 }
 
 void CPU::jumpToNnn()
@@ -433,20 +434,24 @@ void CPU::draw()
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto     offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
-                chip8::byte_t& pixel  = m_frameBuffer.at( offset );
+                const auto offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
+                auto&      pixel  = m_frameBuffer.at( offset );
 
                 if ( pixel != 0 )
                 {
                     flipped = 1u;
                 }
 
-                pixel ^= 1u;
+                constexpr std::uint32_t MARK{ 0xffffffff };
+
+                pixel ^= MARK;
             }
         }
     }
 
     writeRegister( chip8::reg::vf, flipped );
+
+    m_drawFlag = true;
 }
 
 void CPU::executeSkipIfVxIsPressed()

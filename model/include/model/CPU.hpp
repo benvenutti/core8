@@ -1,13 +1,12 @@
 #pragma once
 
-#include <array>
-#include <functional>
-#include <map>
-
 #include "Chip8.hpp"
 #include "IoDevice.hpp"
 #include "MMU.hpp"
 #include "RandomNumberGenerator.hpp"
+
+#include <array>
+#include <cstdint>
 
 namespace model
 {
@@ -15,6 +14,8 @@ namespace model
 class CPU
 {
 public:
+    using VideoBuffer = std::array<std::uint32_t, chip8::display_size>;
+
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
 
     void cycle();
@@ -72,10 +73,12 @@ public:
         return m_I;
     }
 
-    const auto& buffer() const
+    const VideoBuffer& buffer() const
     {
         return m_frameBuffer;
     }
+
+    bool m_drawFlag = false;
 
 private:
     void fetch();
@@ -133,7 +136,7 @@ private:
 
     std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
     std::array<chip8::word_t, chip8::stack_size>    m_stack       = {};
-    std::array<chip8::byte_t, chip8::display_size>  m_frameBuffer = {};
+    VideoBuffer                                     m_frameBuffer = {};
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;
