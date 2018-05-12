@@ -19,7 +19,7 @@
      <rect>
       <x>9</x>
       <y>9</y>
-      <width>381</width>
+      <width>461</width>
       <height>351</height>
      </rect>
     </property>
@@ -28,9 +28,9 @@
    <widget class="QPushButton" name="m_clearButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>480</x>
       <y>10</y>
-      <width>161</width>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -38,25 +38,12 @@
      <string>Clear</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="m_generateButton">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>50</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Generate</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="m_colorButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>90</y>
-      <width>161</width>
+      <x>480</x>
+      <y>30</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -67,9 +54,9 @@
    <widget class="QPushButton" name="m_cycleButton">
     <property name="geometry">
      <rect>
-      <x>399</x>
-      <y>130</y>
-      <width>161</width>
+      <x>479</x>
+      <y>50</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -80,9 +67,9 @@
    <widget class="QPushButton" name="m_playButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>170</y>
-      <width>161</width>
+      <x>480</x>
+      <y>70</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>

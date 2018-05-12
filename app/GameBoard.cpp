@@ -4,21 +4,36 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+#include <algorithm>
 #include <iostream>
 
-GameBoard::GameBoard( QWidget* parent )
+GameBoard::GameBoard( model::VM vm, QWidget* parent )
 : QWidget{ parent }
-, m_color{ 0, 0, 0, 255 }
+, m_vm{ vm }
 {
 }
 
 void GameBoard::paintEvent( QPaintEvent* )
 {
-    // example of visual side effect
-    static int cc = 0;
-    m_color       = QColor{ ++cc, cc, cc, 255 };
-    cc %= 254;
+    m_vm.cycle();
 
     QPainter painter{ this };
-    painter.fillRect( QRect{ QPoint{ 0, 0 }, QSize{ 40, 40 } }, m_color );
+
+    const QColor white{ 255, 255, 255, 255 };
+    const QColor black{ 0, 0, 0, 255 };
+
+    painter.fillRect(
+        QRect{ QPoint{ 0, 0 },
+               QSize{ model::chip8::display_width * m_quadSize, model::chip8::display_height * m_quadSize } },
+        black );
+
+    for ( int i = 0; i < model::chip8::display_size; i++ )
+    {
+        if ( m_vm.getCPU().buffer()[i] != 0 )
+        {
+            const int x = m_quadSize * ( i % model::chip8::display_width );
+            const int y = m_quadSize * ( i / model::chip8::display_width );
+            painter.fillRect( QRect{ QPoint{ x, y }, QSize{ m_quadSize, m_quadSize } }, white );
+        }
+    }
 }

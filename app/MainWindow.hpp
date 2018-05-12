@@ -1,5 +1,9 @@
 #pragma once
 
+#include "IoDeviceImpl.hpp"
+
+#include <model/VM.hpp>
+
 #include <QMainWindow>
 #include <QTimer>
 
@@ -20,6 +24,10 @@ public:
 
 private:
     Ui::MainWindow* ui;
-    GameBoard*      gameBoard;
-    QTimer          timer;
+
+    IoDeviceImpl m_ioDevice;
+    model::VM    m_vm;
+
+    GameBoard* gameBoard;
+    QTimer     timer;
 };

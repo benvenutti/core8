@@ -8,18 +8,23 @@
 MainWindow::MainWindow( QWidget* parent )
 : QMainWindow( parent )
 , ui( new Ui::MainWindow )
-, gameBoard{ new GameBoard }
+, m_vm{ m_ioDevice }
+, gameBoard{ new GameBoard{ m_vm } }
 , timer{ this }
 {
-    ui->setupUi( this );
+    // m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/IBM Logo.ch8" );
+    m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/Keypad Test [Hap, 2006].ch8" );
 
-    gameBoard->setFixedWidth( 300 );
+    ui->setupUi( this );
+    setWindowTitle( "core8" );
+
+    gameBoard->setFixedWidth( 600 );
     gameBoard->setFixedHeight( 300 );
     ui->gameLayout->addWidget( gameBoard );
 
     connect( &timer, SIGNAL( timeout() ), gameBoard, SLOT( update() ) );
 
-    timer.start( 15 );
+    timer.start();
 }
 
 MainWindow::~MainWindow()

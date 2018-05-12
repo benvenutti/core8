@@ -194,7 +194,6 @@ void CPU::updateSoundTimer()
 void CPU::clearDisplay()
 {
     m_frameBuffer = {};
-    m_ioDevice.drawScreen( m_frameBuffer );
 }
 
 void CPU::jumpToNnn()
@@ -448,7 +447,6 @@ void CPU::draw()
     }
 
     writeRegister( chip8::reg::vf, flipped );
-    m_ioDevice.drawScreen( m_frameBuffer );
 }
 
 void CPU::executeSkipIfVxIsPressed()

@@ -72,6 +72,11 @@ public:
         return m_I;
     }
 
+    const auto& buffer() const
+    {
+        return m_frameBuffer;
+    }
+
 private:
     void fetch();
     void decode();
