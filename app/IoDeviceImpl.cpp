@@ -1,42 +1,39 @@
 #include "IoDeviceImpl.hpp"
 
+#include <QKeyEvent>
 
 #include <algorithm>
 
 namespace
 {
-const std::map<Qt::Key, model::chip8::key> keymap = {
-    { Qt::Key_X, model::chip8::key::k0 }, { Qt::Key_1, model::chip8::key::k1 }, { Qt::Key_2, model::chip8::key::k2 },
-    { Qt::Key_3, model::chip8::key::k3 }, { Qt::Key_Q, model::chip8::key::k4 }, { Qt::Key_W, model::chip8::key::k5 },
-    { Qt::Key_E, model::chip8::key::k6 }, { Qt::Key_A, model::chip8::key::k7 }, { Qt::Key_S, model::chip8::key::k8 },
-    { Qt::Key_D, model::chip8::key::k9 }, { Qt::Key_Z, model::chip8::key::ka }, { Qt::Key_C, model::chip8::key::kb },
-    { Qt::Key_4, model::chip8::key::kc }, { Qt::Key_R, model::chip8::key::kd }, { Qt::Key_F, model::chip8::key::ke },
-    { Qt::Key_V, model::chip8::key::kf }
-};
+const std::map<Qt::Key, int> keymap = { { Qt::Key_X, 0x0 }, { Qt::Key_1, 0x1 }, { Qt::Key_2, 0x2 }, { Qt::Key_3, 0x3 },
+                                        { Qt::Key_Q, 0x4 }, { Qt::Key_W, 0x5 }, { Qt::Key_E, 0x6 }, { Qt::Key_A, 0x7 },
+                                        { Qt::Key_S, 0x8 }, { Qt::Key_D, 0x9 }, { Qt::Key_Z, 0xa }, { Qt::Key_C, 0xb },
+                                        { Qt::Key_4, 0xc }, { Qt::Key_R, 0xd }, { Qt::Key_F, 0xe }, { Qt::Key_V, 0xf } };
 }
 
 IoDeviceImpl::IoDeviceImpl()
 {
-    m_keypad.fill( false );
 }
 
-void IoDeviceImpl::set( Qt::Key key )
+void IoDeviceImpl::set( int key, bool pressed )
 {
-    auto it = keymap.find( key );
-    m_key   = it != keymap.end() ? it->second : model::chip8::key::none;
-}
-
-void IoDeviceImpl::unset( Qt::Key )
-{
-    m_key = model::chip8::key::none;
+    auto it = keymap.find( static_cast<Qt::Key>( key ) );
+    if ( it != keymap.end() )
+    {
+        m_keypad[it->second] = pressed;
+    }
 }
 
 bool IoDeviceImpl::isKeyPressed( model::chip8::key key ) const
 {
-    return m_key == key;
+    return m_keypad[static_cast<int>( key )];
 }
 
 model::chip8::key IoDeviceImpl::getPressedKey() const
 {
-    return m_key;
+    auto it  = std::find( std::begin( m_keypad ), std::end( m_keypad ), std::true_type::value );
+    auto key = std::distance( std::begin( m_keypad ), it );
+
+    return static_cast<model::chip8::key>( key );
 }

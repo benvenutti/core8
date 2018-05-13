@@ -13,7 +13,7 @@ MainWindow::MainWindow( QWidget* parent )
 , timer{ this }
 {
     // m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/IBM Logo.ch8" );
-    m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/Keypad Test [Hap, 2006].ch8" );
+    m_vm.loadRom( "/home/diogo/Downloads/Keypad Test [Hap, 2006].ch8" );
 
     ui->setupUi( this );
     setWindowTitle( "core8" );
@@ -46,10 +46,10 @@ void MainWindow::cycle()
 
 void MainWindow::keyPressEvent( QKeyEvent* event )
 {
-    m_ioDevice.set( static_cast<Qt::Key>( event->key() ) );
+    m_ioDevice.set( event->key(), true );
 }
 
 void MainWindow::keyReleaseEvent( QKeyEvent* event )
 {
-    m_ioDevice.unset( static_cast<Qt::Key>( event->key() ) );
+    m_ioDevice.set( event->key(), false );
 }
