@@ -1,6 +1,8 @@
 #include "MainWindow.hpp"
 #include "ui_mainwindow.h"
 
+#include <QKeyEvent>
+
 #include <QDebug>
 
 MainWindow::MainWindow( QWidget* parent )
@@ -20,9 +22,15 @@ MainWindow::MainWindow( QWidget* parent )
     gameBoard.setFixedHeight( 250 );
     ui->gameLayout->addWidget( &gameBoard );
 
-    connect( &timer, SIGNAL( timeout() ), this, SLOT( cycle() ) );
+    connect( &timer, &QTimer::timeout, this, &MainWindow::cycle );
 
     timer.start( 1 );
+}
+
+MainWindow::~MainWindow()
+{
+    timer.stop();
+    delete ui;
 }
 
 void MainWindow::cycle()
@@ -36,8 +44,12 @@ void MainWindow::cycle()
     }
 }
 
-MainWindow::~MainWindow()
+void MainWindow::keyPressEvent( QKeyEvent* event )
 {
-    timer.stop();
-    delete ui;
+    m_ioDevice.set( static_cast<Qt::Key>( event->key() ) );
+}
+
+void MainWindow::keyReleaseEvent( QKeyEvent* event )
+{
+    m_ioDevice.unset( static_cast<Qt::Key>( event->key() ) );
 }

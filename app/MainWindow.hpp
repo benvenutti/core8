@@ -27,6 +27,9 @@ public slots:
     void cycle();
 
 private:
+    void keyPressEvent( QKeyEvent* event ) override;
+    void keyReleaseEvent( QKeyEvent* event ) override;
+
     Ui::MainWindow* ui;
 
     IoDeviceImpl m_ioDevice;
