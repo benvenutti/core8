@@ -1,28 +1,23 @@
 #include "ScreenWidget.hpp"
 
-#include <model/VM.hpp>
-
 #include <QImage>
 #include <QPainter>
 #include <QRect>
 
-namespace detail
-{
-constexpr QRect source{ 0, 0, model::chip8::display_width, model::chip8::display_height };
-}
+#include <cassert>
 
-ScreenWidget::ScreenWidget( const model::CPU::VideoBuffer& buffer )
+ScreenWidget::ScreenWidget( const std::uint32_t* buffer, int w, int h )
 : QWidget{ nullptr }
-, m_buffer{ buffer }
+, m_buffer{ reinterpret_cast<const uchar*>( buffer ) }
+, m_screenWidth{ w }
+, m_screenHeight{ h }
 {
+    assert( m_buffer != nullptr );
 }
 
 void ScreenWidget::paintEvent( QPaintEvent* )
 {
     QPainter{ this }.drawImage( QRect{ 0, 0, width(), height() },
-                                QImage{ reinterpret_cast<const uchar*>( m_buffer.data() ),
-                                        model::chip8::display_width,
-                                        model::chip8::display_height,
-                                        QImage::Format_RGB32 },
-                                detail::source );
+                                QImage{ m_buffer, m_screenWidth, m_screenHeight, QImage::Format_RGB32 },
+                                QRect{ 0, 0, m_screenWidth, m_screenHeight } );
 }

@@ -7,7 +7,7 @@ MainWindow::MainWindow( QWidget* parent )
 : QMainWindow( parent )
 , ui( new Ui::MainWindow )
 , m_vm{ m_ioDevice }
-, gameBoard{ m_vm.getCPU().buffer() }
+, gameBoard{ m_vm.getCPU().buffer().data(), model::chip8::display_width, model::chip8::display_height }
 , timer{ this }
 {
     // m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/IBM Logo.ch8" );
@@ -16,13 +16,13 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
     setWindowTitle( "core8" );
 
-    gameBoard.setFixedWidth( 600 );
-    gameBoard.setFixedHeight( 300 );
+    gameBoard.setFixedWidth( 500 );
+    gameBoard.setFixedHeight( 250 );
     ui->gameLayout->addWidget( &gameBoard );
 
     connect( &timer, SIGNAL( timeout() ), this, SLOT( cycle() ) );
 
-    timer.start( 5 );
+    timer.start( 1 );
 }
 
 void MainWindow::cycle()
