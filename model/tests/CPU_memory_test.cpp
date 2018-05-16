@@ -23,9 +23,9 @@ SCENARIO_METHOD( CpuFixture, "CPU sets I to the address NNN using opcode ANNN", 
         WHEN( "the CPU executes a ANNN operation" )
         {
             cpu.execute( 0xA123 );
-            const auto address1 = cpu.getI();
+            const auto address1 = cpu.iaddr();
             cpu.execute( 0xAFFF );
-            const auto address2 = cpu.getI();
+            const auto address2 = cpu.iaddr();
 
             THEN( "the address NNN is loaded into the address register I" )
             {
@@ -44,7 +44,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized V and I registers" )
     {
         const model::chip8::word_t address{ 1024 };
-        cpu.setI( address );
+        cpu.iaddr( address );
 
         const std::vector<model::chip8::byte_t> bytes{ 0x10, 0x11, 0x12, 0x13, 0x24, 0x25, 0x26, 0x27,
                                                        0x38, 0x39, 0x3A, 0x3B, 0x4C, 0x4D, 0x4E, 0x4F };
@@ -75,7 +75,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized memory and register I" )
     {
         const model::chip8::word_t address{ 1024 };
-        cpu.setI( address );
+        cpu.iaddr( address );
 
         const std::vector<model::chip8::byte_t> bytes = { 0x10, 0x11, 0x12, 0x13, 0x24, 0x25 };
         mmu.load( bytes, address );
@@ -103,15 +103,15 @@ SCENARIO_METHOD( CpuFixture, "CPU adds register X to register I using FX1E opcod
     {
         cpu.writeRegister( model::chip8::reg::v0, 10 );
         cpu.writeRegister( model::chip8::reg::ve, 66 );
-        cpu.setI( 512 );
+        cpu.iaddr( 512 );
 
         WHEN( "the CPU executes a FX1E opcode" )
         {
             cpu.execute( 0xF01E );
-            const auto address1 = cpu.getI();
+            const auto address1 = cpu.iaddr();
 
             cpu.execute( 0xFE1E );
-            const auto address2 = cpu.getI();
+            const auto address2 = cpu.iaddr();
 
             THEN( "the value of register VX is added to register I" )
             {
@@ -135,10 +135,10 @@ SCENARIO_METHOD( CpuFixture,
         WHEN( "the CPU executes a FX29 opcode" )
         {
             cpu.execute( 0xF029 );
-            const auto address1 = cpu.getI();
+            const auto address1 = cpu.iaddr();
 
             cpu.execute( 0xFE29 );
-            const auto address2 = cpu.getI();
+            const auto address2 = cpu.iaddr();
 
             THEN( "register I is updated to the address of the character sprite of VX" )
             {

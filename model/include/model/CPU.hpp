@@ -66,12 +66,12 @@ public:
         return m_instruction;
     }
 
-    void setI( chip8::word_t address )
+    void iaddr( chip8::word_t address )
     {
         m_I = address;
     }
 
-    chip8::word_t getI() const
+    chip8::word_t iaddr() const
     {
         return m_I;
     }

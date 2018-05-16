@@ -21,7 +21,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 0 and register I set to 100" )
     {
         cpu.writeRegister( model::chip8::reg::v0, 0x0 );
-        cpu.setI( 100 );
+        cpu.iaddr( 100 );
 
         WHEN( "the CPU executes a FX33 operation with X equal to 0" )
         {
@@ -44,7 +44,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with V0 set to 0xFF and register I set to 200" )
     {
         cpu.writeRegister( model::chip8::reg::vf, 0xFF );
-        cpu.setI( 200 );
+        cpu.iaddr( 200 );
 
         WHEN( "the CPU executes a FX33 operation with X equal to F" )
         {

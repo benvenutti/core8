@@ -427,9 +427,9 @@ void CPU::draw()
                     flipped = 1u;
                 }
 
-                constexpr std::uint32_t MARK{ 0xffffffff };
+                constexpr std::uint32_t color{ 0xffffffffu };
 
-                pixel ^= MARK;
+                pixel ^= color;
             }
         }
     }
