@@ -36,7 +36,7 @@ public:
         return m_sp;
     }
 
-    const Stack& getStack() const
+    const Stack& stack() const
     {
         return m_stack;
     }
