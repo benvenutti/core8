@@ -56,12 +56,12 @@ public:
         return m_soundTimer;
     }
 
-    void setInstruction( chip8::word_t instr )
+    void instruction( chip8::word_t instr )
     {
         m_instruction = instr;
     }
 
-    chip8::word_t getInstruction() const
+    chip8::word_t instruction() const
     {
         return m_instruction;
     }
