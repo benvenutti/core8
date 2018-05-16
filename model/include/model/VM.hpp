@@ -30,6 +30,11 @@ public:
         return m_cpu;
     }
 
+    CPU& getCPU()
+    {
+        return m_cpu;
+    }
+
 private:
     IoDevice&           m_ioDevice;
     MMU                 m_mmu;

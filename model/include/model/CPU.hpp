@@ -1,13 +1,12 @@
 #pragma once
 
-#include <array>
-#include <functional>
-#include <map>
-
 #include "Chip8.hpp"
 #include "IoDevice.hpp"
 #include "MMU.hpp"
 #include "RandomNumberGenerator.hpp"
+
+#include <array>
+#include <cstdint>
 
 namespace model
 {
@@ -15,6 +14,8 @@ namespace model
 class CPU
 {
 public:
+    using VideoBuffer = std::array<std::uint32_t, chip8::display_size>;
+
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
 
     void cycle();
@@ -22,12 +23,13 @@ public:
 
     chip8::byte_t readRegister( chip8::reg id ) const;
     void          writeRegister( chip8::reg id, chip8::byte_t value );
-    void          loadToRegisters( const std::vector<chip8::byte_t> values );
+    void          loadToRegisters( const std::vector<chip8::byte_t>& values );
 
     chip8::word_t getPc() const
     {
         return m_pc;
     }
+
     chip8::byte_t getSp() const
     {
         return m_sp;
@@ -67,9 +69,20 @@ public:
     {
         m_I = address;
     }
+
     chip8::word_t getI() const
     {
         return m_I;
+    }
+
+    const VideoBuffer& buffer() const
+    {
+        return m_frameBuffer;
+    }
+
+    bool drawFlag() const
+    {
+        return m_drawFlag;
     }
 
 private:
@@ -124,11 +137,12 @@ private:
     chip8::byte_t m_delayTimer{ 0u };
     chip8::byte_t m_soundTimer{ 0u };
 
-    bool isInterrupted{ false };
+    bool m_drawFlag{ false };
+    bool m_isInterrupted{ false };
 
     std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
     std::array<chip8::word_t, chip8::stack_size>    m_stack       = {};
-    std::array<chip8::byte_t, chip8::display_size>  m_frameBuffer = {};
+    VideoBuffer                                     m_frameBuffer = {};
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;

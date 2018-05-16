@@ -9,13 +9,15 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS_DEBUG -g)
-set(CMAKE_CXX_FLAGS_RELEASE -O3)
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 ## 3rd party dependencies:
 
 add_library(catch INTERFACE)
 target_include_directories(catch INTERFACE libs/Catch2/single_include)
+
+find_package(Qt5Widgets REQUIRED)
 
 ## compiler definitions:
 
@@ -26,3 +28,4 @@ add_definitions(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast
 
 enable_testing(true)
 add_subdirectory(model)
+add_subdirectory(app)
