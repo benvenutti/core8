@@ -30,7 +30,7 @@ public:
         return m_pc;
     }
 
-    chip8::byte_t getSp() const
+    chip8::byte_t sp() const
     {
         return m_sp;
     }

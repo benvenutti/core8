@@ -36,7 +36,7 @@ SCENARIO_METHOD( CpuFixture, "CPU calls a subroutine with opcode 2NNN", "[flow]"
         WHEN( "the CPU calls a subroutine executing a 2NNN opcode" )
         {
             const auto originalPc = cpu.pc();
-            const auto originalSp = cpu.getSp();
+            const auto originalSp = cpu.sp();
             cpu.execute( 0x2656 );
 
             THEN( "the program counter is pushed to the call stack" )
@@ -45,7 +45,7 @@ SCENARIO_METHOD( CpuFixture, "CPU calls a subroutine with opcode 2NNN", "[flow]"
             }
             AND_THEN( "the stack pointer is incremented" )
             {
-                REQUIRE( cpu.getSp() == originalSp + 1u );
+                REQUIRE( cpu.sp() == originalSp + 1u );
             }
             AND_THEN( "the program counter is updated to the value of NNN" )
             {
@@ -60,7 +60,7 @@ SCENARIO_METHOD( CpuFixture, "CPU returns from subroutine with opcode 00EE", "[f
     GIVEN( "A CPU executing a subroutine" )
     {
         cpu.execute( 0x2ABC );
-        const auto sp              = cpu.getSp();
+        const auto sp              = cpu.sp();
         const auto previousAddress = cpu.getStack().at( sp - 1u );
 
         WHEN( "the CPU executes a 00EE operation to return from a subroutine" )
@@ -73,7 +73,7 @@ SCENARIO_METHOD( CpuFixture, "CPU returns from subroutine with opcode 00EE", "[f
             }
             AND_THEN( "the stack pointer is decremented" )
             {
-                REQUIRE( cpu.getSp() == sp - 1u );
+                REQUIRE( cpu.sp() == sp - 1u );
             }
         }
     }
