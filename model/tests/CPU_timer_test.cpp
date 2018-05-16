@@ -18,7 +18,7 @@ SCENARIO_METHOD( CpuFixture, "CPU sets register X to the value of the delay time
     GIVEN( "A CPU with an initialized delay timer" )
     {
         const model::chip8::byte_t delay{ 0x3C };
-        cpu.setDelayTimer( delay );
+        cpu.delayTimer( delay );
 
         WHEN( "the CPU executes a FX07 opcode" )
         {
@@ -44,10 +44,10 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register 
         WHEN( "the CPU executes a FX15 opcode" )
         {
             cpu.execute( 0xF015 );
-            const auto delay1 = cpu.getDelayTimer();
+            const auto delay1 = cpu.delayTimer();
 
             cpu.execute( 0xFF15 );
-            const auto delay2 = cpu.getDelayTimer();
+            const auto delay2 = cpu.delayTimer();
 
             THEN( "the delay timer is updated to the value of the register VX" )
             {

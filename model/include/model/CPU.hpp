@@ -41,12 +41,12 @@ public:
         return m_stack;
     }
 
-    void setDelayTimer( chip8::byte_t delay )
+    void delayTimer( chip8::byte_t delay )
     {
         m_delayTimer = delay;
     }
 
-    chip8::byte_t getDelayTimer() const
+    chip8::byte_t delayTimer() const
     {
         return m_delayTimer;
     }
