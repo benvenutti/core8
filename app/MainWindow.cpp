@@ -37,10 +37,9 @@ void MainWindow::cycle()
 {
     m_vm.cycle();
 
-    if ( m_vm.getCPU().m_drawFlag )
+    if ( m_vm.getCPU().drawFlag() )
     {
         gameBoard.update();
-        m_vm.getCPU().m_drawFlag = false;
     }
 }
 

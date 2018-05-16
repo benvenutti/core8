@@ -23,12 +23,13 @@ public:
 
     chip8::byte_t readRegister( chip8::reg id ) const;
     void          writeRegister( chip8::reg id, chip8::byte_t value );
-    void          loadToRegisters( const std::vector<chip8::byte_t> values );
+    void          loadToRegisters( const std::vector<chip8::byte_t>& values );
 
     chip8::word_t getPc() const
     {
         return m_pc;
     }
+
     chip8::byte_t getSp() const
     {
         return m_sp;
@@ -68,6 +69,7 @@ public:
     {
         m_I = address;
     }
+
     chip8::word_t getI() const
     {
         return m_I;
@@ -78,7 +80,10 @@ public:
         return m_frameBuffer;
     }
 
-    bool m_drawFlag = false;
+    bool drawFlag() const
+    {
+        return m_drawFlag;
+    }
 
 private:
     void fetch();
@@ -132,7 +137,8 @@ private:
     chip8::byte_t m_delayTimer{ 0u };
     chip8::byte_t m_soundTimer{ 0u };
 
-    bool isInterrupted{ false };
+    bool m_drawFlag{ false };
+    bool m_isInterrupted{ false };
 
     std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
     std::array<chip8::word_t, chip8::stack_size>    m_stack       = {};
