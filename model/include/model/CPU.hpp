@@ -14,6 +14,7 @@ namespace model
 class CPU
 {
 public:
+    using Stack       = std::array<chip8::word_t, chip8::stack_size>;
     using VideoBuffer = std::array<std::uint32_t, chip8::display_size>;
 
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
@@ -35,7 +36,7 @@ public:
         return m_sp;
     }
 
-    const std::array<chip8::word_t, chip8::stack_size>& getStack() const
+    const Stack& getStack() const
     {
         return m_stack;
     }
@@ -141,7 +142,7 @@ private:
     bool m_isInterrupted{ false };
 
     std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
-    std::array<chip8::word_t, chip8::stack_size>    m_stack       = {};
+    Stack                                           m_stack       = {};
     VideoBuffer                                     m_frameBuffer = {};
 
     MMU&                   m_mmu;
