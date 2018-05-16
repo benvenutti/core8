@@ -23,7 +23,7 @@ SCENARIO_METHOD( CpuFixture, "CPU executes an unconditional jump to address NNN 
 
             THEN( "the program counter is updated to the value of NNN" )
             {
-                REQUIRE( cpu.getPc() == 0xABC );
+                REQUIRE( cpu.pc() == 0xABC );
             }
         }
     }
@@ -35,7 +35,7 @@ SCENARIO_METHOD( CpuFixture, "CPU calls a subroutine with opcode 2NNN", "[flow]"
     {
         WHEN( "the CPU calls a subroutine executing a 2NNN opcode" )
         {
-            const auto originalPc = cpu.getPc();
+            const auto originalPc = cpu.pc();
             const auto originalSp = cpu.getSp();
             cpu.execute( 0x2656 );
 
@@ -49,7 +49,7 @@ SCENARIO_METHOD( CpuFixture, "CPU calls a subroutine with opcode 2NNN", "[flow]"
             }
             AND_THEN( "the program counter is updated to the value of NNN" )
             {
-                REQUIRE( cpu.getPc() == 0x656 );
+                REQUIRE( cpu.pc() == 0x656 );
             }
         }
     }
@@ -69,7 +69,7 @@ SCENARIO_METHOD( CpuFixture, "CPU returns from subroutine with opcode 00EE", "[f
 
             THEN( "the call stack topmost value is assigned to the program counter" )
             {
-                REQUIRE( cpu.getPc() == previousAddress );
+                REQUIRE( cpu.pc() == previousAddress );
             }
             AND_THEN( "the stack pointer is decremented" )
             {
@@ -94,7 +94,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter is updated to the value of NNN plus V0" )
             {
-                REQUIRE( cpu.getPc() == 0x15E );
+                REQUIRE( cpu.pc() == 0x15E );
             }
         }
     }

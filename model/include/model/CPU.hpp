@@ -25,7 +25,7 @@ public:
     void          writeRegister( chip8::reg id, chip8::byte_t value );
     void          loadToRegisters( const std::vector<chip8::byte_t>& values );
 
-    chip8::word_t getPc() const
+    chip8::word_t pc() const
     {
         return m_pc;
     }
