@@ -51,7 +51,7 @@ public:
         return m_delayTimer;
     }
 
-    chip8::byte_t getSoundTimer() const
+    chip8::byte_t soundTimer() const
     {
         return m_soundTimer;
     }

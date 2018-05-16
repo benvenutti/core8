@@ -68,10 +68,10 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the sound timer to the value of register 
         WHEN( "the CPU executes a FX18 opcode" )
         {
             cpu.execute( 0xF018 );
-            const auto sound1 = cpu.getSoundTimer();
+            const auto sound1 = cpu.soundTimer();
 
             cpu.execute( 0xFF18 );
-            const auto sound2 = cpu.getSoundTimer();
+            const auto sound2 = cpu.soundTimer();
 
             THEN( "the sound timer is updated to the value of the register VX" )
             {
