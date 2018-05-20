@@ -18,9 +18,7 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
     setWindowTitle( "core8" );
 
-    m_screen.setFixedWidth( 500 );
-    m_screen.setFixedHeight( 250 );
-    ui->gameLayout->addWidget( &m_screen );
+    ui->screenLayout->addWidget( &m_screen );
 
     connect( &m_timer, &QTimer::timeout, this, &MainWindow::cycle );
 
