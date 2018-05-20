@@ -31,23 +31,6 @@ void MMU::writeByte( chip8::byte_t byte, chip8::word_t address )
     m_memory[address] = byte;
 }
 
-void MMU::load( const std::vector<chip8::byte_t>& rom, chip8::word_t address )
-{
-    const auto length = std::min( size() - address, rom.size() );
-
-    std::copy_n( std::begin( rom ), length, std::begin( m_memory ) + address );
-}
-
-void MMU::load( std::istream& rom, chip8::word_t address )
-{
-    std::noskipws( rom );
-
-    const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>{ rom },
-                                           std::istream_iterator<chip8::byte_t>{} };
-
-    load( data, address );
-}
-
 void MMU::clear()
 {
     m_memory = {};

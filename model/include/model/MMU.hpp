@@ -1,8 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
-#include <istream>
-#include <vector>
+#include <iterator>
 
 #include "Chip8.hpp"
 
@@ -22,8 +22,14 @@ public:
 
     void writeByte( chip8::byte_t byte, chip8::word_t address );
 
-    void load( const std::vector<chip8::byte_t>& rom, chip8::word_t address );
-    void load( std::istream& rom, chip8::word_t address );
+    template <typename T>
+    void load( const T& rom, chip8::word_t address )
+    {
+        const auto romSize = static_cast<std::size_t>( std::distance( std::begin( rom ), std::end( rom ) ) );
+        const auto length  = std::min( size() - address, romSize );
+
+        std::copy_n( std::begin( rom ), length, std::begin( m_memory ) + address );
+    }
 
     void clear();
 

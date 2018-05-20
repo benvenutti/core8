@@ -144,12 +144,11 @@ SCENARIO( "MMU loads a rom that fits at the given valid address", "[mmu]" )
     GIVEN( "A rom and a MMU" )
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        Aux::ByteStream           rom{ data };
         model::MMU                mmu;
 
         WHEN( "the MMU loads the rom at a valid address with enough memory space" )
         {
-            mmu.load( rom, 0x100 );
+            mmu.load( data, 0x100 );
 
             THEN( "the whole rom is copied into memory starting at the given address" )
             {
@@ -167,12 +166,11 @@ SCENARIO( "MMU loads a rom that does not fit at the given valid address", "[mmu]
     GIVEN( "A rom and a MMU" )
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        Aux::ByteStream           rom{ data };
         model::MMU                mmu;
 
         WHEN( "the MMU loads the rom at a valid address without enough space" )
         {
-            mmu.load( rom, 0xFFD );
+            mmu.load( data, 0xFFD );
 
             THEN( "only the rom part that fits is copied into memory at the given address" )
             {
@@ -189,13 +187,12 @@ SCENARIO( "MMU loads a rom to an invalid memory address", "[mmu]" )
     GIVEN( "A rom and a MMU" )
     {
         std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        Aux::ByteStream           rom{ data };
         model::MMU                mmu;
         model::MMU                originalMmu{ mmu };
 
         WHEN( "the MMU loads the rom at an invalid address" )
         {
-            mmu.load( rom, 0x1000 );
+            mmu.load( data, 0x1000 );
         }
         THEN( "nothing is copied and the MMU remains unchanged" )
         {
