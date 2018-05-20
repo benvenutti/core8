@@ -12,7 +12,7 @@ public:
 
     bool isKeyPressed( model::chip8::key key ) const override;
 
-    model::chip8::key getPressedKey() const override;
+    model::chip8::key pressedKey() const override;
 
     void set( int key, bool pressed );
 

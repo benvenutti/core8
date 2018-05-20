@@ -462,7 +462,7 @@ void CPU::executeSkipIfVxIsNotPressed()
 void CPU::executeWaitPressedKeyToVx()
 {
     m_isInterrupted       = true;
-    const auto pressedKey = m_ioDevice.getPressedKey();
+    const auto pressedKey = m_ioDevice.pressedKey();
 
     if ( pressedKey != chip8::key::none )
     {

@@ -11,21 +11,21 @@ class IoDeviceMock : public model::IoDevice
 public:
     bool isKeyPressed( model::chip8::key key ) const override
     {
-        return key == pressedKey;
+        return key == m_pressedKey;
     }
 
-    model::chip8::key getPressedKey() const override
+    model::chip8::key pressedKey() const override
     {
-        return pressedKey;
+        return m_pressedKey;
     }
 
     void setPressedKey( model::chip8::key key )
     {
-        pressedKey = key;
+        m_pressedKey = key;
     }
 
 private:
-    model::chip8::key pressedKey{ model::chip8::key::none };
+    model::chip8::key m_pressedKey{ model::chip8::key::none };
 };
 
 } // namespace Aux
