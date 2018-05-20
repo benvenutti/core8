@@ -25,9 +25,11 @@ bool VM::loadRom( const std::string& fileName )
 
         in.close();
         m_mmu.load( data, chip8::init_rom_load_address );
+
+        return true;
     }
 
-    return true; // TODO this is always returnign true...
+    return false;
 }
 
 void VM::cycle()
