@@ -17,6 +17,7 @@ constexpr word_t num_registers{ 16 };
 constexpr word_t init_rom_load_address{ 512 };
 constexpr word_t instruction_size_in_bytes{ 2 };
 constexpr word_t stack_size{ 16 };
+constexpr word_t keypad_size{ 16 };
 constexpr word_t display_width{ 64 };
 constexpr word_t display_height{ 32 };
 constexpr word_t display_size{ display_width * display_height };

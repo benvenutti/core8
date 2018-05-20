@@ -12,7 +12,7 @@ public:
 
     virtual bool isKeyPressed( chip8::key key ) const = 0;
 
-    virtual chip8::key getPressedKey() const = 0;
+    virtual chip8::key pressedKey() const = 0;
 };
 
 } // namespace model

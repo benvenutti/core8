@@ -22,7 +22,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::k0 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes an EX9E operation with X equal to 0" )
         {
@@ -30,7 +30,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter is updated to skip the next instruction" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -45,7 +45,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::k1 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes an EX9E operation with X equal to 0" )
         {
@@ -53,7 +53,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter remains unchanged" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
@@ -68,7 +68,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 1u );
         ioDevice.setPressedKey( model::chip8::key::k0 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes an EXA1 operation with X equal to 0" )
         {
@@ -76,7 +76,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter is updated to skip the next instruction" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -91,7 +91,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0u );
         ioDevice.setPressedKey( model::chip8::key::k0 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes an EXA1 operation with X equal to 0" )
         {
@@ -99,7 +99,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter is updated to skip the next instruction" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
@@ -113,7 +113,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU and an i/o connector with no key pressed" )
     {
         ioDevice.setPressedKey( model::chip8::key::none );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
         const auto originalV0 = cpu.readRegister( model::chip8::reg::v0 );
 
         WHEN( "the CPU executes an FX0A" )
@@ -122,7 +122,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter remains unchanged (the CPU is halted)" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
             AND_THEN( "register V0 remains unchanged" )
             {
@@ -141,7 +141,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         ioDevice.setPressedKey( model::chip8::key::none );
         cpu.execute( 0xF00A );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
         const auto originalV0 = cpu.readRegister( model::chip8::reg::v0 );
 
         WHEN( "the CPU cycles" )
@@ -150,7 +150,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter remains unchanged (the CPU is halted)" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
             AND_THEN( "register V0 remains unchanged" )
             {

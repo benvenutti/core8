@@ -35,6 +35,6 @@ private:
     IoDeviceImpl m_ioDevice;
     model::VM    m_vm;
 
-    ScreenWidget gameBoard;
-    QTimer       timer;
+    ScreenWidget m_screen;
+    QTimer       m_timer;
 };

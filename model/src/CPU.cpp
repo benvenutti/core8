@@ -427,9 +427,9 @@ void CPU::draw()
                     flipped = 1u;
                 }
 
-                constexpr std::uint32_t MARK{ 0xffffffff };
+                constexpr std::uint32_t color{ 0xffffffffu };
 
-                pixel ^= MARK;
+                pixel ^= color;
             }
         }
     }
@@ -462,7 +462,7 @@ void CPU::executeSkipIfVxIsNotPressed()
 void CPU::executeWaitPressedKeyToVx()
 {
     m_isInterrupted       = true;
-    const auto pressedKey = m_ioDevice.getPressedKey();
+    const auto pressedKey = m_ioDevice.pressedKey();
 
     if ( pressedKey != chip8::key::none )
     {

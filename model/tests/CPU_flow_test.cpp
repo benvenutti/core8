@@ -23,7 +23,7 @@ SCENARIO_METHOD( CpuFixture, "CPU executes an unconditional jump to address NNN 
 
             THEN( "the program counter is updated to the value of NNN" )
             {
-                REQUIRE( cpu.getPc() == 0xABC );
+                REQUIRE( cpu.pc() == 0xABC );
             }
         }
     }
@@ -35,21 +35,21 @@ SCENARIO_METHOD( CpuFixture, "CPU calls a subroutine with opcode 2NNN", "[flow]"
     {
         WHEN( "the CPU calls a subroutine executing a 2NNN opcode" )
         {
-            const auto originalPc = cpu.getPc();
-            const auto originalSp = cpu.getSp();
+            const auto originalPc = cpu.pc();
+            const auto originalSp = cpu.sp();
             cpu.execute( 0x2656 );
 
             THEN( "the program counter is pushed to the call stack" )
             {
-                REQUIRE( cpu.getStack().at( originalSp ) == originalPc );
+                REQUIRE( cpu.stack().at( originalSp ) == originalPc );
             }
             AND_THEN( "the stack pointer is incremented" )
             {
-                REQUIRE( cpu.getSp() == originalSp + 1u );
+                REQUIRE( cpu.sp() == originalSp + 1u );
             }
             AND_THEN( "the program counter is updated to the value of NNN" )
             {
-                REQUIRE( cpu.getPc() == 0x656 );
+                REQUIRE( cpu.pc() == 0x656 );
             }
         }
     }
@@ -60,8 +60,8 @@ SCENARIO_METHOD( CpuFixture, "CPU returns from subroutine with opcode 00EE", "[f
     GIVEN( "A CPU executing a subroutine" )
     {
         cpu.execute( 0x2ABC );
-        const auto sp              = cpu.getSp();
-        const auto previousAddress = cpu.getStack().at( sp - 1u );
+        const auto sp              = cpu.sp();
+        const auto previousAddress = cpu.stack().at( sp - 1u );
 
         WHEN( "the CPU executes a 00EE operation to return from a subroutine" )
         {
@@ -69,11 +69,11 @@ SCENARIO_METHOD( CpuFixture, "CPU returns from subroutine with opcode 00EE", "[f
 
             THEN( "the call stack topmost value is assigned to the program counter" )
             {
-                REQUIRE( cpu.getPc() == previousAddress );
+                REQUIRE( cpu.pc() == previousAddress );
             }
             AND_THEN( "the stack pointer is decremented" )
             {
-                REQUIRE( cpu.getSp() == sp - 1u );
+                REQUIRE( cpu.sp() == sp - 1u );
             }
         }
     }
@@ -94,7 +94,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the program counter is updated to the value of NNN plus V0" )
             {
-                REQUIRE( cpu.getPc() == 0x15E );
+                REQUIRE( cpu.pc() == 0x15E );
             }
         }
     }

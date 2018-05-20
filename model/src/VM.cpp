@@ -1,6 +1,7 @@
 #include "VM.hpp"
 
 #include <fstream>
+#include <iterator>
 
 #include "IoDevice.hpp"
 
@@ -19,11 +20,18 @@ bool VM::loadRom( const std::string& fileName )
 
     if ( in.is_open() )
     {
-        m_mmu.load( in, chip8::init_rom_load_address );
+        std::noskipws( in );
+
+        const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>{ in },
+                                               std::istream_iterator<chip8::byte_t>{} };
+
         in.close();
+        m_mmu.load( data, chip8::init_rom_load_address );
+
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 void VM::cycle()

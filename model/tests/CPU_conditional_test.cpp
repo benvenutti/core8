@@ -21,7 +21,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized register" )
     {
         cpu.writeRegister( model::chip8::reg::v4, 0x35 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 3XNN opcode where register X equals NN" )
         {
@@ -29,7 +29,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is updated" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -43,7 +43,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized register" )
     {
         cpu.writeRegister( model::chip8::reg::v4, 0x35 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 3XNN opcode where register X is not equal to NN" )
         {
@@ -51,7 +51,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is remains unchanged" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
@@ -65,7 +65,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized register" )
     {
         cpu.writeRegister( model::chip8::reg::va, 0x1A );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 4XNN opcode where register X is not equal to NN" )
         {
@@ -73,7 +73,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is updated" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -87,7 +87,7 @@ SCENARIO_METHOD( CpuFixture,
     GIVEN( "A CPU with initialized register" )
     {
         cpu.writeRegister( model::chip8::reg::va, 0x1A );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 4XNN opcode where register X equals NN" )
         {
@@ -95,7 +95,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is remains unchanged" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
@@ -110,7 +110,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0x47 );
         cpu.writeRegister( model::chip8::reg::vf, 0x47 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 5XY0 opcode where register X equals register Y" )
         {
@@ -118,7 +118,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is updated" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -133,7 +133,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0x47 );
         cpu.writeRegister( model::chip8::reg::vf, 0x48 );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 5XY0 opcode where register X is not equal to register Y" )
         {
@@ -141,7 +141,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is remains unchanged" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
@@ -156,7 +156,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0xFF );
         cpu.writeRegister( model::chip8::reg::vf, 0xFE );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 9XY0 opcode where register X is not equal to register Y" )
         {
@@ -164,7 +164,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is updated" )
             {
-                REQUIRE( cpu.getPc() == originalPc + model::chip8::instruction_size_in_bytes );
+                REQUIRE( cpu.pc() == originalPc + model::chip8::instruction_size_in_bytes );
             }
         }
     }
@@ -179,7 +179,7 @@ SCENARIO_METHOD( CpuFixture,
     {
         cpu.writeRegister( model::chip8::reg::v0, 0xAD );
         cpu.writeRegister( model::chip8::reg::vf, 0xAD );
-        const auto originalPc = cpu.getPc();
+        const auto originalPc = cpu.pc();
 
         WHEN( "the CPU executes a 9XY0 opcode where register X equals register Y" )
         {
@@ -187,7 +187,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the CPUs program counter is remains unchanged" )
             {
-                REQUIRE( cpu.getPc() == originalPc );
+                REQUIRE( cpu.pc() == originalPc );
             }
         }
     }
