@@ -20,6 +20,8 @@ bool VM::loadRom( const std::string& fileName )
 
     if ( in.is_open() )
     {
+        std::noskipws( in );
+
         const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>{ in },
                                                std::istream_iterator<chip8::byte_t>{} };
 
