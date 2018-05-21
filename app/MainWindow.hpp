@@ -13,8 +13,6 @@ namespace Ui
 class MainWindow;
 }
 
-class ScreenWidget;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,7 +21,7 @@ public:
     explicit MainWindow( QWidget* parent = nullptr );
     ~MainWindow();
 
-public slots:
+private slots:
     void cycle();
     void selectRomFile();
 
