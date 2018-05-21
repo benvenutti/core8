@@ -14,7 +14,7 @@ public:
         return key == m_pressedKey;
     }
 
-    model::chip8::key pressedKey() const override
+    boost::optional<model::chip8::key> pressedKey() const override
     {
         return m_pressedKey;
     }
