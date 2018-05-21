@@ -13,8 +13,6 @@ namespace Ui
 class MainWindow;
 }
 
-class ScreenWidget;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,8 +21,9 @@ public:
     explicit MainWindow( QWidget* parent = nullptr );
     ~MainWindow();
 
-public slots:
+private slots:
     void cycle();
+    void selectRomFile();
 
 private:
     void keyPressEvent( QKeyEvent* event ) override;
@@ -34,6 +33,7 @@ private:
 
     IoDeviceImpl m_ioDevice;
     model::VM    m_vm;
+    bool         m_isRunning = false;
 
     ScreenWidget m_screen;
     QTimer       m_timer;

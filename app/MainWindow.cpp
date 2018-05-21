@@ -1,9 +1,10 @@
 #include "MainWindow.hpp"
 #include "ui_mainwindow.h"
 
-#include <QKeyEvent>
-
 #include <QDebug>
+#include <QFileDialog>
+#include <QKeyEvent>
+#include <QStandardPaths>
 
 MainWindow::MainWindow( QWidget* parent )
 : QMainWindow( parent )
@@ -12,17 +13,13 @@ MainWindow::MainWindow( QWidget* parent )
 , m_screen{ m_vm.getCPU().buffer().data(), model::chip8::display_width, model::chip8::display_height }
 , m_timer{ this }
 {
-    // m_vm.loadRom( "/Users/diogo.benvenutti/draft/roms/IBM Logo.ch8" );
-    m_vm.loadRom( "/home/diogo/Downloads/Keypad Test [Hap, 2006].ch8" );
-
     ui->setupUi( this );
     setWindowTitle( "core8" );
 
-    m_screen.setFixedWidth( 500 );
-    m_screen.setFixedHeight( 250 );
-    ui->gameLayout->addWidget( &m_screen );
+    ui->screenLayout->addWidget( &m_screen );
 
     connect( &m_timer, &QTimer::timeout, this, &MainWindow::cycle );
+    connect( ui->actionOpen_ROM, &QAction::triggered, this, &MainWindow::selectRomFile );
 
     m_timer.start( 1 );
 }
@@ -35,11 +32,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::cycle()
 {
-    m_vm.cycle();
-
-    if ( m_vm.getCPU().drawFlag() )
+    if ( m_isRunning )
     {
-        m_screen.update();
+        m_vm.cycle();
+
+        if ( m_vm.getCPU().drawFlag() )
+        {
+            m_screen.update();
+        }
+    }
+}
+
+void MainWindow::selectRomFile()
+{
+    QFileDialog dlg{ this };
+    dlg.setFileMode( QFileDialog::ExistingFile );
+    dlg.setNameFilter( tr( "Chip8 files (*.ch8);;All files (*)" ) );
+    dlg.setDirectory( QStandardPaths::standardLocations( QStandardPaths::HomeLocation ).front() );
+    dlg.setViewMode( QFileDialog::List );
+
+    if ( dlg.exec() )
+    {
+        const auto filenames = dlg.selectedFiles();
+        m_isRunning          = !filenames.empty() && m_vm.loadRom( filenames.first().toStdString() );
     }
 }
 
