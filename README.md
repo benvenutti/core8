@@ -16,7 +16,7 @@ The lib entities were designed as independent components (classes, if you will) 
 
 <p align="center">
   <br>
-  <img src="https://github.com/benvenutti/core8/blob/issue-36/images/core8-overview.png" alt="Overview of core8 architecture">
+  <img src="https://github.com/benvenutti/core8/blob/master/images/core8-overview.png" alt="Overview of core8 architecture">
   <br><br>
 </p>
 
