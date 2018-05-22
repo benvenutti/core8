@@ -18,6 +18,7 @@ add_library(catch INTERFACE)
 target_include_directories(catch INTERFACE libs/Catch2/single_include)
 
 find_package(Qt5Widgets REQUIRED)
+find_package(Boost REQUIRED)
 
 ## compiler definitions:
 

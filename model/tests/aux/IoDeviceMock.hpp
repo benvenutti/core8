@@ -9,23 +9,30 @@ namespace Aux
 class IoDeviceMock : public model::IoDevice
 {
 public:
+    ~IoDeviceMock() override = default;
+
     bool isKeyPressed( model::chip8::key key ) const override
     {
-        return key == m_pressedKey;
+        if ( m_pressedKey )
+        {
+            return key == m_pressedKey.get();
+        }
+
+        return false;
     }
 
-    model::chip8::key pressedKey() const override
+    boost::optional<model::chip8::key> pressedKey() const override
     {
         return m_pressedKey;
     }
 
-    void setPressedKey( model::chip8::key key )
+    void pressedKey( model::chip8::key key )
     {
         m_pressedKey = key;
     }
 
 private:
-    model::chip8::key m_pressedKey{ model::chip8::key::none };
+    boost::optional<model::chip8::key> m_pressedKey = boost::none;
 };
 
 } // namespace Aux
