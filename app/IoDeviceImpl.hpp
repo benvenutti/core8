@@ -7,7 +7,7 @@
 class IoDeviceImpl : public model::IoDevice
 {
 public:
-    IoDeviceImpl();
+    IoDeviceImpl()           = default;
     ~IoDeviceImpl() override = default;
 
     bool isKeyPressed( model::chip8::key key ) const override;
