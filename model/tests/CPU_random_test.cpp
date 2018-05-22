@@ -18,8 +18,8 @@ struct CpuFixture
 SCENARIO_METHOD( CpuFixture,
                  "CPU sets register X to the result of a bitwise AND operation on "
                  "the minimum possible random number generated and NN "
-                 "using the CXNN opcode"
-                 "[memory]" )
+                 "using the CXNN opcode",
+                 "[random]" )
 {
     GIVEN( "A CPU and the random generated value 0" )
     {
@@ -40,8 +40,8 @@ SCENARIO_METHOD( CpuFixture,
 SCENARIO_METHOD( CpuFixture,
                  "CPU sets register X to the result of a bitwise AND operation on "
                  "the maximum possible random number generated and NN "
-                 "using the CXNN opcode"
-                 "[memory]" )
+                 "using the CXNN opcode",
+                 "[random]" )
 {
     GIVEN( "A CPU and the random generated value FF" )
     {
