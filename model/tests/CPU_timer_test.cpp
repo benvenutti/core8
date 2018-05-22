@@ -13,7 +13,7 @@ struct CpuFixture
     model::CPU&  cpu = testKit.cpu;
 };
 
-SCENARIO_METHOD( CpuFixture, "CPU sets register X to the value of the delay timer using FX02 opcode", "[memory]" )
+SCENARIO_METHOD( CpuFixture, "CPU sets register X to the value of the delay timer using FX02 opcode", "[timer]" )
 {
     GIVEN( "A CPU with an initialized delay timer" )
     {
@@ -34,7 +34,7 @@ SCENARIO_METHOD( CpuFixture, "CPU sets register X to the value of the delay time
     }
 }
 
-SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register X using FX15 opcode", "[memory]" )
+SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register X using FX15 opcode", "[timer]" )
 {
     GIVEN( "A CPU with initialized registers" )
     {
@@ -58,7 +58,7 @@ SCENARIO_METHOD( CpuFixture, "CPU sets the delay timer to the value of register 
     }
 }
 
-SCENARIO_METHOD( CpuFixture, "CPU sets the sound timer to the value of register X using FX15 opcode", "[memory]" )
+SCENARIO_METHOD( CpuFixture, "CPU sets the sound timer to the value of register X using FX15 opcode", "[timer]" )
 {
     GIVEN( "A CPU with initialized registers" )
     {
