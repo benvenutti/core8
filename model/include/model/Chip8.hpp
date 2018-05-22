@@ -101,8 +101,7 @@ enum class key
     kc,
     kd,
     ke,
-    kf,
-    none
+    kf
 };
 
 const std::vector<byte_t> font_set{
