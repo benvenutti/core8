@@ -141,9 +141,9 @@ private:
     bool m_drawFlag{ false };
     bool m_isInterrupted{ false };
 
-    std::array<chip8::byte_t, chip8::num_registers> m_registers   = {};
-    Stack                                           m_stack       = {};
-    VideoBuffer                                     m_frameBuffer = {};
+    std::array<chip8::byte_t, chip8::num_registers> m_registers = {};
+    Stack                                           m_stack     = {};
+    VideoBuffer                                     m_frameBuffer;
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;

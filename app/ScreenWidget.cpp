@@ -18,6 +18,6 @@ ScreenWidget::ScreenWidget( const std::uint32_t* buffer, int w, int h )
 void ScreenWidget::paintEvent( QPaintEvent* )
 {
     QPainter{ this }.drawImage( QRect{ 0, 0, width(), height() },
-                                QImage{ m_buffer, m_screenWidth, m_screenHeight, QImage::Format_RGB32 },
+                                QImage{ m_buffer, m_screenWidth, m_screenHeight, QImage::Format_ARGB32 },
                                 QRect{ 0, 0, m_screenWidth, m_screenHeight } );
 }
