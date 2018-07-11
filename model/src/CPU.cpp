@@ -3,7 +3,26 @@
 #include "OpDecoder.hpp"
 #include "WordDecoder.hpp"
 
+#include <boost/range/algorithm.hpp>
+#include <boost/range/irange.hpp>
+
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
+
+namespace detail
+{
+
+constexpr std::uint32_t pixelOff{ 0xff000000u };
+constexpr std::uint32_t pixelOn{ ~pixelOff };
+
+template <typename T>
+auto irange( T upper )
+{
+    return boost::irange( T{}, upper );
+}
+
+} // namespace detail
 
 namespace model
 {
@@ -14,6 +33,7 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 , m_rndGenerator{ rndGenerator }
 {
     m_mmu.load( chip8::font_set, 0x0 );
+    boost::fill( m_frameBuffer, detail::pixelOff );
 }
 
 chip8::byte_t CPU::readRegister( chip8::reg id ) const
@@ -195,8 +215,8 @@ void CPU::updateSoundTimer()
 
 void CPU::clearDisplay()
 {
-    m_frameBuffer = {};
-    m_drawFlag    = true;
+    boost::fill( m_frameBuffer, detail::pixelOff );
+    m_drawFlag = true;
 }
 
 void CPU::jumpToNnn()
@@ -405,37 +425,33 @@ void CPU::loadFontSpriteAddressToI()
 
 void CPU::draw()
 {
-    const auto x      = m_registers.at( WordDecoder::readX( m_instruction ) );
-    const auto y      = m_registers.at( WordDecoder::readY( m_instruction ) );
-    const auto height = WordDecoder::readN( m_instruction );
+    const auto x = m_registers.at( WordDecoder::readX( m_instruction ) );
+    const auto y = m_registers.at( WordDecoder::readY( m_instruction ) );
 
     chip8::byte_t flipped{ 0x0u };
 
-    for ( auto line = 0u; line < height; ++line )
+    for ( const auto line : detail::irange( WordDecoder::readN( m_instruction ) ) )
     {
         const auto rowPixels = m_mmu.readByte( m_I + line );
 
-        for ( auto row = 0u; row < chip8::sprite_width; ++row )
+        for ( const auto row : detail::irange( chip8::sprite_width ) )
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto offset = ( x + row + ( ( y + line ) * 64 ) ) % 2048;
+                const auto offset = ( x + row + ( ( y + line ) * chip8::display_width ) ) % chip8::display_size;
                 auto&      pixel  = m_frameBuffer.at( offset );
 
-                if ( pixel != 0 )
+                if ( pixel != detail::pixelOff )
                 {
                     flipped = 1u;
                 }
 
-                constexpr std::uint32_t color{ 0xffffffffu };
-
-                pixel ^= color;
+                pixel ^= detail::pixelOn;
             }
         }
     }
 
     writeRegister( chip8::reg::vf, flipped );
-
     m_drawFlag = true;
 }
 
