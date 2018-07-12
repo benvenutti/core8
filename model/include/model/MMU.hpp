@@ -1,11 +1,13 @@
 #pragma once
 
+#include "Chip8.hpp"
+
+#include <boost/range.hpp>
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <iterator>
-
-#include "Chip8.hpp"
 
 namespace model
 {
@@ -16,23 +18,41 @@ class MMU
 public:
     MMU() = default;
 
-    bool operator==( const MMU& mmu ) const;
+    bool operator==( const MMU& mmu ) const
+    {
+        return m_memory == mmu.m_memory;
+    }
 
-    chip8::byte_t readByte( chip8::word_t address ) const;
-    chip8::word_t readWord( chip8::word_t address ) const;
+    chip8::byte_t readByte( chip8::word_t address ) const
+    {
+        return m_memory[address];
+    }
 
-    void writeByte( chip8::byte_t byte, chip8::word_t address );
+    chip8::word_t readWord( chip8::word_t address ) const
+    {
+        const auto msb = m_memory[address] << std::numeric_limits<chip8::byte_t>::digits;
+        const auto lsb = m_memory[address + 1];
+
+        return msb | lsb;
+    }
+
+    void writeByte( chip8::byte_t byte, chip8::word_t address )
+    {
+        m_memory[address] = byte;
+    }
 
     template <typename T>
     void load( const T& rom, chip8::word_t address )
     {
-        const auto romSize = static_cast<std::size_t>( std::distance( std::begin( rom ), std::end( rom ) ) );
-        const auto length  = std::min( size() - address, romSize );
+        const auto length = std::min( size() - address, boost::size( rom ) );
 
         std::copy_n( std::begin( rom ), length, std::begin( m_memory ) + address );
     }
 
-    void clear();
+    void clear()
+    {
+        m_memory = {};
+    }
 
     constexpr std::size_t size() const noexcept
     {

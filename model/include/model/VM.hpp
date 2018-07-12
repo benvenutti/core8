@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-
 #include "CPU.hpp"
 #include "MMU.hpp"
 #include "MersenneByteTwister.hpp"
+
+#include <string>
 
 namespace model
 {
