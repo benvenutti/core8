@@ -2,8 +2,6 @@
 
 #include <random>
 
-#include "Chip8.hpp"
-
 namespace model
 {
 

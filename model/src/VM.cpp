@@ -1,9 +1,9 @@
 #include "VM.hpp"
 
+#include "IoDevice.hpp"
+
 #include <fstream>
 #include <iterator>
-
-#include "IoDevice.hpp"
 
 namespace model
 {
