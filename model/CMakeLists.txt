@@ -15,7 +15,6 @@ set(headers
 
 set(sources
   src/CPU.cpp
-  src/MMU.cpp
   src/VM.cpp)
 
 include_directories(include/model)
