@@ -34,7 +34,7 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 script:
-  - ci/travis-script.sh
+  - ci/travis-build.sh
 
 notifications:
   email: false
