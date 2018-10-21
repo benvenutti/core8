@@ -2,96 +2,39 @@ language: cpp
 
 matrix:
   include:
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-            - gcc-4.9
-      env:
-        - COMPILER_CXX=g++-4.9
-        - COMPILER_CC=gcc-4.9
-
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-            - gcc-5
-      env:
-        - COMPILER_CXX=g++-5
-        - COMPILER_CC=gcc-5
-
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-            - gcc-6
-      env:
-        - COMPILER_CXX=g++-6
-        - COMPILER_CC=gcc-6
-
-    - os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-          packages:
-            - clang++-3.6
-            - clang-3.6
-      env:
-        - COMPILER_CXX=clang++-3.6
-        - COMPILER_CC=clang-3.6
-
-    - os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
-          packages:
-            - clang++-3.7
-            - clang-3.7
-      env:
-        - COMPILER_CXX=clang++-3.7
-        - COMPILER_CC=clang-3.7
+    - os: osx
+      osx_image: xcode10
+      env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Release
 
     - os: osx
-      osx_image: xcode7.3
-      compiler: clang
-      env: COMPILER_CXX=clang++
+      osx_image: xcode10
+      env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Debug
 
-    - os: osx
-      osx_image: xcode8
-      compiler: clang
-      env: COMPILER_CXX=clang++
+    - os: linux
+      addons: &linux-gcc-6 { apt: {
+        packages: [ g++-6, libboost1.55-all-dev, qt5-default ],
+        sources: [ ubuntu-toolchain-r-test, boost-latest ] } }
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Release
 
-sudo: required
-dist: trusty
+    - os: linux
+      addons: *linux-gcc-6
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Debug
+
+    - os: linux
+      addons: &linux-clang-6 { apt: {
+        packages: [ clang-6.0, libstdc++-6-dev, libboost1.55-all-dev, qt5-default ],
+        sources: [ llvm-toolchain-trusty-6.0, ubuntu-toolchain-r-test, boost-latest ] } }
+      env: MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0" BUILD_TYPE=Release
+
+    - os: linux
+      addons: *linux-clang-6
+      env: MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0" BUILD_TYPE=Debug
 
 before_install:
-  - source ci/travis-environment.sh
-  - ci/travis-system-info.sh
-  - ci/travis-before-install.sh
+  - eval "${MATRIX_EVAL}"
 
 script:
-  - ci/travis-script.sh
-
-after_success:
-  - ci/travis-after-success.sh
+  - ci/travis-build.sh
 
 notifications:
   email: false
