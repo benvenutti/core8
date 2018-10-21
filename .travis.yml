@@ -38,5 +38,8 @@ before_install:
 script:
   - ci/travis-build.sh
 
+after_success:
+  - ci/travis-coverage.sh
+
 notifications:
   email: false
