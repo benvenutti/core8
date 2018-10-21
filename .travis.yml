@@ -2,6 +2,10 @@ language: cpp
 
 matrix:
   include:
+    - os: osx
+      osx_image: xcode10
+      env: MATRIX_EVAL="brew install qt && brew link --force qt" BUILD_TYPE=Release
+
     - os: linux
       addons: { apt: {
         packages: [ g++-6, libboost1.55-all-dev, qt5-default ],
