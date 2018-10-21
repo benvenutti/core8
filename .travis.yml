@@ -2,6 +2,9 @@ language: cpp
 
 matrix:
   include:
+    # ---------------------------------------------------------------------------------------------
+    # osx appleclang 10
+
     - os: osx
       osx_image: xcode10
       env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Release
@@ -10,15 +13,23 @@ matrix:
       osx_image: xcode10
       env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Debug
 
+    # ---------------------------------------------------------------------------------------------
+    # linux gcc-6 with coverage
+
     - os: linux
-      addons: &linux-gcc-6 { apt: {
+      addons: { apt: {
         packages: [ g++-6, libboost1.55-all-dev, qt5-default ],
         sources: [ ubuntu-toolchain-r-test, boost-latest ] } }
       env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Release
 
     - os: linux
-      addons: *linux-gcc-6
-      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Debug
+      addons: { apt: {
+        packages: [ g++-6, libboost1.55-all-dev, qt5-default, lcov ],
+        sources: [ ubuntu-toolchain-r-test, boost-latest ] } }
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Coverage GCOV=gcov-6
+
+    # ---------------------------------------------------------------------------------------------
+    # linux clang-6
 
     - os: linux
       addons: &linux-clang-6 { apt: {
@@ -35,6 +46,9 @@ before_install:
 
 script:
   - ci/travis-build.sh
+
+after_success:
+  - ci/travis-coverage.sh
 
 notifications:
   email: false
