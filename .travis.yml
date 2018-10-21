@@ -4,7 +4,7 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10
-      env: MATRIX_EVAL="brew install qt && brew link --force qt" BUILD_TYPE=Release
+      env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Release
 
     - os: linux
       addons: { apt: {
