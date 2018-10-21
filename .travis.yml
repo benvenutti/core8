@@ -11,14 +11,16 @@ matrix:
       env: MATRIX_EVAL="brew install qt" BUILD_TYPE=Debug
 
     - os: linux
-      addons: &linux-gcc-6 { apt: {
+      addons: { apt: {
         packages: [ g++-6, libboost1.55-all-dev, qt5-default ],
         sources: [ ubuntu-toolchain-r-test, boost-latest ] } }
       env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Release
 
     - os: linux
-      addons: *linux-gcc-6
-      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Debug
+      addons: { apt: {
+        packages: [ g++-6, libboost1.55-all-dev, qt5-default, lcov ],
+        sources: [ ubuntu-toolchain-r-test, boost-latest ] } }
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" BUILD_TYPE=Coverage GCOV=gcov-6
 
     - os: linux
       addons: &linux-clang-6 { apt: {
