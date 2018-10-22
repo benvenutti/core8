@@ -5,9 +5,8 @@
 
 #include <catch.hpp>
 
-#include "Chip8.hpp"
-#include "MMU.hpp"
 #include "aux/Aux.hpp"
+#include "model/MMU.hpp"
 
 namespace
 {

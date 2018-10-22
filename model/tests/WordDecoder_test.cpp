@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "WordDecoder.hpp"
+#include "model/WordDecoder.hpp"
 
 namespace
 {

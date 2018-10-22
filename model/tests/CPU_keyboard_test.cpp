@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
-#include "CPU.hpp"
 #include "aux/Aux.hpp"
+#include "model/CPU.hpp"
 
 namespace
 {

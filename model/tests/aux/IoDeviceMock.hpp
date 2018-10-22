@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Chip8.hpp"
-#include "IoDevice.hpp"
+#include "model/Chip8.hpp"
+#include "model/IoDevice.hpp"
 
 namespace Aux
 {
