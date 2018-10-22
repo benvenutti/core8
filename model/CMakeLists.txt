@@ -44,5 +44,5 @@ add_executable(model-test-suite
   tests/WordDecoder_test.cpp
   tests/catch_setup.cpp)
 
-target_link_libraries(model-test-suite PRIVATE ${PROJECT_NAME} catch)
+target_link_libraries(model-test-suite PRIVATE ${PROJECT_NAME} catch2)
 add_test(NAME ModelTestSuite COMMAND model-test-suite)
