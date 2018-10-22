@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(core8 VERSION 0.1.0 LANGUAGES CXX)
+cmake_minimum_required( VERSION 3.8 FATAL_ERROR )
+project( core8 VERSION 0.1.0 LANGUAGES CXX )
 
 ## build settings:
 
