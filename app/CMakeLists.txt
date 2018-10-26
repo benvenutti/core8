@@ -9,13 +9,15 @@ set( source_files
   src/core8.cpp )
 
 set( header_files
-  src/IoDeviceImpl.hpp
+  src/IoDeviceImpl.hpp )
+
+set( qt_header_files
   src/MainWindow.hpp
   src/ScreenWidget.hpp )
 
 set( ui_files gui/mainwindow.ui )
 
-qt5_wrap_cpp( header_files_moc ${header_files} )
+qt5_wrap_cpp( header_files_moc ${qt_header_files} )
 qt5_wrap_ui( ui_files_moc ${ui_files} )
 
 ## executable:
