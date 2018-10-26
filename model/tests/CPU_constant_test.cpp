@@ -1,8 +1,7 @@
 #include <catch.hpp>
 
-#include "CPU.hpp"
-#include "Chip8.hpp"
 #include "aux/Aux.hpp"
+#include "model/CPU.hpp"
 
 namespace
 {

@@ -1,32 +1,32 @@
-project(emulator VERSION 0.1 LANGUAGES CXX)
+project( core8 VERSION 0.1 LANGUAGES CXX )
 
 ## files:
 
-set(source_files
-  IoDeviceImpl.cpp
-  MainWindow.cpp
-  ScreenWidget.cpp
-  core8.cpp)
+set( source_files
+  src/IoDeviceImpl.cpp
+  src/MainWindow.cpp
+  src/ScreenWidget.cpp
+  src/core8.cpp )
 
-set(header_files
-  IoDeviceImpl.hpp
-  MainWindow.hpp
-  ScreenWidget.hpp)
+set( header_files
+  src/IoDeviceImpl.hpp )
 
-set(ui_files
-  mainwindow.ui)
+set( qt_header_files
+  src/MainWindow.hpp
+  src/ScreenWidget.hpp )
 
-qt5_wrap_cpp(header_files_moc ${header_files})
-qt5_wrap_ui(ui_files_moc ${ui_files})
+set( ui_files gui/mainwindow.ui )
 
-include_directories(${PROJECT_BINARY_DIR})
+qt5_wrap_cpp( header_files_moc ${qt_header_files} )
+qt5_wrap_ui( ui_files_moc ${ui_files} )
 
 ## executable:
 
-add_executable(${PROJECT_NAME}
+add_executable( ${PROJECT_NAME}
   ${source_files}
   ${header_files}
   ${header_files_moc}
-  ${ui_files_moc})
+  ${ui_files_moc} )
 
-target_link_libraries (${PROJECT_NAME} PUBLIC model Qt5::Widgets)
+target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR} )
+target_link_libraries( ${PROJECT_NAME} PUBLIC core8-model Qt5::Widgets )

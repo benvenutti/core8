@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "OpDecoder.hpp"
+#include "model/OpDecoder.hpp"
 
 namespace
 {
