@@ -1,4 +1,4 @@
-project( emulator VERSION 0.1 LANGUAGES CXX )
+project( core8 VERSION 0.1 LANGUAGES CXX )
 
 ## files:
 
