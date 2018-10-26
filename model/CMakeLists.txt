@@ -1,4 +1,4 @@
-project( model VERSION 0.1.0 LANGUAGES CXX )
+project( core8-model VERSION 0.1.0 LANGUAGES CXX )
 
 ## files:
 

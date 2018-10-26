@@ -29,4 +29,4 @@ add_executable( ${PROJECT_NAME}
   ${ui_files_moc} )
 
 target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR} )
-target_link_libraries( ${PROJECT_NAME} PUBLIC model Qt5::Widgets )
+target_link_libraries( ${PROJECT_NAME} PUBLIC core8-model Qt5::Widgets )
