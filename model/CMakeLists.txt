@@ -31,6 +31,9 @@ target_include_directories( ${PROJECT_NAME}
 ## tests:
 
 add_executable( model-test-suite
+  tests/aux/Aux.hpp
+  tests/aux/IoDeviceMock.hpp
+  tests/aux/RandomNumberGeneratorMock.hpp
   tests/CPU_assign_test.cpp
   tests/CPU_bcd_test.cpp
   tests/CPU_bitwise_test.cpp
