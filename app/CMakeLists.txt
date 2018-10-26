@@ -3,17 +3,17 @@ project( core8 VERSION 0.1 LANGUAGES CXX )
 ## files:
 
 set( source_files
-  IoDeviceImpl.cpp
-  MainWindow.cpp
-  ScreenWidget.cpp
-  core8.cpp )
+  src/IoDeviceImpl.cpp
+  src/MainWindow.cpp
+  src/ScreenWidget.cpp
+  src/core8.cpp )
 
 set( header_files
-  IoDeviceImpl.hpp
-  MainWindow.hpp
-  ScreenWidget.hpp )
+  src/IoDeviceImpl.hpp
+  src/MainWindow.hpp
+  src/ScreenWidget.hpp )
 
-set( ui_files mainwindow.ui )
+set( ui_files gui/mainwindow.ui )
 
 qt5_wrap_cpp( header_files_moc ${header_files} )
 qt5_wrap_ui( ui_files_moc ${ui_files} )
