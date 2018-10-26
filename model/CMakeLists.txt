@@ -17,6 +17,10 @@ set( sources
   src/CPU.cpp
   src/VM.cpp )
 
+configure_file(
+  ${PROJECT_SOURCE_DIR}/config/Version.hpp.in
+  ${PROJECT_BINARY_DIR}/include/model/Version.hpp )
+
 ## library:
 
 add_library( ${PROJECT_NAME} ${headers} ${sources} )
@@ -25,6 +29,7 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX CXX_STANDA
 target_include_directories( ${PROJECT_NAME}
   PUBLIC
     include
+    ${PROJECT_BINARY_DIR}/include
   PRIVATE
     include/model )
 
