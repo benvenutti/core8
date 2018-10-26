@@ -1,5 +1,4 @@
-#ifndef CORE8_RANDOMNUMBERGENERATORMOCK_HPP
-#define CORE8_RANDOMNUMBERGENERATORMOCK_HPP
+#pragma once
 
 #include "model/RandomNumberGenerator.hpp"
 
@@ -9,8 +8,8 @@ namespace Aux
 class RandomNumberGeneratorMock : public model::RandomNumberGenerator
 {
 public:
-    RandomNumberGeneratorMock()          = default;
-    virtual ~RandomNumberGeneratorMock() = default;
+    RandomNumberGeneratorMock()           = default;
+    ~RandomNumberGeneratorMock() override = default;
 
     virtual model::chip8::byte_t get() override
     {
@@ -27,5 +26,3 @@ private:
 };
 
 } // namespace Aux
-
-#endif
