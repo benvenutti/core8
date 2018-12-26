@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "aux/Aux.hpp"
+#include "mock/Aux.hpp"
 #include "model/CPU.hpp"
 
 namespace
@@ -8,8 +8,8 @@ namespace
 
 struct CpuFixture
 {
-    Aux::TestKit testKit;
-    model::CPU&  cpu = testKit.cpu;
+    Mock::TestKit testKit;
+    model::CPU&   cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture, "CPU assigns register VA to register V0 using opcode 8XY0", "[assign]" )

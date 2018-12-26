@@ -8,17 +8,16 @@
 #include "model/Chip8.hpp"
 #include "model/MMU.hpp"
 
-/// @brief Auxiliary tools for unit testing Core8.
-namespace Aux
+namespace Mock
 {
 
 /// @brief Bundle of objects necessary to test the CPU.
 struct TestKit
 {
-    model::MMU                     mmu;
-    Aux::IoDeviceMock              ioDevice;
-    Aux::RandomNumberGeneratorMock rndGenerator;
-    model::CPU                     cpu{ mmu, ioDevice, rndGenerator };
+    model::MMU                mmu;
+    IoDeviceMock              ioDevice;
+    RandomNumberGeneratorMock rndGenerator;
+    model::CPU                cpu{ mmu, ioDevice, rndGenerator };
 };
 
 /// @brief Simulates a byte stream from a std::vector<std::uint8_t>.
@@ -47,4 +46,4 @@ private:
     ByteBuffer byteBuffer;
 };
 
-} // namespace Aux
+} // namespace Mock

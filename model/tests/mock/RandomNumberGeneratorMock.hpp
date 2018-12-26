@@ -2,7 +2,7 @@
 
 #include "model/RandomNumberGenerator.hpp"
 
-namespace Aux
+namespace Mock
 {
 
 class RandomNumberGeneratorMock : public model::RandomNumberGenerator
@@ -25,4 +25,4 @@ private:
     model::chip8::byte_t m_value{ 0u };
 };
 
-} // namespace Aux
+} // namespace Mock

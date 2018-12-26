@@ -3,7 +3,7 @@
 #include "model/Chip8.hpp"
 #include "model/IoDevice.hpp"
 
-namespace Aux
+namespace Mock
 {
 
 class IoDeviceMock : public model::IoDevice
@@ -35,4 +35,4 @@ private:
     boost::optional<model::chip8::key> m_pressedKey = boost::none;
 };
 
-} // namespace Aux
+} // namespace Mock
