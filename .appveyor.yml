@@ -34,7 +34,6 @@ init:
 
 install:
   - git submodule update --init --recursive
-  - call ci\appveyor-echo-environment.bat
 
 before_build:
   - md build
