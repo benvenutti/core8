@@ -33,6 +33,8 @@ target_include_directories( ${PROJECT_NAME}
   PRIVATE
     include/model )
 
+target_link_libraries( ${PROJECT_NAME} PUBLIC Boost::boost )
+
 ## tests:
 
 add_executable( model-test-suite
