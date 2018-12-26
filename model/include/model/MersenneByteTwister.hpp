@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RandomNumberGenerator.hpp"
+
 #include <random>
 
 namespace model
@@ -18,7 +20,7 @@ public:
 
 private:
     std::mt19937                                 m_generator{ std::random_device{}() };
-    std::uniform_int_distribution<chip8::byte_t> m_distribution{ 0x01, 0xFF };
+    std::uniform_int_distribution<chip8::byte_t> m_distribution{ 0x01u, 0xFFu };
 };
 
 } // namespace model
