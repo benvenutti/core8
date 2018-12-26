@@ -11,18 +11,18 @@ public:
     RandomNumberGeneratorMock()           = default;
     ~RandomNumberGeneratorMock() override = default;
 
-    virtual model::chip8::byte_t get() override
+    virtual unsigned short get() const override
     {
         return m_value;
     }
 
-    void setValue( const model::chip8::byte_t value )
+    void setValue( unsigned short value )
     {
         m_value = value;
     }
 
 private:
-    model::chip8::byte_t m_value{ 0u };
+    unsigned short m_value{ 0u };
 };
 
 } // namespace Mock

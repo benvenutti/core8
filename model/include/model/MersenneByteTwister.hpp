@@ -13,16 +13,14 @@ public:
     MersenneByteTwister()           = default;
     ~MersenneByteTwister() override = default;
 
-    chip8::byte_t get() override
+    unsigned short get() const override
     {
         return m_distribution( m_generator );
     }
 
 private:
-    std::mt19937 m_generator{ std::random_device{}() };
-
-    std::uniform_int_distribution<chip8::byte_t> m_distribution{ static_cast<chip8::byte_t>( 0x01u ),
-                                                                 static_cast<chip8::byte_t>( 0xFFu ) };
+    mutable std::mt19937                                  m_generator{ std::random_device{}() };
+    mutable std::uniform_int_distribution<unsigned short> m_distribution{ 0x00u, 0xFFu };
 };
 
 } // namespace model
