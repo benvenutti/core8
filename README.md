@@ -37,20 +37,16 @@ core8/build$ make
 
 ### Running tests
 
-To run the available tests, you need to execute the *test* target using **make test**, like this:
+To run the available tests after a successful build, you need to execute the **test** target. One way of doing this is using `ctest` the build folder. Here is an example:
 
 ```shh
-core8/build$ make test
+core8/build$ ctest .
 Running tests...
-Test project core8/build
-    Start 1: Core8Test
-1/1 Test #1: Core8Test ........................   Passed    0.03 sec
+Test project /home/diogo/projects/core8/build
+    Start 1: ModelTestSuite
+1/1 Test #1: ModelTestSuite ...................   Passed    0.04 sec
 
 100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.26 sec
 ```
-## Next steps
-
-Here is a list with future plans for the lib:
-
-- Windows support
-- bundled debug command line tool
