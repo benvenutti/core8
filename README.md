@@ -8,20 +8,6 @@
 
 It is important to notice that this project is **not an actual emulator**, but it is an engine to can actually drive an emulator.
 
-## Design
-
-It is quite common for CHIP8 interpreters/emulators to be implemented in a more procedural approach, usually embedding the GUI framework in the core of the code. This usually leads to high coupling and low cohesion, yet, it usually has a good performance. The **core8** lib proposes a fully testable object-oriented solution, where the entities of the interpreter are highly cohesive classes. *Is there an extra cost in all this?* Yes, the interpreter is not as fast as the monolithic procedural approach. But don't worry, it runs fast enough! :wink:
-
-The lib entities were designed as independent components (classes, if you will) to mirror the following conceptual CHIP8 architecture (here a simplified version is shown):
-
-<p align="center">
-  <br>
-  <img src="https://github.com/benvenutti/core8/blob/master/images/core8-overview.png" alt="Overview of core8 architecture">
-  <br><br>
-</p>
-
-While the class `Core8::VM` drives the whole underlying CPU, the pure virtual class `Core8::IoDevice` can be implemented on frameworks like [sfml](http://www.sfml-dev.org/), [SDL](https://www.libsdl.org/), etc. to provide a GUI for the user experience.
-
 ## Building core8 from source
 
 You can also build the lib from source. The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The only dependency that the lib relies on it's the [Catch](https://github.com/philsquared/Catch) unit test framework. Yet, that is also managed by the scripts, so all you need to make sure is that you have CMake and a C++14 compliant compiler.
