@@ -1,70 +1,47 @@
-# core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8) [![Build status](https://ci.appveyor.com/api/projects/status/k4ci4ocbxed2xufo/branch/master?svg=true)](https://ci.appveyor.com/project/benvenutti/core8/branch/master) [![Coverage Status](https://coveralls.io/repos/github/benvenutti/core8/badge.svg?branch=master)](https://coveralls.io/github/benvenutti/core8?branch=master)
+# core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8) [![Build status](https://ci.appveyor.com/api/projects/status/k4ci4ocbxed2xufo/branch/master?svg=true)](https://ci.appveyor.com/project/benvenutti/core8/branch/master) [![codecov](https://codecov.io/gh/benvenutti/core8/branch/master/graph/badge.svg)](https://codecov.io/gh/benvenutti/core8) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**core8** is a fully featured [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) interpreter that offers a virtual machine able to run CHIP8 binaries. The **core8**'s VM uses a simple I/O device interface which can be easily connected to a graphical user interface so it can act as an engine for an actual emulator.
+**core8** is a [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) emulator that offers a Qt GUI to run CHIP8 binaries.
 
-## Overview
+## Cloning
 
-**core8** is a lib written in C++14 that exposes a small interface to cycle a CHIP8 interpreter and to execute I/O operations (audio, video and keyboard). Once a valid binary is loaded, the VM can run its instructions, generating side effects on its memory frame according to the CHIP8's specifications.
+Make sure to clone the repository with its submodules. One way to do this is as follows:
 
-It is important to notice that this project is **not an actual emulator**, but it is an engine to can actually drive an emulator.
+```shh
+git clone --recurse-submodules https://github.com/benvenutti/core8.git
+```
 
-## Design
+## Building core8
 
-It is quite common for CHIP8 interpreters/emulators to be implemented in a more procedural approach, usually embedding the GUI framework in the core of the code. This usually leads to high coupling and low cohesion, yet, it usually has a good performance. The **core8** lib proposes a fully testable object-oriented solution, where the entities of the interpreter are highly cohesive classes. *Is there an extra cost in all this?* Yes, the interpreter is not as fast as the monolithic procedural approach. But don't worry, it runs fast enough! :wink:
+The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The following list enumerates all dependencies and requirements to build the project:
 
-The lib entities were designed as independent components (classes, if you will) to mirror the following conceptual CHIP8 architecture (here a simplified version is shown):
+- C++14 compiler
+- CMake 3.8
+- Qt 5.10
+- Libboost 1.54
+- Catch 2
 
-<p align="center">
-  <br>
-  <img src="https://github.com/benvenutti/core8/blob/master/images/core8-overview.png" alt="Overview of core8 architecture">
-  <br><br>
-</p>
+### Configure & Compile
 
-While the class `Core8::VM` drives the whole underlying CPU, the pure virtual class `Core8::IoDevice` can be implemented on frameworks like [sfml](http://www.sfml-dev.org/), [SDL](https://www.libsdl.org/), etc. to provide a GUI for the user experience.
-
-## Building core8 from source
-
-You can also build the lib from source. The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The only dependency that the lib relies on it's the [Catch](https://github.com/philsquared/Catch) unit test framework. Yet, that is also managed by the scripts, so all you need to make sure is that you have CMake and a C++14 compliant compiler.
-
-### Supported compilers
-
-Currently, this project supports linux/osx platforms and it has a continuous integration system over [Travis CI](https://travis-ci.org/benvenutti/core8).
-The following compilers are known to work for **core8**:
-
-- GCC 4.9
-- GCC 5.4
-- GCC 6.2
-- Clang 3.6.2
-- Clang 3.7.1
-- AppleClang xcode 7.3
-- AppleClang xcode 8.0
-
-### Compiling
-
-Run the classic **cmake + make** on the source directory. It is recommend to run **cmake** from out of source, that is, usually from a *build* directory inside the source directory.
+It is recommended to configure the build out-of-source, so that the source tree and the build tree are separated. The most usual way to achieve this is to create a **build** directory inside the source directory:
 
 ```shh
 core8$ mkdir build && cd build
 core8/build$ cmake ..
-core8/build$ make
+core8/build$ cmake --build .
 ```
 
 ### Running tests
 
-To run the available tests, you need to execute the *test* target using **make test**, like this:
+To run the available tests after a successful build, you need to execute the **test** target. One way of doing this is using `ctest` the build folder. Here is an example:
 
 ```shh
-core8/build$ make test
+core8/build$ ctest .
 Running tests...
-Test project core8/build
-    Start 1: Core8Test
-1/1 Test #1: Core8Test ........................   Passed    0.03 sec
+Test project /home/diogo/projects/core8/build
+    Start 1: ModelTestSuite
+1/1 Test #1: ModelTestSuite ...................   Passed    0.04 sec
 
 100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.26 sec
 ```
-## Next steps
-
-Here is a list with future plans for the lib:
-
-- Windows support
-- bundled debug command line tool
