@@ -1,6 +1,12 @@
 cmake_minimum_required( VERSION 3.8 FATAL_ERROR )
 project( core8-emulator VERSION 0.1.0 LANGUAGES CXX )
 
+## cmake policies:
+
+if ( POLICY CMP0074 )
+  cmake_policy( SET CMP0074 NEW )
+endif()
+
 ## build settings:
 
 if( NOT CMAKE_BUILD_TYPE )
