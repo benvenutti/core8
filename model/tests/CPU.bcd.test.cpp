@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "mock/Aux.hpp"
+#include "mock/Helper.hpp"
 #include "model/CPU.hpp"
 
 namespace
