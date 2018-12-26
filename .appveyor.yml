@@ -13,10 +13,12 @@ environment:
       CMAKE_GENERATOR: Visual Studio 14 2015
       VISUAL_STUDIO_INTERNAL_VERSION: 140
       VISUAL_STUDIO_VERSION: 14.0
+      QT_BUILD: msvc2015
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017
       VISUAL_STUDIO_INTERNAL_VERSION: 141
       VISUAL_STUDIO_VERSION: 14.1
+      QT_BUILD: msvc2017
 
 init:
   - cmake --version
@@ -29,6 +31,7 @@ init:
   - set "BOOST_ROOT=C:\Libraries\boost_%BOOST_FILENAME_VERSION%"
   - set "BOOST_INCLUDEDIR=%BOOST_ROOT%"
   - set "BOOST_LIBRARYDIR=%BOOST_ROOT%\%LIB_ARCHITECTURE%-msvc-%VISUAL_STUDIO_VERSION%"
+  - set PATH=C:\Qt\5.11\%QT_BUILD%\bin;%PATH%
 
 install:
   - git submodule update --init --recursive
