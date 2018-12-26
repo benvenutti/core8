@@ -23,7 +23,6 @@ environment:
 init:
   - cmake --version
   - msbuild /version
-
   - set "ARCHITECTURE=64"
   - set "CMAKE_GENERATOR_SUFFIX= Win64"
   - set "GENERATOR_NAME=%CMAKE_GENERATOR%%CMAKE_GENERATOR_SUFFIX%"
@@ -31,7 +30,7 @@ init:
   - set "BOOST_ROOT=C:\Libraries\boost_%BOOST_FILENAME_VERSION%"
   - set "BOOST_INCLUDEDIR=%BOOST_ROOT%"
   - set "BOOST_LIBRARYDIR=%BOOST_ROOT%\%LIB_ARCHITECTURE%-msvc-%VISUAL_STUDIO_VERSION%"
-  - set PATH=C:\Qt\5.11\%QT_BUILD%\bin;%PATH%
+  - set "PATH=C:\Qt\5.11\%QT_BUILD%\bin;%PATH%"
 
 install:
   - git submodule update --init --recursive
