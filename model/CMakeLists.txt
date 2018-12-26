@@ -39,21 +39,21 @@ add_executable( model-test-suite
   tests/aux/Aux.hpp
   tests/aux/IoDeviceMock.hpp
   tests/aux/RandomNumberGeneratorMock.hpp
-  tests/CPU_assign_test.cpp
-  tests/CPU_bcd_test.cpp
-  tests/CPU_bitwise_test.cpp
-  tests/CPU_conditional_test.cpp
-  tests/CPU_constant_test.cpp
-  tests/CPU_flow_test.cpp
-  tests/CPU_keyboard_test.cpp
-  tests/CPU_math_test.cpp
-  tests/CPU_memory_test.cpp
-  tests/CPU_random_test.cpp
-  tests/CPU_timer_test.cpp
-  tests/MMU_test.cpp
-  tests/OpDecoder_test.cpp
-  tests/WordDecoder_test.cpp
-  tests/catch_setup.cpp )
+  tests/CPU.assign.test.cpp
+  tests/CPU.bcd.test.cpp
+  tests/CPU.bitwise.test.cpp
+  tests/CPU.conditional.test.cpp
+  tests/CPU.constant.test.cpp
+  tests/CPU.flow.test.cpp
+  tests/CPU.keyboard.test.cpp
+  tests/CPU.math.test.cpp
+  tests/CPU.memory.test.cpp
+  tests/CPU.random.test.cpp
+  tests/CPU.timer.test.cpp
+  tests/MMU.test.cpp
+  tests/OpDecoder.test.cpp
+  tests/WordDecoder.test.cpp
+  tests/catch.setup.cpp )
 
 target_link_libraries( model-test-suite PRIVATE ${PROJECT_NAME} catch2 )
 add_test( NAME ModelTestSuite COMMAND model-test-suite )
