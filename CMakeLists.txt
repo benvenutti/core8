@@ -1,6 +1,12 @@
 cmake_minimum_required( VERSION 3.8 FATAL_ERROR )
 project( core8-emulator VERSION 0.1.0 LANGUAGES CXX )
 
+## cmake policies:
+
+if ( POLICY CMP0074 )
+  cmake_policy( SET CMP0074 NEW )
+endif()
+
 ## build settings:
 
 if( NOT CMAKE_BUILD_TYPE )
@@ -28,8 +34,15 @@ find_package( Boost REQUIRED )
 
 ## compiler definitions:
 
-add_definitions( -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast
-  -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -pedantic )
+if( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+  add_compile_options( /W4 /w14545 /w34242 /w34254 /w34287 /w44263 /w44265 
+    /w44296 /w44311 /w44826 /we4289 /w14546 /w14547 /w14549 /w14555 /w14619 
+    /w14905 /w14906 /w14928 )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
+  add_compile_options( -Wall -Wextra -Wconversion -Wsign-conversion -Wshadow
+    -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused
+    -Woverloaded-virtual -pedantic )
+endif()
 
 ## folders:
 

@@ -5,7 +5,7 @@
 
 #include <catch.hpp>
 
-#include "mock/Aux.hpp"
+#include "mock/Helper.hpp"
 #include "model/MMU.hpp"
 
 namespace

@@ -503,7 +503,7 @@ void CPU::executeLoadRandomToVx()
 {
     const auto x        = WordDecoder::readX( m_instruction );
     const auto nn       = WordDecoder::readNN( m_instruction );
-    m_registers.at( x ) = nn & m_rndGenerator.get();
+    m_registers.at( x ) = nn & static_cast<chip8::byte_t>( m_rndGenerator.get() );
 }
 
 } // namespace model

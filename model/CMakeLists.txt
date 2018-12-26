@@ -33,10 +33,12 @@ target_include_directories( ${PROJECT_NAME}
   PRIVATE
     include/model )
 
+target_link_libraries( ${PROJECT_NAME} PUBLIC Boost::boost )
+
 ## tests:
 
 add_executable( model-test-suite
-  tests/mock/Aux.hpp
+  tests/mock/Helper.hpp
   tests/mock/IoDeviceMock.hpp
   tests/mock/RandomNumberGeneratorMock.hpp
   tests/CPU.assign.test.cpp
