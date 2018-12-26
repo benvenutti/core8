@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "aux/Aux.hpp"
+#include "mock/Aux.hpp"
 #include "model/CPU.hpp"
 
 namespace
@@ -8,10 +8,10 @@ namespace
 
 struct CpuFixture
 {
-    Aux::TestKit                    testKit;
-    model::MMU&                     mmu          = testKit.mmu;
-    model::CPU&                     cpu          = testKit.cpu;
-    Aux::RandomNumberGeneratorMock& rndGenerator = testKit.rndGenerator;
+    Mock::TestKit                    testKit;
+    model::MMU&                      mmu          = testKit.mmu;
+    model::CPU&                      cpu          = testKit.cpu;
+    Mock::RandomNumberGeneratorMock& rndGenerator = testKit.rndGenerator;
 };
 
 SCENARIO_METHOD( CpuFixture,

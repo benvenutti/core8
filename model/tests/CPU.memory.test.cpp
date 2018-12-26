@@ -3,7 +3,7 @@
 
 #include <catch.hpp>
 
-#include "aux/Aux.hpp"
+#include "mock/Aux.hpp"
 #include "model/CPU.hpp"
 
 namespace
@@ -11,9 +11,9 @@ namespace
 
 struct CpuFixture
 {
-    Aux::TestKit testKit;
-    model::MMU&  mmu = testKit.mmu;
-    model::CPU&  cpu = testKit.cpu;
+    Mock::TestKit testKit;
+    model::MMU&   mmu = testKit.mmu;
+    model::CPU&   cpu = testKit.cpu;
 };
 
 SCENARIO_METHOD( CpuFixture, "CPU sets I to the address NNN using opcode ANNN", "[memory]" )

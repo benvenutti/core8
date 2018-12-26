@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "aux/Aux.hpp"
+#include "mock/Aux.hpp"
 #include "model/CPU.hpp"
 
 namespace
@@ -8,9 +8,9 @@ namespace
 
 struct CpuFixture
 {
-    Aux::TestKit       testKit;
-    model::CPU&        cpu      = testKit.cpu;
-    Aux::IoDeviceMock& ioDevice = testKit.ioDevice;
+    Mock::TestKit       testKit;
+    model::CPU&         cpu      = testKit.cpu;
+    Mock::IoDeviceMock& ioDevice = testKit.ioDevice;
 };
 
 SCENARIO_METHOD( CpuFixture,
