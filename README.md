@@ -8,31 +8,32 @@
 
 It is important to notice that this project is **not an actual emulator**, but it is an engine to can actually drive an emulator.
 
-## Building core8 from source
+## Cloning
 
-You can also build the lib from source. The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The only dependency that the lib relies on it's the [Catch](https://github.com/philsquared/Catch) unit test framework. Yet, that is also managed by the scripts, so all you need to make sure is that you have CMake and a C++14 compliant compiler.
+Make sure to clone the repository with its submodules. One way to do this is as follows:
 
-### Supported compilers
+```shh
+git clone --recurse-submodules https://github.com/benvenutti/core8.git
+```
 
-Currently, this project supports linux/osx platforms and it has a continuous integration system over [Travis CI](https://travis-ci.org/benvenutti/core8).
-The following compilers are known to work for **core8**:
+## Building core8
 
-- GCC 4.9
-- GCC 5.4
-- GCC 6.2
-- Clang 3.6.2
-- Clang 3.7.1
-- AppleClang xcode 7.3
-- AppleClang xcode 8.0
+The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The following list enumerates all dependencies and requirements to build the project:
 
-### Compiling
+- C++14 compiler
+- CMake 3.8
+- Qt 5.10
+- Libboost 1.54
+- Catch 2
 
-Run the classic **cmake + make** on the source directory. It is recommend to run **cmake** from out of source, that is, usually from a *build* directory inside the source directory.
+### Configure & Compile
+
+It is recommended to configure the build out-of-source, so that the source tree and the build tree are separated. The most usual way to achieve this is to create a **build** directory inside the source directory:
 
 ```shh
 core8$ mkdir build && cd build
 core8/build$ cmake ..
-core8/build$ make
+core8/build$ cmake --build .
 ```
 
 ### Running tests
