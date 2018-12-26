@@ -13,19 +13,19 @@ environment:
       CMAKE_GENERATOR: Visual Studio 14 2015
       VISUAL_STUDIO_INTERNAL_VERSION: 140
       VISUAL_STUDIO_VERSION: 14.0
-      QT_BUILD: msvc2015
+      QT_BUILD: msvc2015_64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017
       VISUAL_STUDIO_INTERNAL_VERSION: 141
       VISUAL_STUDIO_VERSION: 14.1
-      QT_BUILD: msvc2017
+      QT_BUILD: msvc2017_64
 
 init:
   - cmake --version
   - msbuild /version
 
-  - if [%platform%]==[x64] ( set "ARCHITECTURE=64" ) else ( set "ARCHITECTURE=32" )
-  - if [%platform%]==[x64] ( set "CMAKE_GENERATOR_SUFFIX= Win64" )
+  - set "ARCHITECTURE=64"
+  - set "CMAKE_GENERATOR_SUFFIX= Win64"
   - set "GENERATOR_NAME=%CMAKE_GENERATOR%%CMAKE_GENERATOR_SUFFIX%"
   - set "LIB_ARCHITECTURE=lib%ARCHITECTURE%"
   - set "BOOST_ROOT=C:\Libraries\boost_%BOOST_FILENAME_VERSION%"
