@@ -1,12 +1,6 @@
 # core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8) [![Build status](https://ci.appveyor.com/api/projects/status/k4ci4ocbxed2xufo/branch/master?svg=true)](https://ci.appveyor.com/project/benvenutti/core8/branch/master) [![Coverage Status](https://coveralls.io/repos/github/benvenutti/core8/badge.svg?branch=master)](https://coveralls.io/github/benvenutti/core8?branch=master) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**core8** is a fully featured [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) interpreter that offers a virtual machine able to run CHIP8 binaries. The **core8**'s VM uses a simple I/O device interface which can be easily connected to a graphical user interface so it can act as an engine for an actual emulator.
-
-## Overview
-
-**core8** is a lib written in C++14 that exposes a small interface to cycle a CHIP8 interpreter and to execute I/O operations (audio, video and keyboard). Once a valid binary is loaded, the VM can run its instructions, generating side effects on its memory frame according to the CHIP8's specifications.
-
-It is important to notice that this project is **not an actual emulator**, but it is an engine to can actually drive an emulator.
+**core8** is a [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) emulator that offers a Qt GUI to run CHIP8 binaries.
 
 ## Cloning
 
