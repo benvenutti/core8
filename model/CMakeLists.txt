@@ -33,7 +33,7 @@ target_include_directories( ${PROJECT_NAME}
   PRIVATE
     include/model )
 
-target_link_libraries( ${PROJECT_NAME} PUBLIC Boost::boost )
+target_link_libraries( ${PROJECT_NAME} PUBLIC Boost::boost Boost::disable_autolinking )
 
 ## tests:
 
