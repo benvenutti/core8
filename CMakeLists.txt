@@ -43,7 +43,7 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     /w44296 /w44311 /w44826 /we4289 /w14546 /w14547 /w14549 /w14555 /w14619 
     /w14905 /w14906 /w14928 )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-  set( CMAKE_CXX_FLAGS_RELEASE "-O3 -NDEBUG" )
+  set( CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG" )
 
   add_compile_options( -Wall -Wextra -Wconversion -Wsign-conversion -Wshadow
     -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused
