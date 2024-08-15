@@ -1,6 +1,6 @@
-#include "VM.hpp"
+#include <model/VM.hpp>
 
-#include "IoDevice.hpp"
+#include <model/IoDevice.hpp>
 
 #include <fstream>
 #include <iterator>

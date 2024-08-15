@@ -1,8 +1,6 @@
-project( core8-model VERSION 0.1.0 LANGUAGES CXX )
-
-## files:
-
-set( headers
+add_library(
+  core8-model
+  STATIC
   include/model/Chip8.hpp
   include/model/CPU.hpp
   include/model/IoDevice.hpp
@@ -11,31 +9,28 @@ set( headers
   include/model/OpDecoder.hpp
   include/model/RandomNumberGenerator.hpp
   include/model/VM.hpp
-  include/model/WordDecoder.hpp )
-
-set( sources
+  include/model/WordDecoder.hpp
   src/CPU.cpp
-  src/VM.cpp )
+  src/VM.cpp
+)
 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/config/Version.hpp.in
-  ${PROJECT_BINARY_DIR}/include/model/Version.hpp )
+  ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.hpp.in
+  ${PROJECT_BINARY_DIR}/include/model/Version.hpp
+)
 
-## library:
+target_link_libraries(core8-model PUBLIC Boost::boost)
 
-add_library( ${PROJECT_NAME} ${headers} ${sources} )
-set_target_properties( ${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX CXX_STANDARD 14 )
-
-target_include_directories( ${PROJECT_NAME}
+target_include_directories(
+  core8-model
   PUBLIC
     include
     ${PROJECT_BINARY_DIR}/include
-  PRIVATE
-    include/model )
+)
 
-target_link_libraries( ${PROJECT_NAME} PUBLIC Boost::boost )
+target_compile_features(core8-model PUBLIC cxx_std_14)
 
-## tests:
+# tests:
 
 add_executable( model-test-suite
   tests/mock/Helper.hpp
@@ -56,5 +51,5 @@ add_executable( model-test-suite
   tests/OpDecoder.test.cpp
   tests/WordDecoder.test.cpp )
 
-target_link_libraries( model-test-suite PRIVATE ${PROJECT_NAME} Catch2::Catch2WithMain )
+target_link_libraries( model-test-suite PRIVATE core8-model Catch2::Catch2WithMain )
 add_test( NAME ModelTestSuite COMMAND model-test-suite )

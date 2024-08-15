@@ -1,7 +1,7 @@
-#include "CPU.hpp"
+#include <model/CPU.hpp>
 
-#include "OpDecoder.hpp"
-#include "WordDecoder.hpp"
+#include <model/OpDecoder.hpp>
+#include <model/WordDecoder.hpp>
 
 #include <boost/range/algorithm.hpp>
 #include <boost/range/irange.hpp>
