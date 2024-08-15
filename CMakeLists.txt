@@ -42,20 +42,24 @@ find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
 
 find_package( Boost 1.78 REQUIRED )
 
-## compiler definitions:
+# compiler's warning messages:
 
-if( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-  add_compile_options( /W4 /w14545 /w34242 /w34254 /w34287 /w44263 /w44265 
+if(MSVC)
+  add_compile_options(
+    /W4 /w14545 /w34242 /w34254 /w34287 /w44263 /w44265 
     /w44296 /w44311 /w44826 /we4289 /w14546 /w14547 /w14549 /w14555 /w14619 
-    /w14905 /w14906 /w14928 )
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-  add_compile_options( -Wall -Wextra -Wconversion -Wsign-conversion -Wshadow
+    /w14905 /w14906 /w14928
+  )
+else()
+  add_compile_options(
+    -Wall -Wextra -Wconversion -Wsign-conversion -Wshadow
     -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused
-    -Woverloaded-virtual -pedantic )
+    -Woverloaded-virtual -pedantic
+  )
 endif()
 
-## folders:
+# subdirectories:
 
-enable_testing( true )
-add_subdirectory( model )
-add_subdirectory( app-qtwidget )
+enable_testing()
+add_subdirectory(model)
+add_subdirectory(app-qtwidget)
