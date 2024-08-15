@@ -32,24 +32,4 @@ target_compile_features(core8-model PUBLIC cxx_std_14)
 
 # tests:
 
-add_executable( model-test-suite
-  tests/mock/Helper.hpp
-  tests/mock/IoDeviceMock.hpp
-  tests/mock/RandomNumberGeneratorMock.hpp
-  tests/CPU.assign.test.cpp
-  tests/CPU.bcd.test.cpp
-  tests/CPU.bitwise.test.cpp
-  tests/CPU.conditional.test.cpp
-  tests/CPU.constant.test.cpp
-  tests/CPU.flow.test.cpp
-  tests/CPU.keyboard.test.cpp
-  tests/CPU.math.test.cpp
-  tests/CPU.memory.test.cpp
-  tests/CPU.random.test.cpp
-  tests/CPU.timer.test.cpp
-  tests/MMU.test.cpp
-  tests/OpDecoder.test.cpp
-  tests/WordDecoder.test.cpp )
-
-target_link_libraries( model-test-suite PRIVATE core8-model Catch2::Catch2WithMain )
-add_test( NAME ModelTestSuite COMMAND model-test-suite )
+add_subdirectory(tests)
