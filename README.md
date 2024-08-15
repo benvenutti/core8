@@ -2,14 +2,6 @@
 
 **core8** is a [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) emulator that offers a Qt GUI to run CHIP8 binaries.
 
-## Cloning
-
-Make sure to clone the repository with its submodules. One way to do this is as follows:
-
-```shh
-git clone --recurse-submodules https://github.com/benvenutti/core8.git
-```
-
 ## Building core8
 
 The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The following list enumerates all dependencies and requirements to build the project:
