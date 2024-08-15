@@ -32,7 +32,7 @@ jobs:
       - name: Checkout LFS objects
         run: git lfs pull
 
-      - name: Install boost for ${{ matrix.os }}
+      - name: Install boost
         uses: MarkusJx/install-boost@v2.4.5
         id: install-boost
         with:
@@ -41,10 +41,10 @@ jobs:
           link: ${{ matrix.link }}
           toolset: ${{ matrix.toolset }}
 
-      - name: Install Qt 5.11
+      - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '5.11.*'
+          version: '6.5.*'
           target: 'desktop'
 
       - name: Configure and Build

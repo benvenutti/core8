@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.8 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.25 FATAL_ERROR )
 project( core8-emulator VERSION 0.1.0 LANGUAGES CXX )
 
 ## cmake policies:
@@ -36,7 +36,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable( Catch2 )
 
-find_package( Qt5Widgets REQUIRED )
+find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
+
 find_package( Boost 1.78 REQUIRED )
 
 ## compiler definitions:
@@ -55,4 +56,4 @@ endif()
 
 enable_testing( true )
 add_subdirectory( model )
-add_subdirectory( app )
+add_subdirectory( app-qtwidget )
