@@ -3,9 +3,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace model
-{
-namespace chip8
+namespace model::chip8
 {
 
 using byte_t = std::uint8_t;
@@ -122,5 +120,4 @@ const std::vector<byte_t> font_set{
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-} // namespace chip8
-} // namespace model
+} // namespace model::chip8

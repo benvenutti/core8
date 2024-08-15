@@ -2,9 +2,7 @@
 
 #include "Chip8.hpp"
 
-namespace model
-{
-namespace opdecoder
+namespace model::opdecoder
 {
 
 inline chip8::opcode decode( chip8::word_t word )
@@ -108,5 +106,4 @@ inline chip8::opcode decode( chip8::word_t word )
     }
 }
 
-} // namespace opdecoder
-} // namespace model
+} // namespace model::opdecoder

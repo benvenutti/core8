@@ -2,9 +2,7 @@
 
 #include "Chip8.hpp"
 
-namespace model
-{
-namespace WordDecoder
+namespace model::WordDecoder
 {
 
 /// Reads byte value of X on pattern vXvv.
@@ -37,5 +35,4 @@ inline chip8::word_t readNNN( const chip8::word_t instr )
     return instr & 0x0FFF;
 }
 
-} // namespace WordDecoder
-} // namespace model
+} // namespace model::WordDecoder
