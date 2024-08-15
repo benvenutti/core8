@@ -2,7 +2,7 @@
 
 #include "Chip8.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 namespace model
 {
@@ -14,7 +14,7 @@ public:
 
     virtual bool isKeyPressed( chip8::key key ) const = 0;
 
-    virtual boost::optional<chip8::key> pressedKey() const = 0;
+    virtual std::optional<chip8::key> pressedKey() const = 0;
 };
 
 } // namespace model

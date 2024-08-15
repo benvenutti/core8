@@ -3,6 +3,8 @@
 #include "model/Chip8.hpp"
 #include "model/IoDevice.hpp"
 
+#include <optional>
+
 namespace Mock
 {
 
@@ -15,13 +17,13 @@ public:
     {
         if ( m_pressedKey )
         {
-            return key == m_pressedKey.get();
+            return key == m_pressedKey.value();
         }
 
         return false;
     }
 
-    boost::optional<model::chip8::key> pressedKey() const override
+    std::optional<model::chip8::key> pressedKey() const override
     {
         return m_pressedKey;
     }
@@ -32,7 +34,7 @@ public:
     }
 
 private:
-    boost::optional<model::chip8::key> m_pressedKey = boost::none;
+    std::optional<model::chip8::key> m_pressedKey = std::nullopt;
 };
 
 } // namespace Mock

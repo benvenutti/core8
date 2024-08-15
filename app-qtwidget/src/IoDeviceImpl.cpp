@@ -26,10 +26,12 @@ bool IoDeviceImpl::isKeyPressed( model::chip8::key key ) const
     return m_keypad[static_cast<int>( key )];
 }
 
-boost::optional<model::chip8::key> IoDeviceImpl::pressedKey() const
+std::optional<model::chip8::key> IoDeviceImpl::pressedKey() const
 {
-    auto it = boost::range::find( m_keypad, std::true_type::value );
+    if ( const auto it = boost::range::find( m_keypad, std::true_type::value ); it != m_keypad.end() )
+    {
+        return static_cast<model::chip8::key>( std::distance( std::begin( m_keypad ), it ) );
+    }
 
-    return it == m_keypad.end() ? boost::optional<model::chip8::key>{}
-                                : static_cast<model::chip8::key>( std::distance( std::begin( m_keypad ), it ) );
+    return std::nullopt;
 }
