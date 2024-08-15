@@ -26,8 +26,15 @@ set( CMAKE_CXX_FLAGS_RELEASE -O3 )
 
 ## 3rd party dependencies:
 
-add_library( catch2 INTERFACE )
-target_include_directories( catch2 INTERFACE libs/Catch2/single_include )
+Include( FetchContent )
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.0.1
+)
+
+FetchContent_MakeAvailable( Catch2 )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Boost 1.78 REQUIRED )
