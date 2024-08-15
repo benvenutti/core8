@@ -1,4 +1,4 @@
-# core8 [![Build Status](https://travis-ci.org/benvenutti/core8.svg?branch=master)](https://travis-ci.org/benvenutti/core8) [![Build status](https://ci.appveyor.com/api/projects/status/k4ci4ocbxed2xufo/branch/master?svg=true)](https://ci.appveyor.com/project/benvenutti/core8/branch/master) [![codecov](https://codecov.io/gh/benvenutti/core8/branch/master/graph/badge.svg)](https://codecov.io/gh/benvenutti/core8) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# core8 ![Build Status](https://github.com/benvenutti/core8/actions/workflows/github-actions.yml/badge.svg) [![codecov](https://codecov.io/gh/benvenutti/core8/branch/master/graph/badge.svg)](https://codecov.io/gh/benvenutti/core8) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **core8** is a [CHIP8](https://en.wikipedia.org/wiki/CHIP-8) emulator that offers a Qt GUI to run CHIP8 binaries.
 
