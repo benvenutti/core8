@@ -1,32 +1,27 @@
-project( core8 VERSION 0.1 LANGUAGES CXX )
+qt_standard_project_setup()
 
-## files:
-
-set( source_files
+qt_add_executable(
+  core8-gui-qtwidget
+  src/core8.cpp
   src/IoDeviceImpl.cpp
+  src/IoDeviceImpl.hpp
   src/MainWindow.cpp
-  src/ScreenWidget.cpp
-  src/core8.cpp )
-
-set( header_files
-  src/IoDeviceImpl.hpp )
-
-set( qt_header_files
   src/MainWindow.hpp
-  src/ScreenWidget.hpp )
+  src/mainwindow.ui
+  src/ScreenWidget.cpp
+  src/ScreenWidget.hpp
+)
 
-set( ui_files gui/mainwindow.ui )
+target_link_libraries(
+  core8-gui-qtwidget
+  PUBLIC
+    Qt6::Widgets
+    core8-model
+)
 
-qt6_wrap_cpp( header_files_moc ${qt_header_files} )
-qt6_wrap_ui( ui_files_moc ${ui_files} )
-
-## executable:
-
-add_executable( ${PROJECT_NAME}
-  ${source_files}
-  ${header_files}
-  ${header_files_moc}
-  ${ui_files_moc} )
-
-target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR} )
-target_link_libraries( ${PROJECT_NAME} PUBLIC core8-model Qt6::Widgets )
+# Prevent the creation of a console window on Windows
+set_target_properties(
+  core8-gui-qtwidget
+  PROPERTIES
+    WIN32_EXECUTABLE ON
+)
