@@ -26,9 +26,12 @@ set( CXX_STANDARD_REQUIRED ON )
 set( CXX_EXTENSIONS OFF )
 set( CMAKE_CXX_FLAGS_RELEASE -O3 )
 
-## 3rd party dependencies:
+# 3rd party dependencies:
 
-Include( FetchContent )
+find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
+find_package(Boost 1.78 REQUIRED)
+
+include(FetchContent)
 
 FetchContent_Declare(
   Catch2
@@ -36,11 +39,7 @@ FetchContent_Declare(
   GIT_TAG        v3.0.1
 )
 
-FetchContent_MakeAvailable( Catch2 )
-
-find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
-
-find_package( Boost 1.78 REQUIRED )
+FetchContent_MakeAvailable(Catch2)
 
 # compiler's warning messages:
 
