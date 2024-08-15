@@ -54,8 +54,7 @@ add_executable( model-test-suite
   tests/CPU.timer.test.cpp
   tests/MMU.test.cpp
   tests/OpDecoder.test.cpp
-  tests/WordDecoder.test.cpp
-  tests/catch.setup.cpp )
+  tests/WordDecoder.test.cpp )
 
-target_link_libraries( model-test-suite PRIVATE ${PROJECT_NAME} catch2 )
+target_link_libraries( model-test-suite PRIVATE ${PROJECT_NAME} Catch2::Catch2WithMain )
 add_test( NAME ModelTestSuite COMMAND model-test-suite )

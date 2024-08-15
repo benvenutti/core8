@@ -3,7 +3,7 @@
 #include <numeric>
 #include <stdexcept>
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "mock/Helper.hpp"
 #include "model/MMU.hpp"
