@@ -6,11 +6,11 @@
 
 The building process of **core8** is managed by [CMake](https://cmake.org/) scripts. The following list enumerates all dependencies and requirements to build the project:
 
-- C++14 compiler
-- CMake 3.8
-- Qt 5.10
-- Libboost 1.54
-- Catch 2
+- C++17 compiler
+- CMake 3.25 or higher
+- Qt 6.5
+- Boost 1.78
+- Catch 2 (this dependency is managed by the main CMake script)
 
 ### Configure & Compile
 
