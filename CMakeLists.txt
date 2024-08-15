@@ -30,7 +30,7 @@ add_library( catch2 INTERFACE )
 target_include_directories( catch2 INTERFACE libs/Catch2/single_include )
 
 find_package( Qt5Widgets REQUIRED )
-find_package( Boost 1.54 REQUIRED )
+find_package( Boost 1.78 REQUIRED )
 
 ## compiler definitions:
 
