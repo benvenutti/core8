@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CPU.hpp"
-#include "MMU.hpp"
-#include "MersenneByteTwister.hpp"
+#include <model/CPU.hpp>
+#include <model/MMU.hpp>
+#include <model/MersenneByteTwister.hpp>
 
 #include <string>
 

@@ -1,6 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <model/OpDecoder.hpp>
 
-#include "model/OpDecoder.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 namespace
 {

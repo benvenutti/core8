@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Chip8.hpp"
+#include <model/Chip8.hpp>
 
 namespace model::WordDecoder
 {

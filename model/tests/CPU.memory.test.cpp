@@ -1,10 +1,10 @@
-#include <algorithm>
-#include <vector>
+#include <model/CPU.hpp>
+
+#include <mock/Helper.hpp>
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "mock/Helper.hpp"
-#include "model/CPU.hpp"
+#include <vector>
 
 namespace
 {

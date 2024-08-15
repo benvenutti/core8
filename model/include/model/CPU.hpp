@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Chip8.hpp"
-#include "IoDevice.hpp"
-#include "MMU.hpp"
-#include "RandomNumberGenerator.hpp"
+#include <model/Chip8.hpp>
+#include <model/IoDevice.hpp>
+#include <model/MMU.hpp>
+#include <model/RandomNumberGenerator.hpp>
 
 #include <array>
 #include <cstdint>
