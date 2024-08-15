@@ -17,8 +17,8 @@ set( qt_header_files
 
 set( ui_files gui/mainwindow.ui )
 
-qt5_wrap_cpp( header_files_moc ${qt_header_files} )
-qt5_wrap_ui( ui_files_moc ${ui_files} )
+qt6_wrap_cpp( header_files_moc ${qt_header_files} )
+qt6_wrap_ui( ui_files_moc ${ui_files} )
 
 ## executable:
 
@@ -29,4 +29,4 @@ add_executable( ${PROJECT_NAME}
   ${ui_files_moc} )
 
 target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR} )
-target_link_libraries( ${PROJECT_NAME} PUBLIC core8-model Qt5::Widgets )
+target_link_libraries( ${PROJECT_NAME} PUBLIC core8-model Qt6::Widgets )

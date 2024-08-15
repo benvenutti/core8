@@ -36,7 +36,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable( Catch2 )
 
-find_package( Qt5Widgets REQUIRED )
+find_package(Qt6 6.2 COMPONENTS Widgets REQUIRED)
+
 find_package( Boost 1.78 REQUIRED )
 
 ## compiler definitions:
