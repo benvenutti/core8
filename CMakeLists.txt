@@ -1,30 +1,11 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
-# project:
-
 project(
   core8
   VERSION     0.1.0
   DESCRIPTION "core8 is a CHIP8 emulator that offers a Qt GUI to run CHIP8 binaries"
   LANGUAGES   CXX
 )
-
-## build settings:
-
-if( NOT CMAKE_BUILD_TYPE )
-  set( CMAKE_BUILD_TYPE Release FORCE )
-endif()
-
-if( CMAKE_BUILD_TYPE MATCHES Coverage )
-  add_compile_options( -g -O0 --coverage )
-  set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage" )
-  set( CMAKE_BUILD_TYPE Debug FORCE )
-endif()
-
-set( CMAKE_CXX_STANDARD 14 )
-set( CXX_STANDARD_REQUIRED ON )
-set( CXX_EXTENSIONS OFF )
-set( CMAKE_CXX_FLAGS_RELEASE -O3 )
 
 # 3rd party dependencies:
 
@@ -40,6 +21,17 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(Catch2)
+
+# build settings:
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release FORCE)
+endif()
+
+set(CMAKE_CXX_STANDARD 14)
+set(CXX_STANDARD_REQUIRED ON)
+set(CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS_RELEASE -O3)
 
 # compiler's warning messages:
 
