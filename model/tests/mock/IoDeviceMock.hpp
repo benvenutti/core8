@@ -1,7 +1,7 @@
 #pragma once
 
-#include "model/Chip8.hpp"
-#include "model/IoDevice.hpp"
+#include <model/Chip8.hpp>
+#include <model/IoDevice.hpp>
 
 #include <optional>
 

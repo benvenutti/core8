@@ -1,12 +1,13 @@
-#include <algorithm>
-#include <cstdint>
-#include <numeric>
-#include <stdexcept>
+#include <model/MMU.hpp>
+
+#include <mock/Helper.hpp>
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "mock/Helper.hpp"
-#include "model/MMU.hpp"
+#include <algorithm>
+#include <cstdint>
+#include <numeric>
+#include <vector>
 
 namespace
 {

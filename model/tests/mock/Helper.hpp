@@ -1,12 +1,14 @@
-#include <cstdint>
-#include <istream>
-#include <vector>
+#pragma once
 
 #include "IoDeviceMock.hpp"
 #include "RandomNumberGeneratorMock.hpp"
-#include "model/CPU.hpp"
-#include "model/Chip8.hpp"
-#include "model/MMU.hpp"
+
+#include <model/CPU.hpp>
+#include <model/MMU.hpp>
+
+#include <cstdint>
+#include <istream>
+#include <vector>
 
 namespace Mock
 {

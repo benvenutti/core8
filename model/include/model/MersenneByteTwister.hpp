@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RandomNumberGenerator.hpp"
+#include <model/RandomNumberGenerator.hpp>
 
 #include <random>
 

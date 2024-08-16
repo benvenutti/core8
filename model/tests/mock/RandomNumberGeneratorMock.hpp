@@ -1,6 +1,6 @@
 #pragma once
 
-#include "model/RandomNumberGenerator.hpp"
+#include <model/RandomNumberGenerator.hpp>
 
 namespace Mock
 {
