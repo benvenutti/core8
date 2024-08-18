@@ -28,7 +28,7 @@ target_include_directories(
     ${PROJECT_BINARY_DIR}/include
 )
 
-target_compile_features(core8-model PUBLIC cxx_std_17)
+target_compile_features(core8-model PUBLIC cxx_std_20)
 
 # tests:
 

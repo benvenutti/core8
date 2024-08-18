@@ -19,7 +19,7 @@ add_executable(
   WordDecoder.test.cpp
 )
 
-target_compile_features(model_tests PUBLIC cxx_std_17)
+target_compile_features(model_tests PUBLIC cxx_std_20)
 
 target_link_libraries(model_tests PRIVATE core8-model Catch2::Catch2WithMain)
 
