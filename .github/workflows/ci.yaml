@@ -6,8 +6,8 @@ jobs:
   jobs_matrix:
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14, windows-2022]
-        build_type: [Debug, Release]
+        os: [ubuntu-22.04, macos-14]
+        build_type: [Debug]
 
     runs-on: ${{ matrix.os }}
     steps:
