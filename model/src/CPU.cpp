@@ -3,23 +3,15 @@
 #include <model/OpDecoder.hpp>
 #include <model/WordDecoder.hpp>
 
-#include <boost/range/algorithm.hpp>
-#include <boost/range/irange.hpp>
-
 #include <algorithm>
 #include <cmath>
+#include <ranges>
 
 namespace detail
 {
 
 constexpr std::uint32_t pixelOff{ 0xff000000u };
 constexpr std::uint32_t pixelOn{ ~pixelOff };
-
-template <typename T>
-auto irange( T upper )
-{
-    return boost::irange( T{}, upper );
-}
 
 } // namespace detail
 
@@ -32,7 +24,7 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 , m_rndGenerator{ rndGenerator }
 {
     m_mmu.load( chip8::font_set, 0x0 );
-    boost::fill( m_frameBuffer, detail::pixelOff );
+    std::ranges::fill( m_frameBuffer, detail::pixelOff );
 }
 
 chip8::byte_t CPU::readRegister( chip8::reg id ) const
@@ -214,7 +206,7 @@ void CPU::updateSoundTimer()
 
 void CPU::clearDisplay()
 {
-    boost::fill( m_frameBuffer, detail::pixelOff );
+    std::ranges::fill( m_frameBuffer, detail::pixelOff );
     m_drawFlag = true;
 }
 
@@ -429,11 +421,11 @@ void CPU::draw()
 
     chip8::byte_t flipped{ 0x0u };
 
-    for ( const auto line : detail::irange( WordDecoder::readN( m_instruction ) ) )
+    for ( const auto line : std::views::iota( chip8::byte_t{}, WordDecoder::readN( m_instruction ) ) )
     {
         const auto rowPixels = m_mmu.readByte( m_I + line );
 
-        for ( const auto row : detail::irange( chip8::sprite_width ) )
+        for ( const auto row : std::views::iota( chip8::byte_t{}, chip8::sprite_width ) )
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {

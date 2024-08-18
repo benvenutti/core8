@@ -2,8 +2,6 @@
 
 #include <QKeyEvent>
 
-#include <boost/range/algorithm.hpp>
-
 namespace detail
 {
 const std::map<Qt::Key, int> keymap = { { Qt::Key_X, 0x0 }, { Qt::Key_1, 0x1 }, { Qt::Key_2, 0x2 }, { Qt::Key_3, 0x3 },
@@ -28,7 +26,7 @@ bool IoDeviceImpl::isKeyPressed( model::chip8::key key ) const
 
 std::optional<model::chip8::key> IoDeviceImpl::pressedKey() const
 {
-    if ( const auto it = boost::range::find( m_keypad, std::true_type::value ); it != m_keypad.end() )
+    if ( const auto it = std::ranges::find( m_keypad, std::true_type::value ); it != m_keypad.end() )
     {
         return static_cast<model::chip8::key>( std::distance( std::begin( m_keypad ), it ) );
     }

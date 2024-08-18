@@ -2,8 +2,6 @@
 
 #include <model/Chip8.hpp>
 
-#include <boost/range.hpp>
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -44,7 +42,7 @@ public:
     template <typename T>
     void load( const T& rom, chip8::word_t address )
     {
-        const auto length = std::min( size() - address, boost::size( rom ) );
+        const auto length = std::min( size() - address, std::size( rom ) );
 
         std::copy_n( std::begin( rom ), length, std::begin( m_memory ) + address );
     }
