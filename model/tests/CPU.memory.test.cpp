@@ -56,7 +56,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "the registers from V0 to VX are stored in memory" )
             {
-                for ( auto i = 0u; i <= 0xFu; ++i )
+                for ( model::chip8::word_t i = 0u; i <= 0xFu; ++i )
                 {
                     const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
                     const auto m = mmu.readByte( address + i );
@@ -86,7 +86,7 @@ SCENARIO_METHOD( CpuFixture,
 
             THEN( "registers V0 to VX are filled with values from memory" )
             {
-                for ( auto i = 0u; i <= 0x5; ++i )
+                for ( model::chip8::word_t i = 0u; i <= 0x5u; ++i )
                 {
                     const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
                     const auto m = mmu.readByte( address + i );

@@ -26,7 +26,7 @@ SCENARIO( "Creating a MMU with the default constructor", "[mmu]" )
             }
             AND_THEN( "its memory is cleared (filled with zeros)" )
             {
-                REQUIRE( std::accumulate( std::begin( mmu ), std::end( mmu ), 0u ) == 0u );
+                REQUIRE( std::accumulate( mmu.begin(), mmu.end(), 0u ) == 0u );
             }
         }
     }
@@ -38,8 +38,8 @@ SCENARIO( "Comparing two identical MMUs using the equal operator", "[mmu]" )
     {
         model::MMU mmu1;
         model::MMU mmu2;
-        std::generate( std::begin( mmu1 ), std::end( mmu1 ), [] { return 0xFF; } );
-        std::generate( std::begin( mmu2 ), std::end( mmu2 ), [] { return 0xFF; } );
+        std::ranges::fill( mmu1, static_cast<model::chip8::byte_t>( 0xFFu ) );
+        std::ranges::fill( mmu2, static_cast<model::chip8::byte_t>( 0xFFu ) );
 
         WHEN( "the MMUs are compared using the equal operator" )
         {
@@ -206,7 +206,7 @@ SCENARIO( "MMU clears its memory", "[mmu]" )
     GIVEN( "A MMU with initialized values" )
     {
         model::MMU mmu;
-        std::generate( std::begin( mmu ), std::end( mmu ), [] { return 0xFF; } );
+        std::ranges::fill( mmu, static_cast<model::chip8::byte_t>( 0xFFu ) );
 
         WHEN( "the MMU clears the memory" )
         {
@@ -214,7 +214,7 @@ SCENARIO( "MMU clears its memory", "[mmu]" )
 
             THEN( "all bytes in memory are set to zero" )
             {
-                REQUIRE( std::accumulate( std::begin( mmu ), std::end( mmu ), 0u ) == 0u );
+                REQUIRE( std::accumulate( mmu.begin(), mmu.end(), 0u ) == 0u );
             }
         }
     }
