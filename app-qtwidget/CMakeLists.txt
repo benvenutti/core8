@@ -19,7 +19,7 @@ target_link_libraries(
     core8-model
 )
 
-target_compile_features(core8-gui-qtwidget PUBLIC cxx_std_17)
+target_compile_features(core8-gui-qtwidget PUBLIC cxx_std_20)
 
 # Prevent the creation of a console window on Windows
 set_target_properties(

@@ -19,8 +19,6 @@ configure_file(
   ${PROJECT_BINARY_DIR}/include/model/Version.hpp
 )
 
-target_link_libraries(core8-model PUBLIC Boost::boost)
-
 target_include_directories(
   core8-model
   PUBLIC
@@ -28,7 +26,7 @@ target_include_directories(
     ${PROJECT_BINARY_DIR}/include
 )
 
-target_compile_features(core8-model PUBLIC cxx_std_17)
+target_compile_features(core8-model PUBLIC cxx_std_20)
 
 # tests:
 

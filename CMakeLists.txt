@@ -10,7 +10,6 @@ project(
 # 3rd party dependencies:
 
 find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
-find_package(Boost 1.78 REQUIRED)
 
 include(FetchContent)
 
