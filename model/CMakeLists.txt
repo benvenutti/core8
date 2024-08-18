@@ -19,8 +19,6 @@ configure_file(
   ${PROJECT_BINARY_DIR}/include/model/Version.hpp
 )
 
-target_link_libraries(core8-model PUBLIC Boost::boost)
-
 target_include_directories(
   core8-model
   PUBLIC
