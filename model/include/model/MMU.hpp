@@ -26,10 +26,10 @@ public:
         return m_memory[address];
     }
 
-    chip8::word_t readWord( chip8::word_t address ) const
+    [[nodiscard]] chip8::word_t readWord( const chip8::word_t address ) const
     {
-        const auto msb = m_memory[address] << std::numeric_limits<chip8::byte_t>::digits;
-        const auto lsb = m_memory[address + 1];
+        const auto msb = static_cast<chip8::word_t>( m_memory[address] << std::numeric_limits<chip8::byte_t>::digits );
+        const auto lsb = static_cast<chip8::word_t>( m_memory[address + 1] );
 
         return msb | lsb;
     }

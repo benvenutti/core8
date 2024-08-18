@@ -10,18 +10,17 @@ const std::map<Qt::Key, int> keymap = { { Qt::Key_X, 0x0 }, { Qt::Key_1, 0x1 }, 
                                         { Qt::Key_4, 0xc }, { Qt::Key_R, 0xd }, { Qt::Key_F, 0xe }, { Qt::Key_V, 0xf } };
 } // namespace detail
 
-void IoDeviceImpl::set( int key, bool pressed )
+void IoDeviceImpl::set( const int key, const bool pressed )
 {
-    auto it = detail::keymap.find( static_cast<Qt::Key>( key ) );
-    if ( it != detail::keymap.end() )
+    if ( const auto it = detail::keymap.find( static_cast<Qt::Key>( key ) ); it != detail::keymap.end() )
     {
-        m_keypad[it->second] = pressed;
+        m_keypad[static_cast<size_t>( it->second )] = pressed;
     }
 }
 
-bool IoDeviceImpl::isKeyPressed( model::chip8::key key ) const
+bool IoDeviceImpl::isKeyPressed( const model::chip8::key key ) const
 {
-    return m_keypad[static_cast<int>( key )];
+    return m_keypad[static_cast<size_t>( key )];
 }
 
 std::optional<model::chip8::key> IoDeviceImpl::pressedKey() const

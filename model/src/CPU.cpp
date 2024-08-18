@@ -429,8 +429,10 @@ void CPU::draw()
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto offset = ( x + row + ( ( y + line ) * chip8::display_width ) ) % chip8::display_size;
-                auto&      pixel  = m_frameBuffer.at( offset );
+                const auto offset =
+                    static_cast<size_t>( ( x + row + ( ( y + line ) * chip8::display_width ) ) % chip8::display_size );
+
+                auto& pixel = m_frameBuffer.at( offset );
 
                 if ( pixel != detail::pixelOff )
                 {
@@ -482,9 +484,9 @@ void CPU::executeLoadVxBcdToI()
 {
     const auto vx = m_registers.at( WordDecoder::readX( m_instruction ) );
 
-    const auto hundreds = vx / 100;
-    const auto tens     = ( vx / 10 ) % 10;
-    const auto ones     = ( vx % 100 ) % 10;
+    const chip8::byte_t hundreds = vx / 100;
+    const chip8::byte_t tens     = ( vx / 10 ) % 10;
+    const chip8::byte_t ones     = ( vx % 100 ) % 10;
 
     m_mmu.writeByte( hundreds, m_I );
     m_mmu.writeByte( tens, m_I + 1u );
