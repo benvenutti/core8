@@ -12,14 +12,16 @@ qt_add_executable(
   src/ScreenWidget.hpp
 )
 
+target_compile_features(core8-gui-qtwidget PUBLIC cxx_std_20)
+
+set_target_properties(core8-gui-qtwidget PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+
 target_link_libraries(
   core8-gui-qtwidget
   PUBLIC
     Qt6::Widgets
     core8-model
 )
-
-target_compile_features(core8-gui-qtwidget PUBLIC cxx_std_20)
 
 # Prevent the creation of a console window on Windows
 set_target_properties(
