@@ -13,10 +13,10 @@ public:
 
     bool isKeyPressed( model::chip8::key key ) const override;
 
-    std::optional<model::chip8::key> pressedKey() const override;
+    std::optional< model::chip8::key > pressedKey() const override;
 
     void set( int key, bool pressed );
 
 private:
-    std::array<bool, model::chip8::keypad_size> m_keypad = {};
+    std::array< bool, model::chip8::keypad_size > m_keypad = {};
 };

@@ -29,15 +29,15 @@ CPU::CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator )
 
 chip8::byte_t CPU::readRegister( chip8::reg id ) const
 {
-    return m_registers.at( static_cast<std::size_t>( id ) );
+    return m_registers.at( static_cast< std::size_t >( id ) );
 }
 
 void CPU::writeRegister( chip8::reg id, chip8::byte_t value )
 {
-    m_registers.at( static_cast<std::size_t>( id ) ) = value;
+    m_registers.at( static_cast< std::size_t >( id ) ) = value;
 }
 
-void CPU::loadToRegisters( const std::vector<chip8::byte_t>& values )
+void CPU::loadToRegisters( const std::vector< chip8::byte_t >& values )
 {
     const auto size = std::min( values.size(), m_registers.size() );
     std::copy_n( std::begin( values ), size, std::begin( m_registers ) );
@@ -315,7 +315,7 @@ void CPU::bitwiseVxXorVy()
 void CPU::shiftVxRight()
 {
     const auto x    = WordDecoder::readX( m_instruction );
-    const auto mask = static_cast<chip8::byte_t>( 0x1 );
+    const auto mask = static_cast< chip8::byte_t >( 0x1 );
     auto&      vx   = m_registers.at( x );
 
     writeRegister( chip8::reg::vf, vx & mask );
@@ -429,8 +429,8 @@ void CPU::draw()
         {
             if ( ( rowPixels & ( 0x80 >> row ) ) != 0 )
             {
-                const auto offset =
-                    static_cast<size_t>( ( x + row + ( ( y + line ) * chip8::display_width ) ) % chip8::display_size );
+                const auto offset = static_cast< size_t >( ( x + row + ( ( y + line ) * chip8::display_width ) )
+                                                           % chip8::display_size );
 
                 auto& pixel = m_frameBuffer.at( offset );
 
@@ -450,7 +450,7 @@ void CPU::draw()
 
 void CPU::executeSkipIfVxIsPressed()
 {
-    const auto key = static_cast<chip8::key>( m_registers.at( WordDecoder::readX( m_instruction ) ) );
+    const auto key = static_cast< chip8::key >( m_registers.at( WordDecoder::readX( m_instruction ) ) );
 
     if ( m_ioDevice.isKeyPressed( key ) )
     {
@@ -460,7 +460,7 @@ void CPU::executeSkipIfVxIsPressed()
 
 void CPU::executeSkipIfVxIsNotPressed()
 {
-    const auto key = static_cast<chip8::key>( m_registers.at( WordDecoder::readX( m_instruction ) ) );
+    const auto key = static_cast< chip8::key >( m_registers.at( WordDecoder::readX( m_instruction ) ) );
 
     if ( !m_ioDevice.isKeyPressed( key ) )
     {
@@ -475,7 +475,7 @@ void CPU::executeWaitPressedKeyToVx()
     if ( const auto pressedKey = m_ioDevice.pressedKey() )
     {
         const auto x        = WordDecoder::readX( m_instruction );
-        m_registers.at( x ) = static_cast<chip8::byte_t>( *pressedKey );
+        m_registers.at( x ) = static_cast< chip8::byte_t >( *pressedKey );
         m_isInterrupted     = false;
     }
 }
@@ -497,7 +497,7 @@ void CPU::executeLoadRandomToVx()
 {
     const auto x        = WordDecoder::readX( m_instruction );
     const auto nn       = WordDecoder::readNN( m_instruction );
-    m_registers.at( x ) = nn & static_cast<chip8::byte_t>( m_rndGenerator.get() );
+    m_registers.at( x ) = nn & static_cast< chip8::byte_t >( m_rndGenerator.get() );
 }
 
 } // namespace model

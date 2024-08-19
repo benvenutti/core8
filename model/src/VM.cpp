@@ -22,8 +22,8 @@ bool VM::loadRom( const std::string& fileName )
     {
         std::noskipws( in );
 
-        const std::vector<chip8::byte_t> data{ std::istream_iterator<chip8::byte_t>{ in },
-                                               std::istream_iterator<chip8::byte_t>{} };
+        const std::vector< chip8::byte_t > data{ std::istream_iterator< chip8::byte_t >{ in },
+                                                 std::istream_iterator< chip8::byte_t >{} };
 
         in.close();
         m_mmu.load( data, chip8::init_rom_load_address );

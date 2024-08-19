@@ -23,7 +23,7 @@ public:
         return false;
     }
 
-    std::optional<model::chip8::key> pressedKey() const override
+    std::optional< model::chip8::key > pressedKey() const override
     {
         return m_pressedKey;
     }
@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    std::optional<model::chip8::key> m_pressedKey = std::nullopt;
+    std::optional< model::chip8::key > m_pressedKey = std::nullopt;
 };
 
 } // namespace Mock

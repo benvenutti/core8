@@ -14,8 +14,8 @@ namespace model
 class CPU
 {
 public:
-    using Stack       = std::array<chip8::word_t, chip8::stack_size>;
-    using VideoBuffer = std::array<std::uint32_t, chip8::display_size>;
+    using Stack       = std::array< chip8::word_t, chip8::stack_size >;
+    using VideoBuffer = std::array< std::uint32_t, chip8::display_size >;
 
     CPU( MMU& mmu, IoDevice& ioDevice, RandomNumberGenerator& rndGenerator );
 
@@ -24,7 +24,7 @@ public:
 
     chip8::byte_t readRegister( chip8::reg id ) const;
     void          writeRegister( chip8::reg id, chip8::byte_t value );
-    void          loadToRegisters( const std::vector<chip8::byte_t>& values );
+    void          loadToRegisters( const std::vector< chip8::byte_t >& values );
 
     chip8::word_t pc() const
     {
@@ -141,9 +141,9 @@ private:
     bool m_drawFlag{ false };
     bool m_isInterrupted{ false };
 
-    std::array<chip8::byte_t, chip8::num_registers> m_registers = {};
-    Stack                                           m_stack     = {};
-    VideoBuffer                                     m_frameBuffer;
+    std::array< chip8::byte_t, chip8::num_registers > m_registers = {};
+    Stack                                             m_stack     = {};
+    VideoBuffer                                       m_frameBuffer;
 
     MMU&                   m_mmu;
     IoDevice&              m_ioDevice;
