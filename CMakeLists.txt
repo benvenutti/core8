@@ -1,25 +1,32 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
+# project:
+
 project(
   core8
-  VERSION     0.1.0
-  DESCRIPTION "core8 is a CHIP8 emulator that offers a Qt GUI to run CHIP8 binaries"
-  LANGUAGES   CXX
+  VERSION      0.1.0
+  DESCRIPTION  "core8 is a CHIP8 emulator that offers a Qt GUI to run CHIP8 binaries"
+  HOMEPAGE_URL https://github.com/benvenutti/core8
+  LANGUAGES    CXX
 )
+
+option(BUILD_TESTS "Build tests" ON)
 
 # 3rd party dependencies:
 
 find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
 
-include(FetchContent)
+if(BUILD_TESTS)
+  include(FetchContent)
 
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.0.1
-)
+  FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v3.0.1
+  )
 
-FetchContent_MakeAvailable(Catch2)
+  FetchContent_MakeAvailable(Catch2)
+endif()
 
 # build settings:
 
@@ -30,6 +37,12 @@ endif()
 set(CXX_STANDARD_REQUIRED ON)
 set(CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_RELEASE -O3)
+
+# testing:
+
+if(BUILD_TESTS)
+  enable_testing()
+endif()
 
 # compiler's warning messages:
 
@@ -49,6 +62,5 @@ endif()
 
 # subdirectories:
 
-enable_testing()
 add_subdirectory(model)
 add_subdirectory(app-qtwidget)
