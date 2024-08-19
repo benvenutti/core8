@@ -46,8 +46,8 @@ SCENARIO_METHOD( CpuFixture,
         const model::chip8::word_t address{ 1024 };
         cpu.iaddr( address );
 
-        const std::vector<model::chip8::byte_t> bytes{ 0x10, 0x11, 0x12, 0x13, 0x24, 0x25, 0x26, 0x27,
-                                                       0x38, 0x39, 0x3A, 0x3B, 0x4C, 0x4D, 0x4E, 0x4F };
+        const std::vector< model::chip8::byte_t > bytes{ 0x10, 0x11, 0x12, 0x13, 0x24, 0x25, 0x26, 0x27,
+                                                         0x38, 0x39, 0x3A, 0x3B, 0x4C, 0x4D, 0x4E, 0x4F };
         cpu.loadToRegisters( bytes );
 
         WHEN( "the CPU executes a FX55 opcode" )
@@ -58,7 +58,7 @@ SCENARIO_METHOD( CpuFixture,
             {
                 for ( model::chip8::word_t i = 0u; i <= 0xFu; ++i )
                 {
-                    const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
+                    const auto r = cpu.readRegister( static_cast< model::chip8::reg >( i ) );
                     const auto m = mmu.readByte( address + i );
                     REQUIRE( r == m );
                 }
@@ -77,7 +77,7 @@ SCENARIO_METHOD( CpuFixture,
         const model::chip8::word_t address{ 1024 };
         cpu.iaddr( address );
 
-        const std::vector<model::chip8::byte_t> bytes = { 0x10, 0x11, 0x12, 0x13, 0x24, 0x25 };
+        const std::vector< model::chip8::byte_t > bytes = { 0x10, 0x11, 0x12, 0x13, 0x24, 0x25 };
         mmu.load( bytes, address );
 
         WHEN( "the CPU executes a FX65 opcode" )
@@ -88,7 +88,7 @@ SCENARIO_METHOD( CpuFixture,
             {
                 for ( model::chip8::word_t i = 0u; i <= 0x5u; ++i )
                 {
-                    const auto r = cpu.readRegister( static_cast<model::chip8::reg>( i ) );
+                    const auto r = cpu.readRegister( static_cast< model::chip8::reg >( i ) );
                     const auto m = mmu.readByte( address + i );
                     REQUIRE( r == m );
                 }

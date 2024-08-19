@@ -8,7 +8,7 @@
 
 ScreenWidget::ScreenWidget( const std::uint32_t* buffer, int w, int h )
 : QWidget{ nullptr }
-, m_buffer{ reinterpret_cast<const uchar*>( buffer ) }
+, m_buffer{ reinterpret_cast< const uchar* >( buffer ) }
 , m_screenWidth{ w }
 , m_screenHeight{ h }
 {

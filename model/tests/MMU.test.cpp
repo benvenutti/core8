@@ -38,8 +38,8 @@ SCENARIO( "Comparing two identical MMUs using the equal operator", "[mmu]" )
     {
         model::MMU mmu1;
         model::MMU mmu2;
-        std::ranges::fill( mmu1, static_cast<model::chip8::byte_t>( 0xFFu ) );
-        std::ranges::fill( mmu2, static_cast<model::chip8::byte_t>( 0xFFu ) );
+        std::ranges::fill( mmu1, static_cast< model::chip8::byte_t >( 0xFFu ) );
+        std::ranges::fill( mmu2, static_cast< model::chip8::byte_t >( 0xFFu ) );
 
         WHEN( "the MMUs are compared using the equal operator" )
         {
@@ -143,8 +143,8 @@ SCENARIO( "MMU loads a rom that fits at the given valid address", "[mmu]" )
 {
     GIVEN( "A rom and a MMU" )
     {
-        std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        model::MMU                mmu;
+        std::vector< std::uint8_t > data{ 0xFF, 0x11, 0xCC, 0x33 };
+        model::MMU                  mmu;
 
         WHEN( "the MMU loads the rom at a valid address with enough memory space" )
         {
@@ -165,8 +165,8 @@ SCENARIO( "MMU loads a rom that does not fit at the given valid address", "[mmu]
 {
     GIVEN( "A rom and a MMU" )
     {
-        std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        model::MMU                mmu;
+        std::vector< std::uint8_t > data{ 0xFF, 0x11, 0xCC, 0x33 };
+        model::MMU                  mmu;
 
         WHEN( "the MMU loads the rom at a valid address without enough space" )
         {
@@ -186,9 +186,9 @@ SCENARIO( "MMU loads a rom to an invalid memory address", "[mmu]" )
 {
     GIVEN( "A rom and a MMU" )
     {
-        std::vector<std::uint8_t> data{ 0xFF, 0x11, 0xCC, 0x33 };
-        model::MMU                mmu;
-        model::MMU                originalMmu{ mmu };
+        std::vector< std::uint8_t > data{ 0xFF, 0x11, 0xCC, 0x33 };
+        model::MMU                  mmu;
+        model::MMU                  originalMmu{ mmu };
 
         WHEN( "the MMU loads the rom at an invalid address" )
         {
@@ -206,7 +206,7 @@ SCENARIO( "MMU clears its memory", "[mmu]" )
     GIVEN( "A MMU with initialized values" )
     {
         model::MMU mmu;
-        std::ranges::fill( mmu, static_cast<model::chip8::byte_t>( 0xFFu ) );
+        std::ranges::fill( mmu, static_cast< model::chip8::byte_t >( 0xFFu ) );
 
         WHEN( "the MMU clears the memory" )
         {

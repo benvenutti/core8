@@ -19,8 +19,8 @@ public:
     }
 
 private:
-    mutable std::mt19937                                  m_generator{ std::random_device{}() };
-    mutable std::uniform_int_distribution<unsigned short> m_distribution{ 0x00u, 0xFFu };
+    mutable std::mt19937                                    m_generator{ std::random_device{}() };
+    mutable std::uniform_int_distribution< unsigned short > m_distribution{ 0x00u, 0xFFu };
 };
 
 } // namespace model

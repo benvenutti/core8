@@ -26,7 +26,7 @@ struct TestKit
 class ByteStream : public std::istream
 {
 public:
-    ByteStream( std::vector<std::uint8_t>& data )
+    ByteStream( std::vector< std::uint8_t >& data )
     : std::istream{ &byteBuffer }
     , byteBuffer{ data.data(), data.size() }
     {
@@ -34,14 +34,14 @@ public:
     }
 
 private:
-    class ByteBuffer : public std::basic_streambuf<char>
+    class ByteBuffer : public std::basic_streambuf< char >
     {
     public:
         ByteBuffer( std::uint8_t* data, std::size_t size )
         {
-            setg( reinterpret_cast<char*>( data ),
-                  reinterpret_cast<char*>( data ),
-                  reinterpret_cast<char*>( data ) + size );
+            setg( reinterpret_cast< char* >( data ),
+                  reinterpret_cast< char* >( data ),
+                  reinterpret_cast< char* >( data ) + size );
         }
     };
 

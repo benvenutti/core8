@@ -28,8 +28,9 @@ public:
 
     [[nodiscard]] chip8::word_t readWord( const chip8::word_t address ) const
     {
-        const auto msb = static_cast<chip8::word_t>( m_memory[address] << std::numeric_limits<chip8::byte_t>::digits );
-        const auto lsb = static_cast<chip8::word_t>( m_memory[address + 1] );
+        const auto msb =
+            static_cast< chip8::word_t >( m_memory[address] << std::numeric_limits< chip8::byte_t >::digits );
+        const auto lsb = static_cast< chip8::word_t >( m_memory[address + 1] );
 
         return msb | lsb;
     }
@@ -39,7 +40,7 @@ public:
         m_memory[address] = byte;
     }
 
-    template <typename T>
+    template < typename T >
     void load( const T& rom, chip8::word_t address )
     {
         const auto length = std::min( size() - address, std::size( rom ) );
@@ -78,7 +79,7 @@ public:
     }
 
 private:
-    std::array<chip8::byte_t, chip8::ram_size> m_memory = {};
+    std::array< chip8::byte_t, chip8::ram_size > m_memory = {};
 };
 
 } // namespace model
