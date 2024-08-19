@@ -16,6 +16,7 @@ add_executable(
   CPU.timer.test.cpp
   MMU.test.cpp
   OpDecoder.test.cpp
+  Version.test.cpp
   WordDecoder.test.cpp
 )
 

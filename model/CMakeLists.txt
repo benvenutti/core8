@@ -19,7 +19,7 @@ target_compile_features(core8-model PUBLIC cxx_std_20)
 set_target_properties(core8-model PROPERTIES COMPILE_WARNING_AS_ERROR ON)
 
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.hpp.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/model/Version.hpp.in
   ${PROJECT_BINARY_DIR}/include/model/Version.hpp
 )
 
