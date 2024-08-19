@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
+# project:
+
 project(
   core8
-  VERSION     0.1.0
-  DESCRIPTION "core8 is a CHIP8 emulator that offers a Qt GUI to run CHIP8 binaries"
-  LANGUAGES   CXX
+  VERSION      0.1.0
+  DESCRIPTION  "core8 is a CHIP8 emulator that offers a Qt GUI to run CHIP8 binaries"
+  HOMEPAGE_URL https://github.com/benvenutti/core8
+  LANGUAGES    CXX
 )
 
 option(BUILD_TESTS "Build tests" ON)
