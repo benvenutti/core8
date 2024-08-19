@@ -7,19 +7,23 @@ project(
   LANGUAGES   CXX
 )
 
+option(BUILD_TESTS "Build tests" ON)
+
 # 3rd party dependencies:
 
 find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
 
-include(FetchContent)
+if(BUILD_TESTS)
+  include(FetchContent)
 
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.0.1
-)
+  FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v3.0.1
+  )
 
-FetchContent_MakeAvailable(Catch2)
+  FetchContent_MakeAvailable(Catch2)
+endif()
 
 # build settings:
 
@@ -30,6 +34,12 @@ endif()
 set(CXX_STANDARD_REQUIRED ON)
 set(CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_RELEASE -O3)
+
+# testing:
+
+if(BUILD_TESTS)
+  enable_testing()
+endif()
 
 # compiler's warning messages:
 
@@ -49,6 +59,5 @@ endif()
 
 # subdirectories:
 
-enable_testing()
 add_subdirectory(model)
 add_subdirectory(app-qtwidget)
