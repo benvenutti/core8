@@ -1,4 +1,4 @@
-name: build
+name: continuous-integration
 
 on: [push]
 
@@ -21,7 +21,7 @@ jobs:
           target: 'desktop'
 
       - name: Create build directory
-        run: mkdir build
+        run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Configure
         working-directory: ${{github.workspace}}/build
