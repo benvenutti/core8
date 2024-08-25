@@ -14,7 +14,13 @@ qt_add_executable(
 
 target_compile_features(core8-gui-qtwidget PUBLIC cxx_std_20)
 
-set_target_properties(core8-gui-qtwidget PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+set_target_properties(
+  core8-gui-qtwidget
+  PROPERTIES
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+    COMPILE_WARNING_AS_ERROR ON
+)
 
 target_link_libraries(
   core8-gui-qtwidget

@@ -34,9 +34,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release FORCE)
 endif()
 
-set(CXX_STANDARD_REQUIRED ON)
-set(CXX_EXTENSIONS OFF)
-
 # testing:
 
 if(BUILD_TESTS)

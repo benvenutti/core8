@@ -22,7 +22,13 @@ add_executable(
 
 target_compile_features(model_tests PUBLIC cxx_std_20)
 
-set_target_properties(model_tests PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+set_target_properties(
+  model_tests
+  PROPERTIES
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+    COMPILE_WARNING_AS_ERROR ON
+)
 
 target_link_libraries(model_tests PRIVATE core8-model Catch2::Catch2WithMain)
 
