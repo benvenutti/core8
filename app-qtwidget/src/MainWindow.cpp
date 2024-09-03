@@ -21,6 +21,8 @@ MainWindow::MainWindow( QWidget* parent )
     connect( &m_timer, &QTimer::timeout, this, &MainWindow::cycle );
     connect( ui->actionOpen_ROM, &QAction::triggered, this, &MainWindow::selectRomFile );
 
+    int a = 10;
+
     m_timer.start( 1 );
 }
 
