@@ -10,15 +10,21 @@ project(
   LANGUAGES    CXX
 )
 
+# modules:
+
+include(CMakeDependentOption)
+include(FetchContent)
+
+# project options:
+
 option(BUILD_TESTS "Build tests" ON)
+cmake_dependent_option(CODE_COVERAGE "Enable code coverage" OFF "BUILD_TESTS" OFF)
 
 # 3rd party dependencies:
 
 find_package(Qt6 6.5 COMPONENTS Widgets REQUIRED)
 
 if(BUILD_TESTS)
-  include(FetchContent)
-
   FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
@@ -61,6 +67,14 @@ else()
     # optimization levels:
     $<$<CONFIG:RELEASE>:-O3>
     $<$<CONFIG:DEBUG>:-O0>
+
+    # coverage:
+    $<$<BOOL:${CODE_COVERAGE}>:-coverage>
+  )
+
+  add_link_options(
+    # coverage:
+    $<$<BOOL:${CODE_COVERAGE}>:-coverage>
   )
 endif()
 
